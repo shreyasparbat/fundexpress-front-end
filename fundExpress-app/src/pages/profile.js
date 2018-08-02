@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Avatar, Button } from 'react-native-elements';
 
 class ProfileScreen extends React.Component {
   static navigationOptions = {
@@ -22,17 +23,30 @@ class ProfileScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
+        <Avatar
+          xlarge
+          rounded
+          icon={{name: 'airplay'}}
+          activeOpacity={0.7}
+        />
         <Text>Profile</Text>
-        <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('login')}
-            activeOpacity= {0.8}  
-            style={styles.buttonStyle}
-          >
-            <Text style={styles.textStyle}>
-              Log Out
-            </Text>
-        </TouchableOpacity>
+        <View style={{width: 300}}>
+          <Button
+            title='Edit'
+            color='white'
+            backgroundColor='#ff0000'
+            OnPress={() => this.props.navigation.navigate('edit')}
+          />
+        <View style={{width:300,marginTop:15}}>
+          <Button
+              title='Log Out'
+              color='white'
+              backgroundColor='#ff0000'
+              OnPress={() => this.props.navigation.navigate('login')}
+            />
+        </View>
+        </View>
       </View>
     );
   }

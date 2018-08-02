@@ -1,85 +1,69 @@
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, Button, TouchableOpacity } from 'react-native';
-import { Input } from './src/components/Input';
+import { StyleSheet, Text, View, ImageBackground, Image, ActivityIndicator } from 'react-native';
+import { Input } from '../components/input';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { Button } from 'react-native-elements';
+import axios from 'axios';
 //import HomeScreen from './src/pages/home';
-import {createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-import RegisterScreen from './src/pages/register';
-import HomeScreen from './src/pages/home.1';
-import ProfileScreen from './src/pages/profile';
-import HistoryScreen from './src/pages/history';
-import HistoryCurrentScreen from './src/pages/historyCurrent';
-import HistoryPreviousScreen from './src/pages/historyPrevious';
-import HistorySoldScreen from './src/pages/historySold';
+//import {createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import RegisterScreen from './register';
+import HomeScreen from './home.1';
+import ProfileScreen from './profile';
+import HistoryScreen from './history';
+import HistoryCurrentScreen from './historyCurrent';
+import HistoryPreviousScreen from './historyPrevious';
+import HistorySoldScreen from './historySold';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 class LoginScreen extends React.Component {
-  state = { email: '', password: '', error: '', loading: false };
+  state = { email: '', password: '', error: '', loading: false, code: '200' };
   static navigationOptions = {
     header: null
   };
 
   renderButton() {
     if (this.state.loading) {
-      return <Text> Loading... </Text>;
+      return <ActivityIndicator />;
     }
 
     return (
-      <View style={{ width: 300, height: 10, }}>
-      <TouchableOpacity 
-        //onPress={this.onButtonPress.bind(this)}
-        onPress={() => this.props.navigation.navigate('Home')}
-        activeOpacity= {0.8}  
-        style={{
-          width: 250,
-          alignSelf: 'center',
-          backgroundColor: '#ff0000',
-          borderRadius: 20,
-          borderWidth: 1,
-          borderColor: '#ff0000',
-          marginLeft: 5,
-          marginRight: 5,
-          marginTop: 20
-        }}
-      >
-        <Text style={{
-              alignSelf: 'center',
-              color: 'white',
-              fontSize: 18,
-              fontWeight: 'bold',
-              paddingTop: 10,
-              paddingBottom: 10
-        }}
-          >
-          Log In
-        </Text>
-      </TouchableOpacity>
-    </View>
+      <View style={{width: 300, marginTop: 30}} >
+        <Button
+          title='Log in'
+          color='white'
+          backgroundColor='#ff0000'
+          //onPress={() => this.props.navigation.navigate('Home')}
+          onPress={this.onButtonPress.bind(this)}
+        />
+      </View>
     );
   }
 
   onButtonPress() {
-    console.log (this.state.email, ' and ', this.state.password)
     const { email, password } = this.state;
     
     this.setState({ error: '', loading: true });
 
-    fetch('http://206.189.145.2:3000/user/login', {
-      method: 'POST',
-      headers: {},
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password
-      }),
-    })
-    .then((response) => {
-      if(response.status === 200){
-        //this.onLoginSuccess.bind(this);
-        this.props.navigation.navigate('Home');
-      }else{
-        this.onLoginFail.bind(this);
-      }
-    })
+    const user = {
+      email: this.state.email,
+      password: this.state.password
+    }
+
+    this.onLoginSuccess()
+
+    /*if(this.state.email === 'Test' && this.state.password === 'test'){
+      this.onLoginSuccess();
+        }else{
+          this.onLoginFail();
+    }
+  }
+
+    /*axios.post('http://206.189.145.2:3000/user/login', { user })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })
+      .catch(this.onLoginFail())*/
   }
 
   onLoginFail() {
@@ -96,18 +80,18 @@ class LoginScreen extends React.Component {
       loading: false,
       error: ''
      });
-     this.props.navigation.navigate('Home');
+     this.props.navigation.navigate('Home', { email: this.state.email });
   }
 
   render() {
     return (
       <ImageBackground 
-        source={require('./src/images/bg.jpg')}
-        imageStyle={{ resizeMode: 'stretch', opacity: 0.45 }}
+        source={require('../images/bg.jpg')}
+        imageStyle={{ resizeMode: 'contain', opacity: 0.0}}
         style={styles.container}
       >
         <Image
-          source={require('./src/images/felogo.png')}
+          source={require('../images/felogo.png')}
           style={{ resizeMode: 'contain', width: 300, height: 80, 
           marginTop: 45 }}
         />
@@ -142,7 +126,7 @@ class LoginScreen extends React.Component {
           {this.renderButton()}
         <View 
           style={{ justifyContent: 'center', alignItems: 'center', 
-          marginTop: 130 }}>
+          marginTop: 130, flexDirection: 'row' }}>
           <Text
             style={{color: 'black'}}
           >Don't have an account?</Text>
@@ -178,9 +162,13 @@ const RootStack = createStackNavigator({
       }
     },
     mainFlow : {
-      screen: createMaterialBottomTabNavigator({
+      screen: createBottomTabNavigator({
         Profile: {screen: ProfileScreen},
-        Home: {screen: HomeScreen},
+        Home: {screen: HomeScreen,
+        navigationOptions: {
+          title: 'home'
+        }
+        },
         History: {
           screen: createStackNavigator({
           main: {screen: HistoryScreen},
@@ -212,7 +200,15 @@ const RootStack = createStackNavigator({
     }
   ),
   navigationOptions: {
-    header: null,
+    headerStyle: {
+        backgroundColor: '#ff0000', 
+      },
+      headerTintColor: '#ffffff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        color: '#ffffff'
+      },
+  header:null
   }
   }
 });
@@ -235,8 +231,4 @@ const RootStack = createStackNavigator({
 );
 */
 
-export default class App extends React.Component {
-  render() {
-    return <RootStack />;
-  }
-}
+export default RootStack;
