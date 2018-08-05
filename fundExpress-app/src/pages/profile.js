@@ -36,14 +36,14 @@ class ProfileScreen extends React.Component {
             title='Edit'
             color='white'
             backgroundColor='#ff0000'
-            OnPress={() => this.props.navigation.navigate('edit')}
+            onPress={() => this.props.navigation.navigate('edit')}
           />
         <View style={{width:300,marginTop:15}}>
           <Button
               title='Log Out'
               color='white'
               backgroundColor='#ff0000'
-              OnPress={() => this.props.navigation.navigate('login')}
+              onPress={() => this.props.navigation.navigate('login')}
             />
         </View>
         </View>

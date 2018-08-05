@@ -14,6 +14,8 @@ import HistoryCurrentScreen from './historyCurrent';
 import HistoryPreviousScreen from './historyPrevious';
 import HistorySoldScreen from './historySold';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import UploadScreen from './uploadimage';
+import PawnScreen from './pawn';
 
 class LoginScreen extends React.Component {
   state = { email: '', password: '', error: '', loading: false, code: '200' };
@@ -131,7 +133,7 @@ class LoginScreen extends React.Component {
             style={{color: 'black'}}
           >Don't have an account?</Text>
           <Text
-            onPress={() => this.props.navigation.navigate('register')}
+            onPress={() => this.props.navigation.navigate('upload')}
             style={{color: 'blue', textDecorationLine: 'underline'}}
           >
           Click here to register
@@ -156,6 +158,7 @@ const RootStack = createStackNavigator({
       screen: createStackNavigator({
         login: { screen: LoginScreen },
         register: {screen: RegisterScreen},
+        upload: {screen: UploadScreen}
       }),
       navigationOptions: {
         header: null,
@@ -163,11 +166,32 @@ const RootStack = createStackNavigator({
     },
     mainFlow : {
       screen: createBottomTabNavigator({
-        Profile: {screen: ProfileScreen},
-        Home: {screen: HomeScreen,
-        navigationOptions: {
-          title: 'home'
-        }
+        Profile: {
+          screen: createStackNavigator({
+            main: {screen: ProfileScreen},
+            edit: {screen: HistoryScreen},
+          }),
+          navigationOptions: {
+            initialRouteName: 'main',
+            tabBarIcon: ({ focused, tintColor }) => {
+              return <Ionicons name={'md-contact'} size={25} 
+              color={'white'} />;
+            },
+          }
+            
+        },
+        Home: {
+          screen: createStackNavigator({
+            main:{screen: HomeScreen},
+            pawn:{screen: PawnScreen}
+          }),
+          navigationOptions: {
+            initialRouteName: 'main',
+            tabBarIcon: ({ focused, tintColor }) => {
+              return <Ionicons name={'md-home'} size={25} 
+              color={'white'} />;
+            },
+          }
         },
         History: {
           screen: createStackNavigator({
@@ -177,6 +201,7 @@ const RootStack = createStackNavigator({
           sold: {screen: HistorySoldScreen},
         }),
           navigationOptions: {
+            initialRouteName: 'main',
             tabBarIcon: ({ focused, tintColor }) => {
               return <Ionicons name={'md-time'} size={25} 
               color={'white'} />;

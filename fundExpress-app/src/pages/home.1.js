@@ -1,7 +1,9 @@
 import React from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
+import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Card } from 'react-native-elements';
+import PawnScreen from './pawn';
 
 class HomeScreen extends React.Component {
 
@@ -41,7 +43,7 @@ class HomeScreen extends React.Component {
       <View style={{flex: 0.4, marginTop: 25, alignSelf: 'center'}}>
         <View style={{ flexDirection: 'row', }}>
         <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('Home')}
+            onPress={() => this.props.navigation.navigate('pawn')}
             activeOpacity= {0.8}  
             style={styles.buttonStyle}
           >
@@ -122,11 +124,23 @@ class HomeScreen extends React.Component {
         </TouchableOpacity>
        </View>
       </View>
-      <Card containerStyle={{flex: 0.4, marginBottom: 10, marginTop: 30, backgroundColor: '#ededed'}}/>
+      <Card 
+        containerStyle={{flex: 0.4, marginBottom: 10, marginTop: 70, backgroundColor: '#ededed'}}
+        title= 'Gold & Silver Prices'
+      />
     </View>
     );
   }
 }
+
+const HomeStack = createStackNavigator({
+  mainFlow : {
+    screen: createStackNavigator({
+      home: { screen: HomeScreen },
+      pawn: { screen: PawnScreen },
+    }),
+  },
+})
 
 const styles = {
   textStyle: {

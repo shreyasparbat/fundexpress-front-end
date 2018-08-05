@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Avatar } from 'react-native-elements';
 import { Text, View } from 'react-native';
+import { ImagePicker } from 'react-native-image-crop-picker';
 
 class ListItem extends Component {
 /*
