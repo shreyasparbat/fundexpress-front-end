@@ -6,8 +6,8 @@ import { Picker, Icon, DatePicker } from 'native-base';
 import axios from 'axios';
 
 class RegisterScreen extends React.Component {
-  state = { email: '', password: '', fullName: '', gender: '', DOB: '', ic: '', mobileNumber: '',
-  landlineNumber:'',address: '', citizenship: '', nationality: '', };
+  state = { email: 'user@test.com', password: 'pass1234', fullName: 'Test User', gender: 'M', DOB: '2018-02-01', age: '20' , ic: 'GXXXXXXXR', mobileNumber: '90000000' ,
+  landlineNumber: "12345678" ,address: 'Singapore', citizenship: 'Singaporean', nationality: 'Singapore', };
   static navigationOptions = {
     title: 'Register',
       headerStyle: {
@@ -21,31 +21,41 @@ class RegisterScreen extends React.Component {
   };
 
   submit() {
+    //var moNumber = parseInt(this.state.mobileNumber);
+    //var lanNumber = parseInt(this.state.landlineNumber);
+    console.log('register pressed');
+    console.log(JSON.stringify(this.state))
     fetch('http://206.189.145.2:3000/user/onboard',{
       method: 'POST',
-      headers: {},
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         email: this.state.email,
         password: this.state.password,
         fullName: this.state.fullName,
         gender: this.state.gender,
-        dateOfBirth: this.state.DOB,
+        dateOfBirth: new Date(this.state.DOB),
+        //age: this.state.age,
         ic: this.state.ic,
-        mobileNumber: this.state.mobileNumber,
-        landlineNumber: this.state.landlineNumber,
-        address: this.state.address,
-        citizenship: this.state.citizenship,
+        mobileNumber: parseInt(this.state.mobileNumber),
         nationality: this.state.nationality,
-      })
+        citizenship: this.state.citizenship,
+        landlineNumber: parseInt(this.state.landlineNumber),
+        //mobileNumber: this.state.mobileNumber,
+        //landlineNumber: this.state.landNumber,
+        address: this.state.address,
+       
+        
+      }),
     })
     .then(function (response) {
       console.log(response);
-      this.props.navigation.navigate('home');
+    }) 
+    .catch((error) => {
+      console.log(error)
     })
-    .catch(function (error) {
-      console.log (error);
-    })
-  };
+  }
 
 
   render() {
@@ -56,7 +66,7 @@ class RegisterScreen extends React.Component {
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input 
-            value={this.state.fullName}
+            //value={this.state.fullName}
             onChangeText={fullName => this.setState({ fullName })}
             placeholder="Full Name" 
           />
@@ -65,7 +75,7 @@ class RegisterScreen extends React.Component {
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input
           //must validate. check if ends in "@etc.com"
-            value={this.state.email}
+            //value={this.state.email}
             onChangeText={email => this.setState({ email })} 
             placeholder="Email" 
           />
@@ -73,7 +83,7 @@ class RegisterScreen extends React.Component {
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input
-            value={this.state.password}
+            //value={this.state.password}
             onChangeText={password => this.setState({ password })} 
             placeholder="Password" 
             secureTextEntry={true}
@@ -100,8 +110,8 @@ class RegisterScreen extends React.Component {
               selectedValue={this.state.gender}
               onValueChange={gender => this.setState({gender})}
             >
-              <Picker.Item label="Male" value="male" />
-              <Picker.Item label="Female" value="female" />
+              <Picker.Item label="Male" value="M" />
+              <Picker.Item label="Female" value="F" />
 
             </Picker>
         </View>
@@ -125,7 +135,7 @@ class RegisterScreen extends React.Component {
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input 
-            value={this.state.ic}
+            //value={this.state.ic}
             onChangeText={ic => this.setState({ ic })}
             placeholder="NRIC" 
           />
@@ -133,7 +143,7 @@ class RegisterScreen extends React.Component {
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input 
-            value={this.state.phoneNumber}
+            //value={this.state.phoneNumber}
             onChangeText={phoneNumber => this.setState({ phoneNumber })}
             placeholder="Mobile Number" 
           />
@@ -141,7 +151,7 @@ class RegisterScreen extends React.Component {
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input 
-            value={this.state.landlineNumber}
+            //value={this.state.landlineNumber}
             onChangeText={landlineNumber => this.setState({ landlineNumber })}
             placeholder="House Phone Number" 
           />
@@ -149,7 +159,7 @@ class RegisterScreen extends React.Component {
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input
-            value={this.state.address}
+            //value={this.state.address}
             onChangeText={address => this.setState({ address })} 
             placeholder="Address" 
           />
@@ -157,7 +167,7 @@ class RegisterScreen extends React.Component {
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input 
-            value={this.state.citizenship}
+            //value={this.state.citizenship}
             onChangeText={citizenship => this.setState({ citizenship })} 
             placeholder="Citizenship" 
           />
@@ -165,7 +175,7 @@ class RegisterScreen extends React.Component {
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input 
-            value={this.state.nationality}
+            //value={this.state.nationality}
             onChangeText={nationality => this.setState({ nationality })} 
             placeholder="Nationality" 
           />
@@ -175,9 +185,43 @@ class RegisterScreen extends React.Component {
           title='Register!'
           color='white'
           backgroundColor='#ff0000'
-          onPress={() => this.submit()}
-          //onPress={()=>console.log(this.state)}
-          //onPress={() => this.props.navigation.navigate('Home')}
+          //onPress={() => this.submit()}
+          onPress={()=>console.log(JSON.stringify({
+        email: this.state.email,
+        password: this.state.password,
+        fullName: this.state.fullName,
+        gender: this.state.gender,
+        dateOfBirth: new Date(this.state.DOB),
+        //age: this.state.age,
+        ic: this.state.ic,
+        mobileNumber: parseInt(this.state.mobileNumber),
+        nationality: this.state.nationality,
+        citizenship: this.state.citizenship,
+        landlineNumber: parseInt(this.state.landlineNumber),
+        //mobileNumber: this.state.mobileNumber,
+        //landlineNumber: this.state.landNumber,
+        address: this.state.address,
+          })
+        )
+      }
+          /*onPress={() => this.props.navigation.navigate('login',
+          {
+            email: this.state.email,
+            password: this.state.password,
+            fullName: this.state.fullName,
+            gender: this.state.gender,
+            dateOfBirth: new Date(this.state.DOB),
+            //age: this.state.age,
+            ic: this.state.ic,
+            mobileNumber: this.state.mobileNumber,
+            landlineNumber: this.state.landlineNumber,
+            //mobileNumber: this.state.mobileNumber,
+            //landlineNumber: this.state.landNumber,
+            address: this.state.address,
+            citizenship: this.state.citizenship,
+            nationality: this.state.nationality,
+          }
+        )}*/
           containerViewStyle={{marginTop:30,marginBottom:30}}      
         />
 

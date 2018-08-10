@@ -63,7 +63,7 @@ class UploadScreen extends React.Component {
       aspect: [4, 3],
     });
 
-    console.log(result);
+    //console.log(result);
 
     if (!result.cancelled) {
       this.setState({ image: result.uri });
@@ -71,7 +71,7 @@ class UploadScreen extends React.Component {
   };
 
   render() {
-    console.log(this.state.imageUploaded)
+    //console.log(this.state.imageUploaded)
     return ( 
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         {this.renderImage()}

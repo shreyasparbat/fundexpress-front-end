@@ -5,7 +5,7 @@ import { Avatar , Button } from "react-native-elements";
 import { Input } from "../components/input";
 
 class PawnScreen extends Component {
-  state = {name: ", type: ", material:", DOP: ", POP: ", image: "}
+  state = {name: ", type: ", material:", DOP: ", POP: ", image: ", weight: ''}
   static navigationOptions = {
     title: "Pawn New Item",
       headerStyle: {
@@ -118,6 +118,14 @@ class PawnScreen extends Component {
 
             </Picker>
           </View>
+      
+      <View style={{width:300,height:50,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15}}>
+        <Input 
+          //value={this.state.fullName}
+          onChangeText={name => this.setState({ weight })}
+          placeholder="Item Weight" 
+        />
+      </View>
 
       <View style={{width:300,height:50,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15}}>
       <DatePicker

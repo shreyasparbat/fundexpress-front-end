@@ -36,9 +36,9 @@ class HomeScreen extends React.Component {
         <View style={{flex:0.06, alignSelf: 'center', marginTop: 5 }}>
         <Text 
           style={{ textAlignVertical: 'bottom', fontSize: 25, 
-          fontWeight: 'bold', color: 'black', flex: 1, alignSelf: 'center', height: 80
+          fontWeight: 'bold', color: 'black', flex: 1, alignSelf: 'center', height: 150
           }} 
-          >Welcome {this.props.navigation.getParam('email')} </Text>
+          >Welcome {this.props.navigation.getParam('fullName', 'User!')} </Text>
         </View>
       <View style={{flex: 0.4, marginTop: 25, alignSelf: 'center'}}>
         <View style={{ flexDirection: 'row', }}>
@@ -56,7 +56,7 @@ class HomeScreen extends React.Component {
             </View>
         </TouchableOpacity>
         <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('Home')}
+            onPress={() => this.props.navigation.navigate('buy')}
             activeOpacity= {0.8}  
             style={styles.buttonStyle}
           >
@@ -69,7 +69,7 @@ class HomeScreen extends React.Component {
             </View>
         </TouchableOpacity>
         <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('Home')}
+            onPress={() => this.props.navigation.navigate('sell')}
             activeOpacity= {0.8}  
             style={styles.buttonStyle}
           >
@@ -84,7 +84,7 @@ class HomeScreen extends React.Component {
         </View>
         <View style={{ flexDirection: 'row', marginTop: 7}}>
           <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('Home')}
+            onPress={() => this.props.navigation.navigate('renew')}
             activeOpacity= {0.8}  
             style={styles.buttonStyle}
           >
@@ -97,7 +97,7 @@ class HomeScreen extends React.Component {
             </View>
           </TouchableOpacity>
           <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('History')}
+            onPress={() => this.props.navigation.navigate('redeem')}
             activeOpacity= {0.8}  
             style={styles.buttonStyle}
           >
@@ -110,7 +110,7 @@ class HomeScreen extends React.Component {
             </View>
         </TouchableOpacity>
         <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('History')}
+            onPress={() => this.props.navigation.navigate('faq')}
             activeOpacity= {0.8}  
             style={styles.buttonStyle}
           >

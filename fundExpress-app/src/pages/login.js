@@ -9,6 +9,7 @@ import axios from 'axios';
 import RegisterScreen from './register';
 import HomeScreen from './home.1';
 import ProfileScreen from './profile';
+import ProfileEditScreen from './profileEdit';
 import HistoryScreen from './history';
 import HistoryCurrentScreen from './historyCurrent';
 import HistoryPreviousScreen from './historyPrevious';
@@ -16,12 +17,25 @@ import HistorySoldScreen from './historySold';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import UploadScreen from './uploadimage';
 import PawnScreen from './pawn';
+import RenewScreen from './renew';
+import RedeemScreen from './redeem';
+import FAQScreen from './faq';
+
 
 class LoginScreen extends React.Component {
   state = { email: '', password: '', error: '', loading: false, code: '200' };
   static navigationOptions = {
     header: null
   };
+
+  componentWillMount(){
+    this.setState({
+      email: '',
+      password:'',
+      error:'',
+      loading: false,
+    })
+  }
 
   renderButton() {
     if (this.state.loading) {
@@ -35,10 +49,36 @@ class LoginScreen extends React.Component {
           color='white'
           backgroundColor='#ff0000'
           //onPress={() => this.props.navigation.navigate('Home')}
-          onPress={this.onButtonPress.bind(this)}
+          //onPress={this.onButtonPress.bind(this)}
+          onPress={() => this.login()}
         />
       </View>
     );
+  }
+
+  login() {
+    if(this.state.email===this.props.navigation.getParam('email', '1') && this.state.password===this.props.navigation.getParam('password', '1')){
+      this.setState( {error: '', loading: false });
+      this.props.navigation.navigate('Home',
+      {
+        email: this.props.navigation.getParam('email', ''),
+        password: this.props.navigation.getParam('password',''),
+        fullName: this.props.navigation.getParam('fullName','Test'),
+        gender: this.props.navigation.getParam('gender',''),
+        dateOfBirth: this.props.navigation.getParam('DOB',''),
+        //age: this.state.age,
+        ic: this.props.navigation.getParam('ic',''),
+        mobileNumber: this.props.navigation.getParam('mobileNumber',''),
+        landlineNumber: this.props.navigation.getParam('landlineNumber',''),
+        //mobileNumber: this.state.mobileNumber,
+        //landlineNumber: this.state.landNumber,
+        address: this.props.navigation.getParam('address',''),
+        citizenship: this.props.navigation.getParam('citizenship',''),
+        nationality: this.props.navigation.getParam('nationality',''),
+      });
+    }else{
+      this.onLoginFail();
+    }
   }
 
   onButtonPress() {
@@ -92,6 +132,7 @@ class LoginScreen extends React.Component {
   }
 
   render() {
+    
     return (
       <ImageBackground 
         source={require('../images/bg.jpg')}
@@ -111,13 +152,13 @@ class LoginScreen extends React.Component {
           borderRadius: 3 }}>
           <View style={{width: 260, height: 50, borderColor: 'grey', borderBottomWidth: 1}}>
             <Input 
-            value={this.state.email}
+            //value={this.state.email}
             onChangeText={email => this.setState({ email })}
-            placeholder='NRIC'
+            placeholder='Email'
             />
           </View>
           <Input 
-            value={this.state.password}
+            //value={this.state.password}
             onChangeText={password => this.setState({ password })}
             placeholder='Password'
             secureTextEntry= {true}
@@ -175,7 +216,7 @@ const RootStack = createStackNavigator({
         Profile: {
           screen: createStackNavigator({
             main: {screen: ProfileScreen},
-            edit: {screen: HistoryScreen},
+            edit: {screen: ProfileEditScreen},
           }),
           navigationOptions: {
             initialRouteName: 'main',
@@ -189,7 +230,12 @@ const RootStack = createStackNavigator({
         Home: {
           screen: createStackNavigator({
             main:{screen: HomeScreen},
-            pawn:{screen: PawnScreen}
+            pawn:{screen: PawnScreen},
+            buy: {screen: PawnScreen},
+            sell: {screen: PawnScreen},
+            renew: {screen: RenewScreen},
+            redeem: {screen: RedeemScreen},
+            faq: {screen: FAQScreen},
           }),
           navigationOptions: {
             initialRouteName: 'main',
