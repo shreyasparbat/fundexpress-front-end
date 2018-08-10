@@ -51,21 +51,27 @@ class LoginScreen extends React.Component {
       password: this.state.password
     }
 
-    this.onLoginSuccess()
+    //this.onLoginSuccess()
 
     /*if(this.state.email === 'Test' && this.state.password === 'test'){
       this.onLoginSuccess();
         }else{
           this.onLoginFail();
     }
-  }
+  }*/
 
-    /*axios.post('http://206.189.145.2:3000/user/login', { user })
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
+    fetch('http://206.189.145.2:3000/user/login', {
+      method: 'POST',
+      header: {},
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password
       })
-      .catch(this.onLoginFail())*/
+    })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(this.onLoginFail())
   }
 
   onLoginFail() {
@@ -102,7 +108,7 @@ class LoginScreen extends React.Component {
           marginTop: 50, 
           borderColor: 'grey', 
           borderWidth: 1,
-          borderRadius: 10 }}>
+          borderRadius: 3 }}>
           <View style={{width: 260, height: 50, borderColor: 'grey', borderBottomWidth: 1}}>
             <Input 
             value={this.state.email}

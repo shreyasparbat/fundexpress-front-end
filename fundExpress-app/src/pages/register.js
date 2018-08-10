@@ -2,10 +2,12 @@ import React from 'react';
 import { View, ScrollView, } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, Avatar, Button } from 'react-native-elements';
 import { Input } from '../components/input';
+import { Picker, Icon, DatePicker } from 'native-base';
 import axios from 'axios';
 
 class RegisterScreen extends React.Component {
-  state = { email: '', password: '', fullName: '', gender: '', age: '', ic: '', phoneNumber: '', address: ''};
+  state = { email: '', password: '', fullName: '', gender: '', DOB: '', ic: '', mobileNumber: '',
+  landlineNumber:'',address: '', citizenship: '', nationality: '', };
   static navigationOptions = {
     title: 'Register',
       headerStyle: {
@@ -19,23 +21,26 @@ class RegisterScreen extends React.Component {
   };
 
   submit() {
-    axios({
-      method: 'post',
-      url: 'http://206.189.145.2:3000/user/onboard',
-      header:{},
-      data: {
+    fetch('http://206.189.145.2:3000/user/onboard',{
+      method: 'POST',
+      headers: {},
+      body: JSON.stringify({
         email: this.state.email,
         password: this.state.password,
         fullName: this.state.fullName,
         gender: this.state.gender,
-        age: this.state.age,
+        dateOfBirth: this.state.DOB,
         ic: this.state.ic,
-        phoneNumber: this.state.phoneNumber,
+        mobileNumber: this.state.mobileNumber,
+        landlineNumber: this.state.landlineNumber,
         address: this.state.address,
-      }
+        citizenship: this.state.citizenship,
+        nationality: this.state.nationality,
+      })
     })
     .then(function (response) {
       console.log(response);
+      this.props.navigation.navigate('home');
     })
     .catch(function (error) {
       console.log (error);
@@ -59,6 +64,7 @@ class RegisterScreen extends React.Component {
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input
+          //must validate. check if ends in "@etc.com"
             value={this.state.email}
             onChangeText={email => this.setState({ email })} 
             placeholder="Email" 
@@ -70,29 +76,51 @@ class RegisterScreen extends React.Component {
             value={this.state.password}
             onChangeText={password => this.setState({ password })} 
             placeholder="Password" 
-          />
-        </View>
-
-        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input 
-            placeholder="Reconfirm Password" 
+            secureTextEntry={true}
           />
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input
-            value={this.state.gender}
-            onChangeText={gender => this.setState({ gender })} 
-            placeholder="Gender" 
+          //validate check if same as password 
+            placeholder="Reconfirm Password"
+            secureTextEntry={true} 
           />
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input 
-            value={this.state.age}
-            onChangeText={age => this.setState({ age })}
-            placeholder="Age" 
-          />
+        <Picker
+              note
+              mode="dropdown"
+              iosHeader="Gender"
+              placeholder='Gender'
+              placeholderStyle={{ color: "#c7c7cd" }}
+              iosIcon={<Icon name="ios-arrow-down-outline" />}
+              style={{ width: 325 }}
+              selectedValue={this.state.gender}
+              onValueChange={gender => this.setState({gender})}
+            >
+              <Picker.Item label="Male" value="male" />
+              <Picker.Item label="Female" value="female" />
+
+            </Picker>
+        </View>
+
+        <View style={{width:300,height:50,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15}}>
+      <DatePicker
+            defaultDate={new Date()}
+            minimumDate={new Date(1900, 1, 1)}
+            maximumDate={new Date(2018, 12, 31)}
+            locale={"SGP"}
+            //timeZoneOffsetInMinutes={0}
+            modalTransparent={false}
+            animationType={"fade"}
+            androidMode={"default"}
+            placeHolderText="Date of Birth"
+            textStyle={{ color: "black" }}
+            placeHolderTextStyle={{ color: "#c7c7cd" }}
+            onDateChange={DOB => this.setState({ DOB })}
+            />
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
@@ -107,7 +135,15 @@ class RegisterScreen extends React.Component {
           <Input 
             value={this.state.phoneNumber}
             onChangeText={phoneNumber => this.setState({ phoneNumber })}
-            placeholder="Phone Number" 
+            placeholder="Mobile Number" 
+          />
+        </View>
+
+        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
+          <Input 
+            value={this.state.landlineNumber}
+            onChangeText={landlineNumber => this.setState({ landlineNumber })}
+            placeholder="House Phone Number" 
           />
         </View>
 
@@ -121,12 +157,16 @@ class RegisterScreen extends React.Component {
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input 
+            value={this.state.citizenship}
+            onChangeText={citizenship => this.setState({ citizenship })} 
             placeholder="Citizenship" 
           />
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input 
+            value={this.state.nationality}
+            onChangeText={nationality => this.setState({ nationality })} 
             placeholder="Nationality" 
           />
         </View>
@@ -136,6 +176,7 @@ class RegisterScreen extends React.Component {
           color='white'
           backgroundColor='#ff0000'
           onPress={() => this.submit()}
+          //onPress={()=>console.log(this.state)}
           //onPress={() => this.props.navigation.navigate('Home')}
           containerViewStyle={{marginTop:30,marginBottom:30}}      
         />
