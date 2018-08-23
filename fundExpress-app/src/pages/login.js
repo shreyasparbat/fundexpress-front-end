@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, ActivityIndicator } from 'react-native';
+import { AsyncStorage, StyleSheet, Text, View, ImageBackground, Image, ActivityIndicator } from 'react-native';
 import { Input } from '../components/input';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Button } from 'react-native-elements';
@@ -20,10 +20,12 @@ import PawnScreen from './pawn';
 import RenewScreen from './renew';
 import RedeemScreen from './redeem';
 import FAQScreen from './faq';
+import camera from './camera';
+import PawnTicket from './pawnticket';
 
 
 class LoginScreen extends React.Component {
-  state = { email: '', password: '', error: '', loading: false, code: '200' };
+  state = { email: '', password: '', error: '', loading: false, auth: '' };
   static navigationOptions = {
     header: null
   };
@@ -34,7 +36,25 @@ class LoginScreen extends React.Component {
       password:'',
       error:'',
       loading: false,
+      auth: '',
     })
+  }
+
+  storeData = async (auth) => {
+    try{
+      await AsyncStorage.setItem('auth', auth);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  retrieveData = async () => {
+    try{
+      const value = await AsyncStorage.getItem('auth');
+      return value;
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   renderButton() {
@@ -50,7 +70,7 @@ class LoginScreen extends React.Component {
           backgroundColor='#ff0000'
           //onPress={() => this.props.navigation.navigate('Home')}
           //onPress={this.onButtonPress.bind(this)}
-          onPress={() => this.login()}
+          onPress={() => this.onButtonPress()}
         />
       </View>
     );
@@ -82,6 +102,9 @@ class LoginScreen extends React.Component {
   }
 
   onButtonPress() {
+    console.log('login pressed')
+    console.log(this.state.email)
+    console.log(this.state.password)
     const { email, password } = this.state;
     
     this.setState({ error: '', loading: true });
@@ -99,22 +122,55 @@ class LoginScreen extends React.Component {
           this.onLoginFail();
     }
   }*/
-
-    fetch('http://206.189.145.2:3000/user/login', {
+  // axios({
+  //   method: 'POST',
+  //   url: 'http://206.189.145.2:3000/user/login',
+  //   data: {
+  //     email: this.state.email,
+  //     password: this.state.password
+  //   }
+  // })
+  // .then(function (response) {
+  //   console.log(response);
+  // })
+  // .catch(function (error) {
+  //   console.log(error);
+  // });
+  // }
+   fetch('http://206.189.145.2:3000/user/login', {
       method: 'POST',
-      header: {},
+      headers:{
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password
+        'email': this.state.email,
+        'password': this.state.password
       })
     })
-      .then(function (response) {
-        console.log(response);
+      .then((response) => {
+        if (response.ok) {
+          return response
+        } else {
+          return Promise.reject(response.json())
+        }
       })
-      .catch(this.onLoginFail())
-  }
+      .then((response) => {
+        console.log("logged in")
+        //console.log(response)
+        //console.log(response.headers.get('x-auth'))
+        //console.log(response)
+        this.storeData(response.headers.get('x-auth'));
+        this.onLoginSuccess()
+      })
+      .catch((errorResponse) => {
+        console.log("error")
+        console.log(errorResponse.error)
+        this.onLoginFail(errorResponse.error)
+      })
+  } 
 
-  onLoginFail() {
+  onLoginFail(error) {
     this.setState({ 
       error: 'Authentication Failed',
       loading: false
@@ -122,13 +178,15 @@ class LoginScreen extends React.Component {
   }
 
   onLoginSuccess() {
+    //console.log(this.state.auth)
     this.setState({
       email: '',
       password: '',
       loading: false,
-      error: ''
+      error: '',
      });
-     this.props.navigation.navigate('Home', { email: this.state.email });
+     console.log(this.retrieveData());
+     this.props.navigation.navigate('Home');
   }
 
   render() {
@@ -178,7 +236,7 @@ class LoginScreen extends React.Component {
           marginTop: 130, flexDirection: 'row' }}>
           <Text
             style={{color: 'black'}}
-          >Don't have an account?</Text>
+          >Don't have an account? </Text>
           <Text
             onPress={() => this.props.navigation.navigate('upload')}
             style={{color: 'blue', textDecorationLine: 'underline'}}
@@ -205,7 +263,8 @@ const RootStack = createStackNavigator({
       screen: createStackNavigator({
         login: { screen: LoginScreen },
         register: {screen: RegisterScreen},
-        upload: {screen: UploadScreen}
+        upload: {screen: UploadScreen},
+        camera: {screen: camera}
       }),
       navigationOptions: {
         header: null,
@@ -236,6 +295,7 @@ const RootStack = createStackNavigator({
             renew: {screen: RenewScreen},
             redeem: {screen: RedeemScreen},
             faq: {screen: FAQScreen},
+            ticket: {screen: PawnTicket}
           }),
           navigationOptions: {
             initialRouteName: 'main',

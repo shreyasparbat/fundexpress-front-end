@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Image, TouchableOpacity } from 'react-native';
+import { AsyncStorage, Text, View, Image, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Card } from 'react-native-elements';
@@ -28,17 +28,17 @@ class HomeScreen extends React.Component {
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <View style={{flex:0.14, alignSelf: 'center', justifyContent: 'center', marginTop: 20}}>
-          <Image
+          {/* <Image
             source={require('../images/felogo.png')}
             style={{ resizeMode: 'contain', width: 200 }}
-          />
+          /> */}
         </View>
         <View style={{flex:0.06, alignSelf: 'center', marginTop: 5 }}>
         <Text 
           style={{ textAlignVertical: 'bottom', fontSize: 25, 
           fontWeight: 'bold', color: 'black', flex: 1, alignSelf: 'center', height: 150
           }} 
-          >Welcome {this.props.navigation.getParam('fullName', 'User!')} </Text>
+          >Welcome </Text>
         </View>
       <View style={{flex: 0.4, marginTop: 25, alignSelf: 'center'}}>
         <View style={{ flexDirection: 'row', }}>

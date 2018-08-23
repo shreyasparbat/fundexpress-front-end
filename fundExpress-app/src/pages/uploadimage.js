@@ -49,7 +49,8 @@ class UploadScreen extends React.Component {
         <Avatar 
           xlarge
           icon={{name: 'camera-alt', color: 'grey'}}
-          onPress={() => this._pickImage()}
+          //onPress={() => this._pickImage()}
+          onPress={()=> this.props.navigation.navigate('camera')}
           activeOpacity={0.7}
           containerStyle={{marginTop:15}}
         />

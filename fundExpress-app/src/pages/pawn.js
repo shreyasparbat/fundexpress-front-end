@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Icon, Picker, DatePicker} from "native-base";
-import {View, Text,} from "react-native";
+import {AsyncStorage, View, Text,} from "react-native";
 import { Avatar , Button } from "react-native-elements";
 import { Input } from "../components/input";
 
@@ -39,10 +39,24 @@ class PawnScreen extends Component {
   }
   */
 
+  submit(){
+    this.storeData(this.state);
+    this.props.navigation.navigate('ticket');
+  }
+
+ storeData = async (item) => {
+  try{
+    await AsyncStorage.setItem('item', item);
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
   render() {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text style={{marginBottom: 10}}> Item Image </Text>
+        {/* <Text style={{marginBottom: 10}}> Item Image </Text>
         <View style={{flexDirection: "row"}}>
           <Avatar 
             large
@@ -67,7 +81,7 @@ class PawnScreen extends Component {
             icon={{name: "camera-alt", color: "grey"}}
             containerStyle={{marginLeft: 15}}
           />
-        </View>
+        </View> */}
 
         <View style={{width:300,height:50,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15}}>
           <Input 
@@ -108,7 +122,7 @@ class PawnScreen extends Component {
               placeholderIconColor="#007aff"
               iosIcon={<Icon name="ios-arrow-down-outline" />}
               style={{ width: 325 }}
-              selectedValue={this.state.itemType}
+              selectedValue={this.state.material}
               onValueChange={material => this.setState({material})}
             >
               <Picker.Item label="Gold" value="gold" />
@@ -122,7 +136,7 @@ class PawnScreen extends Component {
       <View style={{width:300,height:50,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15}}>
         <Input 
           //value={this.state.fullName}
-          onChangeText={name => this.setState({ weight })}
+          onChangeText={weight => this.setState({ weight })}
           placeholder="Item Weight" 
         />
       </View>
@@ -154,8 +168,8 @@ class PawnScreen extends Component {
               placeholderIconColor="#007aff"
               iosIcon={<Icon name="ios-arrow-down-outline" />}
               style={{ width: 325 }}
-              selectedValue={this.state.itemType}
-              onValueChange={POP => this.setState({itemType})}
+              selectedValue={this.state.POP}
+              onValueChange={POP => this.setState({POP})}
             >
               <Picker.Item label="Singapore" value="gold" />
               <Picker.Item label= "Afghanistan" value="afghanistan" />
@@ -401,9 +415,17 @@ class PawnScreen extends Component {
           title="Submit"
           color="white"
           backgroundColor="#ff0000"
-         // onPress={() => this.submit()}
-          //onPress={() => this.props.navigation.navigate("Home")}
-          onPress={() => console.log(this.state)}
+          //onPress={() => this.submit()}
+          onPress={() => this.props.navigation.navigate("ticket", {
+            name: this.state.name,
+            type: this.state.type,
+            material: this.state.material,
+            weight: this.state.weight,
+            DOP: this.state.DOP,
+            POP: this.state.POP,
+
+          })}
+          //onPress={() => console.log(this.state)}
           containerViewStyle={{marginTop:30,marginBottom:30}}      
         />
     </View>

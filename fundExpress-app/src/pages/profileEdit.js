@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, } from 'react-native';
+import { AsyncStorage, View, ScrollView, } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, Avatar, Button } from 'react-native-elements';
 import { Input } from '../components/input';
 import { Picker, Icon, DatePicker } from 'native-base';
@@ -7,20 +7,18 @@ import axios from 'axios';
 
 class ProfileEditScreen extends React.Component {
   state = {
-      email: this.props.navigation.getParam('email', ''),
-      password: this.props.navigation.getParam('password',''),
-      fullName: this.props.navigation.getParam('fullName',''),
-      gender: this.props.navigation.getParam('gender',''),
-      dateOfBirth: this.props.navigation.getParam('DOB',''),
-      //age: this.state.age,
-      ic: this.props.navigation.getParam('ic',''),
-      mobileNumber: this.props.navigation.getParam('mobileNumber',''),
-      landlineNumber: this.props.navigation.getParam('landlineNumber',''),
-      //mobileNumber: this.state.mobileNumber,
-      //landlineNumber: this.state.landNumber,
-      address: this.props.navigation.getParam('address',''),
-      citizenship: this.props.navigation.getParam('citizenship',''),
-      nationality: this.props.navigation.getParam('nationality',''),
+      email: '',
+      password: '',
+      fullName: '',
+      gender: '',
+      DOB: '',
+      age: '',
+      ic: '',
+      mobileNumber: '',
+      landlineNumber: '',
+      address: '',
+      citizenship: '',
+      nationality: '',
   };
   static navigationOptions = {
     title: 'Edit Profile',
@@ -34,40 +32,112 @@ class ProfileEditScreen extends React.Component {
       },
   };
 
-  submit() {
-    //var moNumber = parseInt(this.state.mobileNumber);
-    //var lanNumber = parseInt(this.state.landlineNumber);
-    console.log('register pressed');
-    console.log(JSON.stringify(this.state))
-    fetch('http://206.189.145.2:3000/user/onboard',{
+  componentWillMount(){
+    this.retrieveData().then((token) => {
+      fetch('http://206.189.145.2:3000/profile/me', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password,
-        fullName: this.state.fullName,
-        gender: this.state.gender,
-        dateOfBirth: this.state.DOB,
-        //age: this.state.age,
-        ic: this.state.ic,
-        mobileNumber: parseInt(this.state.mobileNumber),
-        landlineNumber: parseInt(this.state.landlineNumber),
-        //mobileNumber: this.state.mobileNumber,
-        //landlineNumber: this.state.landNumber,
-        address: this.state.address,
-        citizenship: this.state.citizenship,
-        nationality: this.state.nationality,
+      headers: new Headers({
+        // Accept: 'application/json',
+        // 'Content-Type': 'application/json',
+        'x-auth' : token,
       }),
+      // body: JSON.stringify({
+      //   auth : token
+      // })
     })
-    .then(function (response) {
-      console.log(response);
-    }) 
-    .catch((error) => {
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          return Promise.reject(response.json())
+        }
+      })
+      .then((response) => {
+        console.log("profile retrieved")
+        //console.log(response)
+        //console.log(response.body)
+        //console.log(response)
+        this.setState({
+          fullName: response.fullName,
+          address: response.address,
+          citizenship: response.citizenship,
+          DOB: response.dateOfBirth.slice(0,10).toString(),
+          email: response.email,
+          gender: response.gender,
+          ic: response.ic,
+          landlineNumber: response.landlineNumber.toString(),
+          mobileNumber: response.mobileNumber.toString(),
+          nationality: response.nationality,
+          password: response.password,
+          age: response.age,
+        });
+        //console.log("state fullName: " + this.state.fullName)
+      })
+      .catch((errorResponse) => {
+        console.log("error with profile/me ")
+        console.log(errorResponse)
+      })
+    }).catch((error) => {
+      console.log("error retrieving profile data")
       console.log(error)
-    })
+    });
   }
+
+  retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('auth');
+      console.log("token retrieved " + value);
+      return value;
+    } catch (error){
+      throw error
+    }
+  }
+
+  submit() {
+    this.retrieveData().then((token) => {
+      fetch('http://206.189.145.2:3000/profile/edit',{
+        method: 'POST',
+        headers: new Headers({
+          'x-auth': token,
+        }),
+        body: JSON.stringify({
+          email: this.state.email,
+          password: this.state.password,
+          fullName: this.state.fullName,
+          gender: this.state.gender,
+          dateOfBirth: this.state.DOB,
+          //age: this.state.age,
+          ic: this.state.ic,
+          mobileNumber: parseInt(this.state.mobileNumber),
+          landlineNumber: parseInt(this.state.landlineNumber),
+          //mobileNumber: this.state.mobileNumber,
+          //landlineNumber: this.state.landNumber,
+          address: this.state.address,
+          citizenship: this.state.citizenship,
+          nationality: this.state.nationality,
+        }),
+      })
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          return Promise.reject(response.json())
+        }
+      })
+      .then((response) => {
+        console.log("profile changed")
+      })
+      .catch((errorResponse) => {
+        console.log("error with profile/edit ")
+        console.log(errorResponse)
+      })
+      .catch((error) => {
+        console.log("error retrieving profile data")
+        console.log(error)
+      });
+    }
+  )
+}
       
 
 
@@ -86,32 +156,6 @@ class ProfileEditScreen extends React.Component {
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input
-          //must validate. check if ends in "@etc.com"
-            value={this.state.email}
-            onChangeText={email => this.setState({ email })} 
-            placeholder="Email" 
-          />
-        </View>
-
-        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })} 
-            placeholder="Password" 
-            secureTextEntry={true}
-          />
-        </View>
-
-        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input
-          //validate check if same as password 
-            placeholder="Reconfirm Password"
-            secureTextEntry={true} 
-          />
-        </View>
-
-        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
         <Picker
               note
               mode="dropdown"
@@ -120,6 +164,7 @@ class ProfileEditScreen extends React.Component {
               placeholderStyle={{ color: "#c7c7cd" }}
               iosIcon={<Icon name="ios-arrow-down-outline" />}
               style={{ width: 325 }}
+              textStyle = {{color : 'black' }}
               selectedValue={this.state.gender}
               onValueChange={gender => this.setState({gender})}
             >
@@ -131,7 +176,7 @@ class ProfileEditScreen extends React.Component {
 
         <View style={{width:300,height:50,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15}}>
       <DatePicker
-            defaultDate={new Date()}
+            defaultDate={this.state.DOB}
             minimumDate={new Date(1900, 1, 1)}
             maximumDate={new Date(2018, 12, 31)}
             locale={"SGP"}
@@ -139,9 +184,9 @@ class ProfileEditScreen extends React.Component {
             modalTransparent={false}
             animationType={"fade"}
             androidMode={"default"}
-            placeHolderText="Date of Birth"
+            placeHolderText= {this.state.DOB}
             textStyle={{ color: "black" }}
-            placeHolderTextStyle={{ color: "#c7c7cd" }}
+            placeHolderTextStyle={{ color: "black" }}
             onDateChange={DOB => this.setState({ DOB })}
             />
         </View>
@@ -156,7 +201,7 @@ class ProfileEditScreen extends React.Component {
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input 
-            value={this.state.phoneNumber}
+            value={this.state.mobileNumber}
             onChangeText={phoneNumber => this.setState({ phoneNumber })}
             placeholder="Mobile Number" 
           />

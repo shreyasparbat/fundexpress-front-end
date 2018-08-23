@@ -1,13 +1,13 @@
 import React from 'react';
-import { View, ScrollView, } from 'react-native';
+import { AsyncStorage, View, ScrollView, } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, Avatar, Button } from 'react-native-elements';
 import { Input } from '../components/input';
 import { Picker, Icon, DatePicker } from 'native-base';
 import axios from 'axios';
 
 class RegisterScreen extends React.Component {
-  state = { email: 'user@test.com', password: 'pass1234', fullName: 'Test User', gender: 'M', DOB: '2018-02-01', age: '20' , ic: 'GXXXXXXXR', mobileNumber: '90000000' ,
-  landlineNumber: "12345678" ,address: 'Singapore', citizenship: 'Singaporean', nationality: 'Singapore', };
+  state = { email: '', password: '', fullName: '', gender: '', DOB: '', age: '' , ic: '', mobileNumber: '' ,
+  landlineNumber: '' ,address: '', citizenship: '', nationality: '', };
   static navigationOptions = {
     title: 'Register',
       headerStyle: {
@@ -20,6 +20,14 @@ class RegisterScreen extends React.Component {
       },
   };
 
+  storeData = async (auth) => {
+    try{
+      await AsyncStorage.setItem('auth', auth);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   submit() {
     //var moNumber = parseInt(this.state.mobileNumber);
     //var lanNumber = parseInt(this.state.landlineNumber);
@@ -28,6 +36,7 @@ class RegisterScreen extends React.Component {
     fetch('http://206.189.145.2:3000/user/onboard',{
       method: 'POST',
       headers: {
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -35,7 +44,7 @@ class RegisterScreen extends React.Component {
         password: this.state.password,
         fullName: this.state.fullName,
         gender: this.state.gender,
-        dateOfBirth: new Date(this.state.DOB),
+        dateOfBirth: this.state.DOB,
         //age: this.state.age,
         ic: this.state.ic,
         mobileNumber: parseInt(this.state.mobileNumber),
@@ -49,11 +58,21 @@ class RegisterScreen extends React.Component {
         
       }),
     })
-    .then(function (response) {
-      console.log(response);
-    }) 
+    .then((response) => {
+      console.log("Success")
+      //console.log(response)
+      this.storeData(response.headers.get('x-auth'))
+      //console.log(response.headers.get('x-auth'))
+      //console.log(response.json())
+      this.props.navigation.navigate('Home');
+    })
     .catch((error) => {
+      console.log("error")
       console.log(error)
+      this.setState({ 
+        error: error,
+        loading: false
+      });
     })
   }
 
@@ -107,6 +126,7 @@ class RegisterScreen extends React.Component {
               placeholderStyle={{ color: "#c7c7cd" }}
               iosIcon={<Icon name="ios-arrow-down-outline" />}
               style={{ width: 325 }}
+              textStyle = {{ color: 'black' }}
               selectedValue={this.state.gender}
               onValueChange={gender => this.setState({gender})}
             >
@@ -144,7 +164,7 @@ class RegisterScreen extends React.Component {
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input 
             //value={this.state.phoneNumber}
-            onChangeText={phoneNumber => this.setState({ phoneNumber })}
+            onChangeText={mobileNumber => this.setState({ mobileNumber })}
             placeholder="Mobile Number" 
           />
         </View>
@@ -185,25 +205,25 @@ class RegisterScreen extends React.Component {
           title='Register!'
           color='white'
           backgroundColor='#ff0000'
-          //onPress={() => this.submit()}
-          onPress={()=>console.log(JSON.stringify({
-        email: this.state.email,
-        password: this.state.password,
-        fullName: this.state.fullName,
-        gender: this.state.gender,
-        dateOfBirth: new Date(this.state.DOB),
-        //age: this.state.age,
-        ic: this.state.ic,
-        mobileNumber: parseInt(this.state.mobileNumber),
-        nationality: this.state.nationality,
-        citizenship: this.state.citizenship,
-        landlineNumber: parseInt(this.state.landlineNumber),
-        //mobileNumber: this.state.mobileNumber,
-        //landlineNumber: this.state.landNumber,
-        address: this.state.address,
-          })
-        )
-      }
+          onPress={() => this.submit()}
+        //   onPress={()=>console.log(JSON.stringify({
+        // email: this.state.email,
+        // password: this.state.password,
+        // fullName: this.state.fullName,
+        // gender: this.state.gender,
+        // dateOfBirth: new Date(this.state.DOB),
+        // //age: this.state.age,
+        // ic: this.state.ic,
+        // mobileNumber: parseInt(this.state.mobileNumber),
+        // nationality: this.state.nationality,
+        // citizenship: this.state.citizenship,
+        // landlineNumber: parseInt(this.state.landlineNumber),
+        // //mobileNumber: this.state.mobileNumber,
+        // //landlineNumber: this.state.landNumber,
+        // address: this.state.address,
+        //   })
+        //)
+      //}
           /*onPress={() => this.props.navigation.navigate('login',
           {
             email: this.state.email,
