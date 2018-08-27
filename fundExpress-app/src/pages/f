@@ -1,0 +1,239 @@
+<Picker.Item label= "Afghanistan" value= />
+<Picker.Item label= "Albania" value= />
+<Picker.Item label= "Algeria" value= />
+<Picker.Item label= "American Samoa" value= />
+<Picker.Item label= "Andorra" value= />
+<Picker.Item label= "Angola" value= />
+<Picker.Item label= "Anguilla" value= />
+<Picker.Item label= "Antarctica" value= />
+<Picker.Item label= "Antigua and Barbuda" value= />
+<Picker.Item label= "Argentina" value= />
+<Picker.Item label= "Armenia" value= />
+<Picker.Item label= "Aruba" value= />
+<Picker.Item label= "Australia" value= />
+<Picker.Item label= "Austria" value= />
+<Picker.Item label= "Azerbaijan" value= />
+<Picker.Item label= "Bahamas" value= />
+<Picker.Item label= "Bahrain" value= />
+<Picker.Item label= "Bangladesh" value= />
+<Picker.Item label= "Barbados" value= />
+<Picker.Item label= "Belarus" value= />
+<Picker.Item label= "Belgium" value= />
+<Picker.Item label= "Belize" value= />
+<Picker.Item label= "Benin" value= />
+<Picker.Item label= "Bermuda" value= />
+<Picker.Item label= "Bhutan" value= />
+<Picker.Item label= "Bolivia" value= />
+<Picker.Item label= "Bosnia and Herzegovina" value= />
+<Picker.Item label= "Botswana" value= />
+<Picker.Item label= "Bouvet Island" value= />
+<Picker.Item label= "Brazil" value= />
+<Picker.Item label= "British Indian Ocean Territory" value= />
+<Picker.Item label= "Brunei Darussalam" value= />
+<Picker.Item label= "Bulgaria" value= />
+<Picker.Item label= "Burkina Faso" value= />
+<Picker.Item label= "Burundi" value= />
+<Picker.Item label= "Cambodia" value= />
+<Picker.Item label= "Cameroon" value= />
+<Picker.Item label= "Canada" value= />
+<Picker.Item label= "Cape Verde" value= />
+<Picker.Item label= "Cayman Islands" value= />
+<Picker.Item label= "Central African Republic" value= />
+<Picker.Item label= "Chad" value= />
+<Picker.Item label= "Chile" value= />
+<Picker.Item label= "China" value= />
+<Picker.Item label= "Christmas Island" value= />
+<Picker.Item label= "Cocos (Keeling) Islands" value= />
+<Picker.Item label= "Colombia" value= />
+<Picker.Item label= "Comoros" value= />
+<Picker.Item label= "Congo" value= />
+<Picker.Item label= "Congo value= /> the Democratic Republic of the" value= />
+<Picker.Item label= "Cook Islands" value= />
+<Picker.Item label= "Costa Rica" value= />
+<Picker.Item label= "Cote D'Ivoire" value= />
+<Picker.Item label= "Croatia" value= />
+<Picker.Item label= "Cuba" value= />
+<Picker.Item label= "Cyprus" value= />
+<Picker.Item label= "Czech Republic" value= />
+<Picker.Item label= "Denmark" value= />
+<Picker.Item label= "Djibouti" value= />
+<Picker.Item label= "Dominica" value= />
+<Picker.Item label= "Dominican Republic" value= />
+<Picker.Item label= "Ecuador" value= />
+<Picker.Item label= "Egypt" value= />
+<Picker.Item label= "El Salvador" value= />
+<Picker.Item label= "Equatorial Guinea" value= />
+<Picker.Item label= "Eritrea" value= />
+<Picker.Item label= "Estonia" value= />
+<Picker.Item label= "Ethiopia" value= />
+<Picker.Item label= "Falkland Islands (Malvinas)" value= />
+<Picker.Item label= "Faroe Islands" value= />
+<Picker.Item label= "Fiji" value= />
+<Picker.Item label= "Finland" value= />
+<Picker.Item label= "France" value= />
+<Picker.Item label= "French Guiana" value= />
+<Picker.Item label= "French Polynesia" value= />
+<Picker.Item label= "French Southern Territories" value= />
+<Picker.Item label= "Gabon" value= />
+<Picker.Item label= "Gambia" value= />
+<Picker.Item label= "Georgia" value= />
+<Picker.Item label= "Germany" value= />
+<Picker.Item label= "Ghana" value= />
+<Picker.Item label= "Gibraltar" value= />
+<Picker.Item label= "Greece" value= />
+<Picker.Item label= "Greenland" value= />
+<Picker.Item label= "Grenada" value= />
+<Picker.Item label= "Guadeloupe" value= />
+<Picker.Item label= "Guam" value= />
+<Picker.Item label= "Guatemala" value= />
+<Picker.Item label= "Guinea" value= />
+<Picker.Item label= "Guinea-Bissau" value= />
+<Picker.Item label= "Guyana" value= />
+<Picker.Item label= "Haiti" value= />
+<Picker.Item label= "Heard Island and Mcdonald Islands" value= />
+<Picker.Item label= "Holy See (Vatican City State)" value= />
+<Picker.Item label= "Honduras" value= />
+<Picker.Item label= "Hong Kong" value= />
+<Picker.Item label= "Hungary" value= />
+<Picker.Item label= "Iceland" value= />
+<Picker.Item label= "India" value= />
+<Picker.Item label= "Indonesia" value= />
+<Picker.Item label= "Iran value= /> Islamic Republic of" value= />
+<Picker.Item label= "Iraq" value= />
+<Picker.Item label= "Ireland" value= />
+<Picker.Item label= "Israel" value= />
+<Picker.Item label= "Italy" value= />
+<Picker.Item label= "Jamaica" value= />
+<Picker.Item label= "Japan" value= />
+<Picker.Item label= "Jordan" value= />
+<Picker.Item label= "Kazakhstan" value= />
+<Picker.Item label= "Kenya" value= />
+<Picker.Item label= "Kiribati" value= />
+<Picker.Item label= "Korea value= /> Democratic People's Republic of" value= />
+<Picker.Item label= "Korea value= /> Republic of" value= />
+<Picker.Item label= "Kuwait" value= />
+<Picker.Item label= "Kyrgyzstan" value= />
+<Picker.Item label= "Lao People's Democratic Republic" value= />
+<Picker.Item label= "Latvia" value= />
+<Picker.Item label= "Lebanon" value= />
+<Picker.Item label= "Lesotho" value= />
+<Picker.Item label= "Liberia" value= />
+<Picker.Item label= "Libyan Arab Jamahiriya" value= />
+<Picker.Item label= "Liechtenstein" value= />
+<Picker.Item label= "Lithuania" value= />
+<Picker.Item label= "Luxembourg" value= />
+<Picker.Item label= "Macao" value= />
+<Picker.Item label= "Macedonia value= /> the Former Yugoslav Republic of" value= />
+<Picker.Item label= "Madagascar" value= />
+<Picker.Item label= "Malawi" value= />
+<Picker.Item label= "Malaysia" value= />
+<Picker.Item label= "Maldives" value= />
+<Picker.Item label= "Mali" value= />
+<Picker.Item label= "Malta" value= />
+<Picker.Item label= "Marshall Islands" value= />
+<Picker.Item label= "Martinique" value= />
+<Picker.Item label= "Mauritania" value= />
+<Picker.Item label= "Mauritius" value= />
+<Picker.Item label= "Mayotte" value= />
+<Picker.Item label= "Mexico" value= />
+<Picker.Item label= "Micronesia value= /> Federated States of" value= />
+<Picker.Item label= "Moldova value= /> Republic of" value= />
+<Picker.Item label= "Monaco" value= />
+<Picker.Item label= "Mongolia" value= />
+<Picker.Item label= "Montserrat" value= />
+<Picker.Item label= "Morocco" value= />
+<Picker.Item label= "Mozambique" value= />
+<Picker.Item label= "Myanmar" value= />
+<Picker.Item label= "Namibia" value= />
+<Picker.Item label= "Nauru" value= />
+<Picker.Item label= "Nepal" value= />
+<Picker.Item label= "Netherlands" value= />
+<Picker.Item label= "Netherlands Antilles" value= />
+<Picker.Item label= "New Caledonia" value= />
+<Picker.Item label= "New Zealand" value= />
+<Picker.Item label= "Nicaragua" value= />
+<Picker.Item label= "Niger" value= />
+<Picker.Item label= "Nigeria" value= />
+<Picker.Item label= "Niue" value= />
+<Picker.Item label= "Norfolk Island" value= />
+<Picker.Item label= "Northern Mariana Islands" value= />
+<Picker.Item label= "Norway" value= />
+<Picker.Item label= "Oman" value= />
+<Picker.Item label= "Pakistan" value= />
+<Picker.Item label= "Palau" value= />
+<Picker.Item label= "Palestinian Territory value= /> Occupied" value= />
+<Picker.Item label= "Panama" value= />
+<Picker.Item label= "Papua New Guinea" value= />
+<Picker.Item label= "Paraguay" value= />
+<Picker.Item label= "Peru" value= />
+<Picker.Item label= "Philippines" value= />
+<Picker.Item label= "Pitcairn" value= />
+<Picker.Item label= "Poland" value= />
+<Picker.Item label= "Portugal" value= />
+<Picker.Item label= "Puerto Rico" value= />
+<Picker.Item label= "Qatar" value= />
+<Picker.Item label= "Reunion" value= />
+<Picker.Item label= "Romania" value= />
+<Picker.Item label= "Russian Federation" value= />
+<Picker.Item label= "Rwanda" value= />
+<Picker.Item label= "Saint Helena" value= />
+<Picker.Item label= "Saint Kitts and Nevis" value= />
+<Picker.Item label= "Saint Lucia" value= />
+<Picker.Item label= "Saint Pierre and Miquelon" value= />
+<Picker.Item label= "Saint Vincent and the Grenadines" value= />
+<Picker.Item label= "Samoa" value= />
+<Picker.Item label= "San Marino" value= />
+<Picker.Item label= "Sao Tome and Principe" value= />
+<Picker.Item label= "Saudi Arabia" value= />
+<Picker.Item label= "Senegal" value= />
+<Picker.Item label= "Serbia and Montenegro" value= />
+<Picker.Item label= "Seychelles" value= />
+<Picker.Item label= "Sierra Leone" value= />
+<Picker.Item label= "Singapore" value= />
+<Picker.Item label= "Slovakia" value= />
+<Picker.Item label= "Slovenia" value= />
+<Picker.Item label= "Solomon Islands" value= />
+<Picker.Item label= "Somalia" value= />
+<Picker.Item label= "South Africa" value= />
+<Picker.Item label= "South Georgia and the South Sandwich Islands" value= />
+<Picker.Item label= "Spain" value= />
+<Picker.Item label= "Sri Lanka" value= />
+<Picker.Item label= "Sudan" value= />
+<Picker.Item label= "Suriname" value= />
+<Picker.Item label= "Svalbard and Jan Mayen" value= />
+<Picker.Item label= "Swaziland" value= />
+<Picker.Item label= "Sweden" value= />
+<Picker.Item label= "Switzerland" value= />
+<Picker.Item label= "Syrian Arab Republic" value= />
+<Picker.Item label= "Taiwan value= /> Province of China" value= />
+<Picker.Item label= "Tajikistan" value= />
+<Picker.Item label= "Tanzania value= /> United Republic of" value= />
+<Picker.Item label= "Thailand" value= />
+<Picker.Item label= "Timor-Leste" value= />
+<Picker.Item label= "Togo" value= />
+<Picker.Item label= "Tokelau" value= />
+<Picker.Item label= "Tonga" value= />
+<Picker.Item label= "Trinidad and Tobago" value= />
+<Picker.Item label= "Tunisia" value= />
+<Picker.Item label= "Turkey" value= />
+<Picker.Item label= "Turkmenistan" value= />
+<Picker.Item label= "Turks and Caicos Islands" value= />
+<Picker.Item label= "Tuvalu" value= />
+<Picker.Item label= "Uganda" value= />
+<Picker.Item label= "Ukraine" value= />
+<Picker.Item label= "United Arab Emirates" value= />
+<Picker.Item label= "United Kingdom" value= />
+<Picker.Item label= "United States" value= />
+<Picker.Item label= "United States Minor Outlying Islands" value= />
+<Picker.Item label= "Uruguay" value= />
+<Picker.Item label= "Uzbekistan" value= />
+<Picker.Item label= "Vanuatu" value= />
+<Picker.Item label= "Venezuela" value= />
+<Picker.Item label= "Viet Nam" value= />
+<Picker.Item label= "Virgin Islands value= /> British" value= />
+<Picker.Item label= "Virgin Islands value= /> U.s." value= />
+<Picker.Item label= "Wallis and Futuna" value= />
+<Picker.Item label= "Western Sahara" value= />
+<Picker.Item label= "Yemen" value= />
+<Picker.Item label= "Zambia" value= />
+<Picker.Item label= "Zimbabwe"

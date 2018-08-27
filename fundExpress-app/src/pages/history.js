@@ -21,17 +21,10 @@ class HistoryScreen extends React.Component {
 
   render() {
     return (
-      <View style={{flex: 1}}>
-       <View style={{ flex: 0.4,}}>
-       <Text 
-       style={{ textAlignVertical: 'bottom', fontSize: 25, 
-       fontWeight: 'bold', color: 'black', flex: 1, alignSelf: 'center'
-       }} 
-        >History</Text>
-       </View>
-       <View style={{ flex: 0.4, flexDirection: 'row', }}>
+      <View style={{flex: 1, backgroundColor: 'white'}}>
+       <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
        <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('Home')}
+            onPress={() => this.props.navigation.navigate('current')}
             activeOpacity= {0.8}  
             style={styles.buttonStyle}
           >
@@ -45,7 +38,7 @@ class HistoryScreen extends React.Component {
         </TouchableOpacity>
 
         <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('Home')}
+            onPress={() => this.props.navigation.navigate('previous')}
             activeOpacity= {0.8}  
             style={styles.buttonStyle}
           >
@@ -59,7 +52,7 @@ class HistoryScreen extends React.Component {
         </TouchableOpacity>
 
         <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('Home')}
+            onPress={() => this.props.navigation.navigate('sold')}
             activeOpacity= {0.8}  
             style={styles.buttonStyle}
           >
@@ -81,7 +74,7 @@ const styles = {
   textStyle: {
     alignSelf: 'center',
     color: 'black',
-    fontSize: 18,
+    fontSize: 13,
     fontWeight: 'bold',
     paddingTop: 10,
     paddingBottom: 10,
@@ -89,14 +82,14 @@ const styles = {
     
   },
   buttonStyle: {
-      width: 125,
-      height: 125,
+      width: 105,
+      height: 105,
       alignSelf: 'center',
-      backgroundColor: '#c9c9c9',
-      borderRadius: 15,
+      backgroundColor: '#ededed',
+      borderRadius: 2,
       borderWidth: 1,
       borderColor: 'transparent',
-      marginLeft: 8,
+      marginLeft: 6,
       marginRight: 2,
       //marginTop: 20
   }
