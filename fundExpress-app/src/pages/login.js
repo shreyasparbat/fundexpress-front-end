@@ -68,9 +68,9 @@ class LoginScreen extends React.Component {
           title='Log in'
           color='white'
           backgroundColor='#ff0000'
-          //onPress={() => this.props.navigation.navigate('Home')}
-          //onPress={this.onButtonPress.bind(this)}
-          onPress={() => this.onButtonPress()}
+          onPress={() => this.props.navigation.navigate('Home')}
+
+          //onPress={() => this.onButtonPress()}
         />
       </View>
     );
@@ -106,7 +106,7 @@ class LoginScreen extends React.Component {
     console.log(this.state.email)
     console.log(this.state.password)
     const { email, password } = this.state;
-    
+
     this.setState({ error: '', loading: true });
 
     const user = {
@@ -168,10 +168,10 @@ class LoginScreen extends React.Component {
         console.log(errorResponse.error)
         this.onLoginFail(errorResponse.error)
       })
-  } 
+  }
 
   onLoginFail(error) {
-    this.setState({ 
+    this.setState({
       error: 'Authentication Failed',
       loading: false
     });
@@ -190,32 +190,32 @@ class LoginScreen extends React.Component {
   }
 
   render() {
-    
+
     return (
-      <ImageBackground 
+      <ImageBackground
         source={require('../images/bg.jpg')}
         imageStyle={{ resizeMode: 'contain', opacity: 0.0}}
         style={styles.container}
       >
         <Image
           source={require('../images/felogo.png')}
-          style={{ resizeMode: 'contain', width: 300, height: 80, 
+          style={{ resizeMode: 'contain', width: 300, height: 80,
           marginTop: 45 }}
         />
-        <View style={{ 
-          width: 260, height: 100, 
-          marginTop: 50, 
-          borderColor: 'grey', 
+        <View style={{
+          width: 260, height: 100,
+          marginTop: 50,
+          borderColor: 'grey',
           borderWidth: 1,
           borderRadius: 3 }}>
           <View style={{width: 260, height: 50, borderColor: 'grey', borderBottomWidth: 1}}>
-            <Input 
+            <Input
             //value={this.state.email}
             onChangeText={email => this.setState({ email })}
             placeholder='Email'
             />
           </View>
-          <Input 
+          <Input
             //value={this.state.password}
             onChangeText={password => this.setState({ password })}
             placeholder='Password'
@@ -231,8 +231,8 @@ class LoginScreen extends React.Component {
           {this.state.error}
         </Text>
           {this.renderButton()}
-        <View 
-          style={{ justifyContent: 'center', alignItems: 'center', 
+        <View
+          style={{ justifyContent: 'center', alignItems: 'center',
           marginTop: 130, flexDirection: 'row' }}>
           <Text
             style={{color: 'black'}}
@@ -280,11 +280,11 @@ const RootStack = createStackNavigator({
           navigationOptions: {
             initialRouteName: 'main',
             tabBarIcon: ({ focused, tintColor }) => {
-              return <Ionicons name={'md-contact'} size={25} 
+              return <Ionicons name={'md-contact'} size={25}
               color={'white'} />;
             },
           }
-            
+
         },
         Home: {
           screen: createStackNavigator({
@@ -300,7 +300,7 @@ const RootStack = createStackNavigator({
           navigationOptions: {
             initialRouteName: 'main',
             tabBarIcon: ({ focused, tintColor }) => {
-              return <Ionicons name={'md-home'} size={25} 
+              return <Ionicons name={'md-home'} size={25}
               color={'white'} />;
             },
           }
@@ -315,7 +315,7 @@ const RootStack = createStackNavigator({
           navigationOptions: {
             initialRouteName: 'main',
             tabBarIcon: ({ focused, tintColor }) => {
-              return <Ionicons name={'md-time'} size={25} 
+              return <Ionicons name={'md-time'} size={25}
               color={'white'} />;
             },
           },
@@ -338,7 +338,7 @@ const RootStack = createStackNavigator({
   ),
   navigationOptions: {
     headerStyle: {
-        backgroundColor: '#ff0000', 
+        backgroundColor: '#ff0000',
       },
       headerTintColor: '#ffffff',
       headerTitleStyle: {
@@ -355,7 +355,7 @@ const RootStack = createStackNavigator({
     navigationOptions: {
       header: null,
       headerStyle: {
-        backgroundColor: '#ff0000', 
+        backgroundColor: '#ff0000',
       },
       headerTintColor: '#ffffff',
       headerTitleStyle: {
