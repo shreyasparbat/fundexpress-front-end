@@ -5,7 +5,7 @@ import { Button } from 'react-native-elements';
 class PawnTicket extends React.Component {
   state = {name: ", type: ", material:", DOP: ", POP: ", image: ", weight: '', LTV: ''}
   static navigationOptions = {
-    title: "Pawn Ticket",
+    title: "Pawn New Item",
       headerStyle: {
         backgroundColor: "#ff0000", 
       },
@@ -54,14 +54,26 @@ class PawnTicket extends React.Component {
           style={{ justifyContent: 'center', alignItems: 'center', 
           marginTop: 130, flexDirection: 'row' }}>
           <Button
-              title='Accept'
+              title='Pawn'
               color='white'
+              borderRadius= {3}
+              containerViewStyle={{height: 100, width: 80,}}
               backgroundColor='#ff0000'
-              onPress={() => this.props.navigation.navigate('main')}
+              onPress={() => this.props.navigation.navigate('propose')}
             />
           <Button
+              title='Sell'
+              color='white'
+              borderRadius= {3}
+              containerViewStyle={{height: 100, width: 80,}}
+              backgroundColor='#ff0000'
+              onPress={() => this.props.navigation.navigate('sell')}
+            />
+            <Button
               title='Reject'
               color='white'
+              borderRadius= {3}
+              containerViewStyle={{height: 100, width: 80,}}
               backgroundColor='#ff0000'
               onPress={() => this.props.navigation.navigate('main')}
             />
