@@ -1,29 +1,13 @@
-
-// import React from 'react';
-// import {View, Text} from 'react-native';
-//
-// class FAQScreen extends React.Component {
-//   render() {
-//     return (
-//       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//         <Text>FAQ</Text>
-//       </View>
-//     );
-//   }
-// }
-//
-// export default FAQScreen;
-
 import React, { Component } from "react";
-import {Text, Linking} from "react-native";
-import { Container, Content, Accordion } from "native-base";
-import { Button } from 'react-native-elements';
+import {Text, Linking} from "react-native"; //linking for all the "HERE" except the one in FAQ 20
+import { Container, Content, Accordion } from "native-base";//for the collapsing and expanding FAQ page
+import { Button } from 'react-native-elements';//for contact us button
+import call from 'react-native-phone-call'; //for contact us button
+
+
+
+// dataArray for FAQ page
 const dataArray = [
-  {
-    //FAQ 1
-    title: "1. How do I pawn (We call it Fundex!) my \r\n item online?",
-    content:"hi"
-  },
   {
     //FAQ 1
     title: "1. How do I pawn (We call it Fundex!) my \r\n item online?",
@@ -122,11 +106,16 @@ const dataArray = [
   {
     //FAQ 20
     title: "20.	How do I reach out for further enquiries?",
-    content: "•	For all other enquiries, reach out to us HERE. We will typically respond within 1 working day!"
+    content: <Text>•	For all other enquiries, reach out to us
+     <Text style={{color: 'blue'}} onPress={() => call(args).catch(console.error)}>HERE</Text>. We will typically respond within 1 working day!</Text>
   }
 
 ];
-export default class AccordionExample extends Component {
+//calling the phone number in const args
+
+
+export default class FAQScreen extends Component {
+  //header
   static navigationOptions = {
     title: "FAQ",
       headerStyle: {

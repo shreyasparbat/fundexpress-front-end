@@ -11,7 +11,7 @@ class HomeScreen extends React.Component {
     title: 'Home',
     headerLeft: null,
       headerStyle: {
-        backgroundColor: '#ff0000', 
+        backgroundColor: '#ff0000',
       },
       headerTintColor: '#ffffff',
       headerTitleStyle: {
@@ -19,11 +19,11 @@ class HomeScreen extends React.Component {
         color: '#ffffff'
       },
       tabBarIcon: ({ focused, tintColor }) => {
-        return <Ionicons name={'md-home'} size={25} 
+        return <Ionicons name={'md-home'} size={25}
         color={'white'} />;
       },
   };
-  
+
   render() {
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
@@ -34,97 +34,97 @@ class HomeScreen extends React.Component {
           /> */}
         </View>
         <View style={{flex:0.06, alignSelf: 'center', marginTop: 5 }}>
-        <Text 
-          style={{ textAlignVertical: 'bottom', fontSize: 25, 
+        <Text
+          style={{ textAlignVertical: 'bottom', fontSize: 25,
           fontWeight: 'bold', color: 'black', flex: 1, alignSelf: 'center', height: 150
-          }} 
+          }}
           >Welcome </Text>
         </View>
       <View style={{flex: 0.4, marginTop: 25, alignSelf: 'center'}}>
         <View style={{ flexDirection: 'row', }}>
-        <TouchableOpacity 
+        <TouchableOpacity
             onPress={() => this.props.navigation.navigate('pawn')}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
               Pawn
             </Text>
             <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-add-circle'} size={50} 
+              <Ionicons name={'md-add-circle'} size={50}
               color={'#ff0000'} />
             </View>
         </TouchableOpacity>
-        <TouchableOpacity 
+        <TouchableOpacity
             onPress={() => this.props.navigation.navigate('buy')}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
               Buy
             </Text>
             <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-cart'} size={50} 
+              <Ionicons name={'md-cart'} size={50}
               color={'#ff0000'} />
             </View>
         </TouchableOpacity>
-        <TouchableOpacity 
+        <TouchableOpacity
             onPress={() => this.props.navigation.navigate('sell')}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
               Sell
             </Text>
             <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'logo-usd'} size={50} 
+              <Ionicons name={'logo-usd'} size={50}
               color={'#ff0000'} />
             </View>
         </TouchableOpacity>
         </View>
         <View style={{ flexDirection: 'row', marginTop: 7}}>
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={() => this.props.navigation.navigate('renew')}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
               Renew
             </Text>
             <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-refresh-circle'} size={50} 
+              <Ionicons name={'md-refresh-circle'} size={50}
               color={'#ff0000'} />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={() => this.props.navigation.navigate('redeem')}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
               Redeem
             </Text>
             <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-cash'} size={50} 
+              <Ionicons name={'md-cash'} size={50}
               color={'#ff0000'} />
             </View>
         </TouchableOpacity>
-        <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('faq')}
-            activeOpacity= {0.8}  
+        <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('Information')}
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
-              FAQ
+              Information
             </Text>
             <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-help-circle'} size={50} 
+              <Ionicons name={'md-information-circle'} size={50}
               color={'#ff0000'} />
             </View>
         </TouchableOpacity>
        </View>
       </View>
-      <Card 
+      <Card
         containerStyle={{flex: 0.4, marginBottom: 10, marginTop: 70, backgroundColor: '#ededed'}}
         title= 'Gold & Silver Prices'
       />
