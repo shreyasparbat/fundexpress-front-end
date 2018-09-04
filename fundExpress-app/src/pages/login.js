@@ -22,6 +22,9 @@ import RedeemScreen from './redeem';
 import FAQScreen from './faq';
 import camera from './camera';
 import PawnTicket from './pawnticket';
+import ProposeScreen from './propose';
+import SellScreen from './sell';
+import ContactScreen from './contact';
 
 
 class LoginScreen extends React.Component {
@@ -68,9 +71,9 @@ class LoginScreen extends React.Component {
           title='Log in'
           color='white'
           backgroundColor='#ff0000'
-          //onPress={() => this.props.navigation.navigate('Home')}
-          //onPress={this.onButtonPress.bind(this)}
-          onPress={() => this.onButtonPress()}
+          onPress={() => this.props.navigation.navigate('Home')}
+
+          //onPress={() => this.onButtonPress()}
         />
       </View>
     );
@@ -295,7 +298,9 @@ const RootStack = createStackNavigator({
             renew: {screen: RenewScreen},
             redeem: {screen: RedeemScreen},
             faq: {screen: FAQScreen},
-            ticket: {screen: PawnTicket}
+            ticket: {screen: PawnTicket},
+            propose: {screen: ProposeScreen},
+            sell: {screen: SellScreen}
           }),
           navigationOptions: {
             initialRouteName: 'main',
@@ -320,6 +325,16 @@ const RootStack = createStackNavigator({
             },
           },
       },
+      "Contact Us" : {
+        screen: ContactScreen,
+        navigationOptions: {
+          initialRouteName: 'main',
+          tabBarIcon: ({ focused, tintColor }) => {
+            return <Ionicons name={'md-call'} size={25}
+            color={'white'} />;
+          },
+        },
+      }
     },
     {
       initialRouteName: 'Home',
