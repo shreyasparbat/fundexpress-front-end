@@ -24,6 +24,7 @@ import camera from './camera';
 import PawnTicket from './pawnticket';
 import ProposeScreen from './propose';
 import SellScreen from './sell';
+import ContactScreen from './contact';
 
 
 class LoginScreen extends React.Component {
@@ -324,6 +325,16 @@ const RootStack = createStackNavigator({
             },
           },
       },
+      "Contact Us" : {
+        screen: ContactScreen,
+        navigationOptions: {
+          initialRouteName: 'main',
+          tabBarIcon: ({ focused, tintColor }) => {
+            return <Ionicons name={'md-call'} size={25}
+            color={'white'} />;
+          },
+        },
+      }
     },
     {
       initialRouteName: 'Home',

@@ -1,9 +1,12 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import { Button } from 'react-native-elements';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 class PawnTicket extends React.Component {
-  state = {name: ", type: ", material:", DOP: ", POP: ", image: ", weight: '', LTV: ''}
+  state = {name: ", type: ", material:", DOP: ", POP: ", image: ", weight: '', LTV: '',
+           showAlert: false };
+
   static navigationOptions = {
     title: "Pawn New Item",
       headerStyle: {
@@ -15,6 +18,18 @@ class PawnTicket extends React.Component {
         color: "#ffffff"
       },
   }
+
+  showAlert = () => {
+    this.setState({
+      showAlert: true
+    });
+  };
+
+  hideAlert = () => {
+    this.setState({
+      showAlert: false,
+    });
+  };
 
   retrieveData = async () => {
     try{
@@ -46,6 +61,7 @@ class PawnTicket extends React.Component {
     //   weight: this.props.getParam('weight', 'no weight')
     // })
   }
+
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -75,9 +91,32 @@ class PawnTicket extends React.Component {
               borderRadius= {3}
               containerViewStyle={{height: 100, width: 80,}}
               backgroundColor='#ff0000'
-              onPress={() => this.props.navigation.navigate('main')}
+              onPress={() => this.showAlert()}
             />
+            
         </View>
+        <AwesomeAlert
+          show= {this.state.showAlert}
+          //showProgress={false}
+          //title="AwesomeAlert"
+          message="Are you sure you want to reject the offer?"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={true}
+          showConfirmButton={true}
+          cancelText="Yes" //it's intentionally opposite to place the yes on the left button
+          confirmText="No"
+          confirmButtonColor="#DD6B55"
+          onCancelPressed={() => {
+            this.hideAlert();
+            this.props.navigation.navigate('main')
+
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+            ;
+          }}
+        />
       </View>
     );
   }

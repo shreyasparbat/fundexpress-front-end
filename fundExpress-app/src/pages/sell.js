@@ -16,7 +16,8 @@ class SellScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Sell Item</Text>
+        <Text>Ticket Pending Approval.</Text>
+        <Text>Please go down to your nearest FundExpress to submit your item!</Text>
       </View>
     );
   }
