@@ -236,9 +236,7 @@ class LoginScreen extends React.Component {
         <View
           style={{ justifyContent: 'center', alignItems: 'center',
           marginTop: 130, flexDirection: 'row' }}>
-          <Text
-            style={{color: 'black'}}
-          >Don't have an account? </Text>
+          <Text style={{color: 'black'}}>Dont have an account?</Text>
           <Text
             onPress={() => this.props.navigation.navigate('upload')}
             style={{color: 'blue', textDecorationLine: 'underline'}}
@@ -308,11 +306,11 @@ const RootStack = createStackNavigator({
         },
         History: {
           screen: createStackNavigator({
-          main: {screen: HistoryScreen},
-          current: { screen: HistoryCurrentScreen},
-          previous: {screen: HistoryPreviousScreen},
-          sold: {screen: HistorySoldScreen},
-        }),
+            main: {screen: HistoryScreen},
+            current: { screen: HistoryCurrentScreen},
+            previous: {screen: HistoryPreviousScreen},
+            sold: {screen: HistorySoldScreen}
+          }),
           navigationOptions: {
             initialRouteName: 'main',
             tabBarIcon: ({ focused, tintColor }) => {
@@ -338,23 +336,6 @@ const RootStack = createStackNavigator({
     }
   ),
   navigationOptions: {
-    headerStyle: {
-        backgroundColor: '#ff0000',
-      },
-      headerTintColor: '#ffffff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        color: '#ffffff'
-      },
-  header:null
-  }
-  }
-});
-/*
-  {
-    initialRouteName: 'Login',
-    navigationOptions: {
-      header: null,
       headerStyle: {
         backgroundColor: '#ff0000',
       },
@@ -363,10 +344,10 @@ const RootStack = createStackNavigator({
         fontWeight: 'bold',
         color: '#ffffff'
       },
-      headerMode: 'none',
+      header:null
     }
   }
-);
-*/
+});
+
 
 export default RootStack;

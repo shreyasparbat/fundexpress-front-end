@@ -3,6 +3,7 @@ import {Text, Linking} from "react-native"; //linking for all the "HERE" except 
 import { Container, Content, Accordion } from "native-base";//for the collapsing and expanding FAQ page
 import { Button } from 'react-native-elements';//for contact us button
 import call from 'react-native-phone-call'; //for contact us button
+import ContactUsScreen from './ContactUs';
 
 
 
@@ -107,9 +108,8 @@ const dataArray = [
     //FAQ 20
     title: "20.	How do I reach out for further enquiries?",
     content: <Text>•	For all other enquiries, reach out to us
-     <Text style={{color: 'blue'}} onPress={() => call(args).catch(console.error)}>HERE</Text>. We will typically respond within 1 working day!</Text>
+     <Text style={{color: 'blue'}} onPress={() => Linking.openURL('./ContactUs')}>HERE</Text>. We will typically respond within 1 working day!</Text>
   }
-
 ];
 //calling the phone number in const args
 
