@@ -4,10 +4,7 @@
     <list default="true" id="51038096-df96-4dc0-aa90-04364a334855" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/fundExpress-app/package-lock.json" afterPath="$PROJECT_DIR$/fundExpress-app/package-lock.json" />
-      <change beforePath="$PROJECT_DIR$/fundExpress-app/package.json" afterPath="$PROJECT_DIR$/fundExpress-app/package.json" />
-      <change beforePath="$PROJECT_DIR$/fundExpress-app/src/pages/faq.js" afterPath="$PROJECT_DIR$/fundExpress-app/src/pages/faq.js" />
-      <change beforePath="$PROJECT_DIR$/fundExpress-app/src/pages/home.1.js" afterPath="$PROJECT_DIR$/fundExpress-app/src/pages/home.1.js" />
-      <change beforePath="$PROJECT_DIR$/fundExpress-app/src/pages/login.js" afterPath="$PROJECT_DIR$/fundExpress-app/src/pages/login.js" />
+      <change beforePath="$PROJECT_DIR$/fundExpress-app/src/pages/ContactUs.js" afterPath="$PROJECT_DIR$/fundExpress-app/src/pages/ContactUs.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -60,6 +57,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
@@ -78,7 +76,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="AndroidView" />
     </panes>
   </component>
