@@ -1,8 +1,22 @@
 import React, {Component} from 'react';
-import {View, Text } from 'react-native';
+import {View, Text, ActivityIndicator, Linking} from 'react-native';
 import {Container, Content, Input, Item, Label, Textarea, Form} from 'native-base';
+import { Button } from 'react-native-elements';
+import email from 'react-native-email';
 
 export default class ContactUsForm extends Component {
+  //setting the state to contain empty fields of the form
+  state = {
+    name: '',
+    email: '',
+    contactNumber: '',
+    subject: '',
+    enquiry:'',
+    error: '',
+    loading: false
+  };
+
+  //this method will render the button
   renderButton() {
     if (this.state.loading) {
       return <ActivityIndicator />;
@@ -13,8 +27,8 @@ export default class ContactUsForm extends Component {
         <Button
           title='Submit'
           color='white'
-          backgroundColor='#ff0000'
-          onPress={() => this.props.navigation.navigate('ContactUs')}
+          backgroundColor='#696969'
+          onPress={this.handleEmail}
 
           //onPress={() => this.onButtonPress()}
         />
@@ -22,30 +36,18 @@ export default class ContactUsForm extends Component {
     );
   }
   submitForm() {
-    if(this.state.email===this.props.navigation.getParam('email', '1') && this.state.password===this.props.navigation.getParam('password', '1')){
-      this.setState( {error: '', loading: false });
-      this.props.navigation.navigate('ContactUs',
-      {
-        email: this.props.navigation.getParam('email', ''),
-        password: this.props.navigation.getParam('password',''),
-        fullName: this.props.navigation.getParam('fullName','Test'),
-        gender: this.props.navigation.getParam('gender',''),
-        dateOfBirth: this.props.navigation.getParam('DOB',''),
-        //age: this.state.age,
-        ic: this.props.navigation.getParam('ic',''),
-        mobileNumber: this.props.navigation.getParam('mobileNumber',''),
-        landlineNumber: this.props.navigation.getParam('landlineNumber',''),
-        //mobileNumber: this.state.mobileNumber,
-        //landlineNumber: this.state.landNumber,
-        address: this.props.navigation.getParam('address',''),
-        citizenship: this.props.navigation.getParam('citizenship',''),
-        nationality: this.props.navigation.getParam('nationality',''),
-      });
-    }else{
-      this.onSubmitFail();
-    }
+    //if else to determine whether a form gets submitted
   }
-
+  handleEmail = () => {
+      const to = 'amandaohry@gmail.com' // string or array of email addresses
+      email(to, {
+          // Optional additional arguments
+          cc: '', // string or array of email addresses
+          bcc: '', // string or array of email addresses
+          subject: this.state.subject,
+          body: this.state.enquiry
+      }).catch(console.error)
+  }
   render(){
       return (
         /*start of Form*/
@@ -57,17 +59,37 @@ export default class ContactUsForm extends Component {
             <Form>
               <View>
                   <Item stackedLabel>
+                    <Label>Name</Label>
+                    <Input onChangeText={name => this.setState({ name })} placeholder='John Tan'/>
+
+                  </Item>
+                  <Item stackedLabel>
                     <Label>Email</Label>
-                    <Input placeholder='john@example.com'/>
+                    <Input onChangeText={email => this.setState({ email })} placeholder='john@example.com'/>
 
                   </Item>
                   <Item stackedLabel>
                     <Label>Contact Number</Label>
-                    <Input placeholder='8123 4567'/>
+                    <Input onChangeText={contactNumber => this.setState({ contactNumber })} placeholder='8123 4567'/>
                   </Item>
-                  <Textarea rowSpan={5} bordered placeholder="Your enquiry" />
-              </View>
 
+                  <Item stackedLabel>
+                    <Label>Subject</Label>
+                    <Input onChangeText={subject => this.setState({ subject })} placeholder='Subject'/>
+                  </Item>
+
+                  <Textarea rowSpan={5} bordered onChangeText={enquiry => this.setState({ enquiry })} placeholder="Your enquiry" />
+
+              </View>
+              <View style={{paddingTop:5}}>
+                <Button
+                  title='Submit'
+                  backgroundColor='#696969'
+                  onPress={() => Linking.openURL(
+                    'mailto:amandaohry@gmail.com?subject='+this.state.subject+'&body=Name: ' + this.state.name + '\r\n Contact Number: ' + this.state.contactNumber + '\r\n Reply to: ' + this.state.email +'\r\n \r\n'+ this.state.enquiry
+                  )}
+                />
+              </View>
             </Form>
           </Content>
         </Container>
