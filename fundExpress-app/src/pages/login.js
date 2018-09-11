@@ -20,6 +20,8 @@ import PawnScreen from './pawn';
 import RenewScreen from './renew';
 import RedeemScreen from './redeem';
 import FAQScreen from './faq';
+import ContactUsScreen from './ContactUs';
+import InformationScreen from './Information';
 import camera from './camera';
 import PawnTicket from './pawnticket';
 import ProposeScreen from './propose';
@@ -300,6 +302,7 @@ const RootStack = createStackNavigator({
             renew: {screen: RenewScreen},
             redeem: {screen: RedeemScreen},
             faq: {screen: FAQScreen},
+
             ticket: {screen: PawnTicket},
             propose: {screen: ProposeScreen},
             sell: {screen: SellScreen}

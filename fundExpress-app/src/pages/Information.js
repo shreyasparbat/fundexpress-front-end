@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import { Container, Header, Tab, Tabs, TabHeading, Icon, } from 'native-base';
-import FAQScreen from './faq';
+import {StyleSheet} from 'react-native';
+import { Container, Header, Tab, Tabs, TabHeading, Icon, Text } from 'native-base';
+import ContactUsForm from './ContactUsForm';
 import ContactUsScreen from './ContactUs';
 
 export default class InformationScreen extends Component{
@@ -18,13 +18,14 @@ export default class InformationScreen extends Component{
   }
   render() {
     return (
+      <Container >
+
         <Tabs>
-          <Tab  heading={ <TabHeading style={styles.container}><Icon name='md-help-circle'/><Text></Text></TabHeading>}
-          >
-            <FAQScreen />
-          </Tab>
-          <Tab  heading={ <TabHeading style={styles.container}><Icon name='call'/><Text>Contact us!</Text></TabHeading>}>
+          <Tab heading={ <TabHeading style={{backgroundColor:'#696969',borderColor:'#ffffff'}} ><Icon name='md-help-circle' style={{color:'#ffffff'}}/><Text style={{color:'#ffffff'}}>Our Pawnshops</Text></TabHeading>}  >
             <ContactUsScreen />
+          </Tab>
+          <Tab  heading={ <TabHeading style={{backgroundColor:'#696969',borderColor:'#ffffff'}}><Icon name='call'  style={{color:'#ffffff'}}/><Text style={{color:'#ffffff'}}>Contact us!</Text></TabHeading>} activeTabStyle={{borderBottomColor:'#ffffff'}}>
+            <ContactUsForm />
           </Tab>
         </Tabs>
     );
@@ -32,7 +33,7 @@ export default class InformationScreen extends Component{
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ff0000',
-
+    backgroundColor: '#a9a9a9',
+    color:'#ffffff',
   },
 });
