@@ -7,7 +7,7 @@ import axios from 'axios';
 
 class RegisterScreen extends React.Component {
   state = { email: '', password: '', fullName: '', gender: '', DOB: '', age: '' , ic: '', mobileNumber: '' ,
-  landlineNumber: '' ,address: '', citizenship: '', nationality: '', };
+  landlineNumber: '' ,address: '', citizenship: '', house: '', race: '' };
   static navigationOptions = {
     title: 'Register',
       headerStyle: {
@@ -136,6 +136,28 @@ class RegisterScreen extends React.Component {
             </Picker>
         </View>
 
+        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
+        <Picker
+              note
+              mode="dropdown"
+              iosHeader="Race"
+              placeholder='Race'
+              placeholderStyle={{ color: "#c7c7cd" }}
+              iosIcon={<Icon name="ios-arrow-down-outline" />}
+              style={{ width: 325 }}
+              textStyle = {{ color: 'black' }}
+              selectedValue={this.state.race}
+              onValueChange={race => this.setState({race})}
+            >
+              <Picker.Item label="Chinese" value="C" />
+              <Picker.Item label="Malay" value="M" />
+              <Picker.Item label="Indian" value="I" />
+              <Picker.Item label="Eurasian" value="E" />
+              <Picker.Item label="Others" value="O" />
+
+            </Picker>
+        </View>
+
         <View style={{width:300,height:50,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15}}>
       <DatePicker
             defaultDate={new Date()}
@@ -186,6 +208,26 @@ class RegisterScreen extends React.Component {
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
+        <Picker
+              note
+              mode="dropdown"
+              iosHeader="Housing Type"
+              placeholder='Housing Type'
+              placeholderStyle={{ color: "#c7c7cd" }}
+              iosIcon={<Icon name="ios-arrow-down-outline" />}
+              style={{ width: 325 }}
+              textStyle = {{ color: 'black' }}
+              selectedValue={this.state.house}
+              onValueChange={house => this.setState({house})}
+            >
+              <Picker.Item label="Flat" value="F" />
+              <Picker.Item label="Condominium" value="C" />
+              <Picker.Item label="Landed" value="L" />
+
+            </Picker>
+        </View>
+
+        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input 
             //value={this.state.citizenship}
             onChangeText={citizenship => this.setState({ citizenship })} 
@@ -193,13 +235,13 @@ class RegisterScreen extends React.Component {
           />
         </View>
 
-        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
+        {/* <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input 
             //value={this.state.nationality}
             onChangeText={nationality => this.setState({ nationality })} 
             placeholder="Nationality" 
           />
-        </View>
+        </View> */}
 
         <Button
           title='Register!'

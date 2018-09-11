@@ -60,11 +60,13 @@ class HistoryPreviousScreen extends React.Component {
 
   render() {
     return (
+      <View>
       <FlatList 
         data= {list}
         renderItem={this.renderItem}
         keyExtractor={(list) => list.ticketNumber}
       />
+      </View>
     );
   }
 }

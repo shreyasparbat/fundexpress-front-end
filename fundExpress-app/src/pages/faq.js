@@ -19,11 +19,11 @@ import {Text, Linking} from "react-native";
 import { Container, Content, Accordion } from "native-base";
 import { Button } from 'react-native-elements';
 const dataArray = [
-  {
-    //FAQ 1
-    title: "1. How do I pawn (We call it Fundex!) my \r\n item online?",
-    content:"hi"
-  },
+  // {
+  //   //FAQ 1
+  //   title: "1. How do I pawn (We call it Fundex!) my \r\n item online?",
+  //   content:"hi"
+  // },
   {
     //FAQ 1
     title: "1. How do I pawn (We call it Fundex!) my \r\n item online?",

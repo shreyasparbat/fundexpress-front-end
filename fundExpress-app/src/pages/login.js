@@ -24,7 +24,8 @@ import camera from './camera';
 import PawnTicket from './pawnticket';
 import ProposeScreen from './propose';
 import SellScreen from './sell';
-import ContactScreen from './contact';
+import InformationScreen from './Information';
+import selectPawn from './selectPawn';
 
 
 class LoginScreen extends React.Component {
@@ -295,6 +296,7 @@ const RootStack = createStackNavigator({
             pawn:{screen: PawnScreen},
             buy: {screen: PawnScreen},
             sell: {screen: PawnScreen},
+            select: {screen: selectPawn},
             renew: {screen: RenewScreen},
             redeem: {screen: RedeemScreen},
             faq: {screen: FAQScreen},
@@ -310,7 +312,7 @@ const RootStack = createStackNavigator({
             },
           }
         },
-        History: {
+        "My Tickets": {
           screen: createStackNavigator({
           main: {screen: HistoryScreen},
           current: { screen: HistoryCurrentScreen},
@@ -320,13 +322,15 @@ const RootStack = createStackNavigator({
           navigationOptions: {
             initialRouteName: 'main',
             tabBarIcon: ({ focused, tintColor }) => {
-              return <Ionicons name={'md-time'} size={25}
+              return <Ionicons name={'md-document'} size={25}
               color={'white'} />;
             },
           },
       },
       "Contact Us" : {
-        screen: ContactScreen,
+        screen: createStackNavigator({
+          main: {screen: InformationScreen}
+        }),
         navigationOptions: {
           initialRouteName: 'main',
           tabBarIcon: ({ focused, tintColor }) => {

@@ -10,13 +10,10 @@ class PawnScreen extends Component {
     type: "",
     condition: "", 
     material: "",
-    weightValuablePart: "",
-    weightNonValuablePart: "",
+    weight: "",
     purity: "",
     brand: "",
     DOP: "", 
-    image: "", 
-    weight:''
   }
   static navigationOptions = {
     title: "Pawn New Item",
@@ -64,6 +61,11 @@ class PawnScreen extends Component {
   }
 }
 
+ componentWillMount(){
+  select = this.props.navigation.getParam('type','others');
+  
+
+ }
 
   render() {
     return (

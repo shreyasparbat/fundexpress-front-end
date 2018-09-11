@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import {StyleSheet} from 'react-native';
-import { Container, Header, Tab, Tabs, TabHeading, Icon, Text } from 'native-base';
+import {StyleSheet, Text, View} from 'react-native';
+import { Container, Header, Tab, Tabs, TabHeading, Icon, } from 'native-base';
 import FAQScreen from './faq';
 import ContactUsScreen from './ContactUs';
 
 export default class InformationScreen extends Component{
   static navigationOptions = {
-    title: "Information",
+    title: "Contact Us",
       headerStyle: {
         backgroundColor: "#ff0000",
       },
@@ -18,22 +18,21 @@ export default class InformationScreen extends Component{
   }
   render() {
     return (
-      <Container>
-
-        <Tabs >
-          <Tab  heading={ <TabHeading style={styles.container}><Icon name='md-help-circle'/><Text>FAQ</Text></TabHeading>}>
+        <Tabs>
+          <Tab  heading={ <TabHeading style={styles.container}><Icon name='md-help-circle'/><Text></Text></TabHeading>}
+          >
             <FAQScreen />
           </Tab>
           <Tab  heading={ <TabHeading style={styles.container}><Icon name='call'/><Text>Contact us!</Text></TabHeading>}>
             <ContactUsScreen />
           </Tab>
         </Tabs>
-      </Container>
     );
   }
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#a9a9a9',
+    backgroundColor: '#ff0000',
+
   },
 });
