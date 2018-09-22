@@ -3,9 +3,7 @@ import { AsyncStorage, StyleSheet, Text, View, ImageBackground, Image, ActivityI
 import { Input } from '../components/input';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Button } from 'react-native-elements';
-import axios from 'axios';
-//import HomeScreen from './src/pages/home';
-//import {createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import config from '../configs/config';
 import RegisterScreen from './register';
 import HomeScreen from './home.1';
 import ProfileScreen from './profile';
@@ -26,7 +24,6 @@ import camera from './camera';
 import PawnTicket from './pawnticket';
 import ProposeScreen from './propose';
 import SellScreen from './sell';
-import InformationScreen from './Information';
 import selectPawn from './selectPawn';
 
 
@@ -35,6 +32,8 @@ class LoginScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
+
+  url = config.url;
 
   componentWillMount(){
     this.setState({
@@ -75,43 +74,17 @@ class LoginScreen extends React.Component {
           color='white'
           backgroundColor='#ff0000'
           onPress={() => this.props.navigation.navigate('Home')}
-
           //onPress={() => this.onButtonPress()}
         />
       </View>
     );
   }
 
-  login() {
-    if(this.state.email===this.props.navigation.getParam('email', '1') && this.state.password===this.props.navigation.getParam('password', '1')){
-      this.setState( {error: '', loading: false });
-      this.props.navigation.navigate('Home',
-      {
-        email: this.props.navigation.getParam('email', ''),
-        password: this.props.navigation.getParam('password',''),
-        fullName: this.props.navigation.getParam('fullName','Test'),
-        gender: this.props.navigation.getParam('gender',''),
-        dateOfBirth: this.props.navigation.getParam('DOB',''),
-        //age: this.state.age,
-        ic: this.props.navigation.getParam('ic',''),
-        mobileNumber: this.props.navigation.getParam('mobileNumber',''),
-        landlineNumber: this.props.navigation.getParam('landlineNumber',''),
-        //mobileNumber: this.state.mobileNumber,
-        //landlineNumber: this.state.landNumber,
-        address: this.props.navigation.getParam('address',''),
-        citizenship: this.props.navigation.getParam('citizenship',''),
-        nationality: this.props.navigation.getParam('nationality',''),
-      });
-    }else{
-      this.onLoginFail();
-    }
-  }
-
   onButtonPress() {
     console.log('login pressed')
     console.log(this.state.email)
     console.log(this.state.password)
-    const { email, password } = this.state;
+    //const { email, password } = this.state;
 
     this.setState({ error: '', loading: true });
 
@@ -120,30 +93,7 @@ class LoginScreen extends React.Component {
       password: this.state.password
     }
 
-    //this.onLoginSuccess()
-
-    /*if(this.state.email === 'Test' && this.state.password === 'test'){
-      this.onLoginSuccess();
-        }else{
-          this.onLoginFail();
-    }
-  }*/
-  // axios({
-  //   method: 'POST',
-  //   url: 'http://206.189.145.2:3000/user/login',
-  //   data: {
-  //     email: this.state.email,
-  //     password: this.state.password
-  //   }
-  // })
-  // .then(function (response) {
-  //   console.log(response);
-  // })
-  // .catch(function (error) {
-  //   console.log(error);
-  // });
-  // }
-   fetch('http://206.189.145.2:3000/user/login', {
+   fetch('url/user/login', {
       method: 'POST',
       headers:{
         Accept: 'application/json',
@@ -274,6 +224,7 @@ const RootStack = createStackNavigator({
       }),
       navigationOptions: {
         header: null,
+        disabledBackGesture: true
       }
     },
     mainFlow : {
@@ -302,7 +253,7 @@ const RootStack = createStackNavigator({
             renew: {screen: RenewScreen},
             redeem: {screen: RedeemScreen},
             faq: {screen: FAQScreen},
-
+            upload: {screen: UploadScreen},
             ticket: {screen: PawnTicket},
             propose: {screen: ProposeScreen},
             sell: {screen: SellScreen}
@@ -371,23 +322,5 @@ const RootStack = createStackNavigator({
   }
   }
 });
-/*
-  {
-    initialRouteName: 'Login',
-    navigationOptions: {
-      header: null,
-      headerStyle: {
-        backgroundColor: '#ff0000',
-      },
-      headerTintColor: '#ffffff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        color: '#ffffff'
-      },
-      headerMode: 'none',
-    }
-  }
-);
-*/
 
 export default RootStack;

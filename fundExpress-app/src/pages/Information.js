@@ -18,7 +18,6 @@ export default class InformationScreen extends Component{
   }
   render() {
     return (
-      <Container >
 
         <Tabs>
           <Tab heading={ <TabHeading style={{backgroundColor:'#696969',borderColor:'#ffffff'}} ><Icon name='md-help-circle' style={{color:'#ffffff'}}/><Text style={{color:'#ffffff'}}>Our Pawnshops</Text></TabHeading>}  >

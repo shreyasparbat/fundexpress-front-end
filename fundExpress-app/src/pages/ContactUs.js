@@ -12,7 +12,8 @@ const dataArray = { dataSource: [
     //OUTLET 1: Balestier
     name: "Fund Express (Balestier) Pawnshop Pte Ltd",
     address: "296 Balestier Rd, 329735",
-    phoneNumber: "+65 6251 7368",
+    //phoneNumber: "+65 6251 7368",
+    phoneNumber: "+65 68993060",
     linkToGoogleMaps: "https://goo.gl/maps/4mZLBp9cgpn",
     imageURL:"https://wiki.smu.edu.sg/is480/img_auth.php/d/d7/Definitive.png" //"https://www.singpawn.org/media/com_jbusinessdirectory/pictures/companies/55/imgFundExpressBalestiers-1489999904.jpg"
   },

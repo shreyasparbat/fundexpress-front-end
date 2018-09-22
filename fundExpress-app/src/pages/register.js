@@ -3,11 +3,11 @@ import { AsyncStorage, View, ScrollView, } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, Avatar, Button } from 'react-native-elements';
 import { Input } from '../components/input';
 import { Picker, Icon, DatePicker } from 'native-base';
-import axios from 'axios';
+import { Permissions, Notifications } from 'expo';
 
 class RegisterScreen extends React.Component {
   state = { email: '', password: '', fullName: '', gender: '', DOB: '', age: '' , ic: '', mobileNumber: '' ,
-  landlineNumber: '' ,address: '', citizenship: '', house: '', race: '' };
+  landlineNumber: '' ,address: '', citizenship: '', house: '', race: '' , ptoken: ''};
   static navigationOptions = {
     title: 'Register',
       headerStyle: {
@@ -19,6 +19,36 @@ class RegisterScreen extends React.Component {
         color: '#ffffff'
       },
   };
+
+  componentWillMount(){
+    this.registerForPushNotificationsAsync();
+  }
+
+  registerForPushNotificationsAsync = async () => {
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+  
+    // only ask if permissions have not already been determined, because
+    // iOS won't necessarily prompt the user a second time.
+    if (existingStatus !== 'granted') {
+      // Android remote notification permissions are granted during the app
+      // install, so this will only ask on iOS
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+  
+    // Stop here if the user did not grant permissions
+    if (finalStatus !== 'granted') {
+      return;
+    }
+  
+    // Get the token that uniquely identifies this device
+    let token = await Notifications.getExpoPushTokenAsync();
+    console.log(token);
+    this.setState({ ptoken : token });
+  }
 
   storeData = async (auth) => {
     try{
@@ -54,6 +84,7 @@ class RegisterScreen extends React.Component {
         //mobileNumber: this.state.mobileNumber,
         //landlineNumber: this.state.landNumber,
         address: this.state.address,
+        expoPushToken: this.state.ptoken,
        
         
       }),

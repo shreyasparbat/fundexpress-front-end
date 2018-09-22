@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "FundExpress",
+    "sdkVersion": "27.0.0",
+    "icon": "",
+    "version" : "1.0.0",
+    "slug": "fundExpress-slug"
+  },
+  "ios":{
+    "bundleIdentifier": "com.fundExpress.fundExpressApp"
+  },
+  "android":{
+    "package": "com.fundExpress.fundExpressApp"
   }
 }

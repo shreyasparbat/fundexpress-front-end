@@ -257,6 +257,7 @@ renderTopBar = () =>
   </TouchableOpacity>   
 </View>
 
+
 renderBottomBar = () =>
 <View
   style={styles.bottomBar}>
@@ -265,8 +266,8 @@ renderBottomBar = () =>
   </TouchableOpacity>
   <View style={{ flex: 0.4 }}>
     <TouchableOpacity
-      //onPress={this.takePicture}
-      onPress= {() => this.props.navigation.navigate('register')}
+      onPress= {() => this.takePicture()}
+      //onPress= {() => this.props.navigation.navigate('register')}
       style={{ alignSelf: 'center' }}
     >
       <Ionicons name="ios-radio-button-on" size={70} color="white" />
