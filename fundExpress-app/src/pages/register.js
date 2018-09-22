@@ -5,13 +5,73 @@ import { Input } from '../components/input';
 import { Picker, Icon, DatePicker } from 'native-base';
 import axios from 'axios';
 
+function validateIC(icNumber){
+  //if the ic is valid, then return string
+  //else return an error
+
+  if(icNumber.length != 9) {
+    return false
+  }
+
+  //get each individual character in the icNumber
+  figOne = icNumber.charAt(0)
+  digitOne = parseInt(icNumber.charAt(1))
+  digitTwo = parseInt(icNumber.charAt(2))
+  digitThree = parseInt(icNumber.charAt(3))
+  digitFour = parseInt(icNumber.charAt(4))
+  digitFive = parseInt(icNumber.charAt(5))
+  digitSix = parseInt(icNumber.charAt(6))
+  digitSeven = parseInt(icNumber.charAt(7))
+  figTwo = icNumber.charAt(8)
+
+  //hard coded verification algorithm
+
+  //arrays for step 4
+  localArray = ['J','Z','I','H','G','F','E','D','C','B','A']
+  foreignArray = ['X', 'W', 'U', 'T', 'R', 'Q', 'P', 'N', 'M', 'L', 'K']
+  /*
+  1) Take for example I want to test the NRIC number S1234567. The first digit
+   you multiply by 2, second multiply by 7, third by 6, fourth by 5,
+   fifth by 4, sixth by 3, seventh by 2. Then you add the totals together.
+   So,1×2 + 2×7 + 3×6 + 4×5 + 5×4 + 6×3 + 7×2 = 106.
+   */
+
+  numbers = digitOne*2 + digitTwo*7 + digitThree*6 + digitFour*5 + digitFive*4 + digitSix*3 + digitSeven*2
+
+  //2) If the first letter of the NRIC starts with T or G, add 4 to the total.
+  if (figOne == 'T' || figOne == 'G') {
+      numbers += 4
+  }
+  //3) Then you divide the number by 11 and get the remainder. 106/11=9r7
+  numbers = numbers%11
+
+  /*
+  4) You can get the alphabet depending on the IC type (the first letter in the IC) using the code below:
+  If the IC starts with S or T: 0=J, 1=Z, 2=I, 3=H, 4=G, 5=F, 6=E, 7=D, 8=C, 9=B, 10=A
+  */
+  if (figOne == 'T' || figOne == 'G') {
+      console.log(figTwo == foreignArray[numbers])
+      if ((figTwo == foreignArray[numbers])==true){
+        return icNumber
+      } else {
+        return 'SS'
+      }
+  } else {
+      console.log(figTwo == localArray[numbers])
+      if ((figTwo == localArray[numbers])==true){
+        return icNumber
+      } else {
+        return 'SS'
+      }
+  }
+}
 class RegisterScreen extends React.Component {
   state = { email: '', password: '', fullName: '', gender: '', DOB: '', age: '' , ic: '', mobileNumber: '' ,
   landlineNumber: '' ,address: '', citizenship: '', nationality: '', };
   static navigationOptions = {
     title: 'Register',
       headerStyle: {
-        backgroundColor: '#ff0000', 
+        backgroundColor: '#ff0000',
       },
       headerTintColor: '#ffffff',
       headerTitleStyle: {
@@ -46,7 +106,7 @@ class RegisterScreen extends React.Component {
         gender: this.state.gender,
         dateOfBirth: this.state.DOB,
         //age: this.state.age,
-        ic: this.state.ic,
+        ic: validateIC(this.state.ic),
         mobileNumber: parseInt(this.state.mobileNumber),
         nationality: this.state.nationality,
         citizenship: this.state.citizenship,
@@ -54,8 +114,8 @@ class RegisterScreen extends React.Component {
         //mobileNumber: this.state.mobileNumber,
         //landlineNumber: this.state.landNumber,
         address: this.state.address,
-       
-        
+
+
       }),
     })
     .then((response) => {
@@ -69,7 +129,7 @@ class RegisterScreen extends React.Component {
     .catch((error) => {
       console.log("error")
       console.log(error)
-      this.setState({ 
+      this.setState({
         error: error,
         loading: false
       });
@@ -81,13 +141,13 @@ class RegisterScreen extends React.Component {
     return (
       <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}
        showsVerticalScrollIndicator bounces={false} >
-        
+
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input 
+          <Input
             //value={this.state.fullName}
             onChangeText={fullName => this.setState({ fullName })}
-            placeholder="Full Name" 
+            placeholder="Full Name"
           />
         </View>
 
@@ -95,25 +155,25 @@ class RegisterScreen extends React.Component {
           <Input
           //must validate. check if ends in "@etc.com"
             //value={this.state.email}
-            onChangeText={email => this.setState({ email })} 
-            placeholder="Email" 
+            onChangeText={email => this.setState({ email })}
+            placeholder="Email"
           />
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input
             //value={this.state.password}
-            onChangeText={password => this.setState({ password })} 
-            placeholder="Password" 
+            onChangeText={password => this.setState({ password })}
+            placeholder="Password"
             secureTextEntry={true}
           />
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input
-          //validate check if same as password 
+          //validate check if same as password
             placeholder="Reconfirm Password"
-            secureTextEntry={true} 
+            secureTextEntry={true}
           />
         </View>
 
@@ -154,50 +214,50 @@ class RegisterScreen extends React.Component {
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input 
+          <Input
             //value={this.state.ic}
-            onChangeText={ic => this.setState({ ic })}
-            placeholder="NRIC" 
+            onChangeText={ic => this.setState({ic}) }
+            placeholder="NRIC"
           />
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input 
+          <Input
             //value={this.state.phoneNumber}
             onChangeText={mobileNumber => this.setState({ mobileNumber })}
-            placeholder="Mobile Number" 
+            placeholder="Mobile Number"
           />
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input 
+          <Input
             //value={this.state.landlineNumber}
             onChangeText={landlineNumber => this.setState({ landlineNumber })}
-            placeholder="House Phone Number" 
+            placeholder="House Phone Number"
           />
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input
             //value={this.state.address}
-            onChangeText={address => this.setState({ address })} 
-            placeholder="Address" 
+            onChangeText={address => this.setState({ address })}
+            placeholder="Address"
           />
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input 
+          <Input
             //value={this.state.citizenship}
-            onChangeText={citizenship => this.setState({ citizenship })} 
-            placeholder="Citizenship" 
+            onChangeText={citizenship => this.setState({ citizenship })}
+            placeholder="Citizenship"
           />
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input 
+          <Input
             //value={this.state.nationality}
-            onChangeText={nationality => this.setState({ nationality })} 
-            placeholder="Nationality" 
+            onChangeText={nationality => this.setState({ nationality })}
+            placeholder="Nationality"
           />
         </View>
 
@@ -242,7 +302,7 @@ class RegisterScreen extends React.Component {
             nationality: this.state.nationality,
           }
         )}*/
-          containerViewStyle={{marginTop:30,marginBottom:30}}      
+          containerViewStyle={{marginTop:30,marginBottom:30}}
         />
 
       </ScrollView>

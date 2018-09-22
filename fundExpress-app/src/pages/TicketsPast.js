@@ -1,3 +1,5 @@
+//this was historyPrevious.js
+//this will contain all past pawn tickets and sell tickets
 import React from 'react';
 import { View, Text , FlatList} from 'react-native';
 import ListItem from '../components/ListItem';
@@ -41,11 +43,11 @@ const list = [
   },
 ];
 
-class HistoryPreviousScreen extends React.Component {
+class TicketsPastScreen extends React.Component {
   static navigationOptions = {
     title: 'Previously pawned items',
     headerStyle: {
-      backgroundColor: '#ff0000', 
+      backgroundColor: '#ff0000',
     },
     headerTintColor: '#ffffff',
     headerTitleStyle: {
@@ -60,7 +62,7 @@ class HistoryPreviousScreen extends React.Component {
 
   render() {
     return (
-      <FlatList 
+      <FlatList
         data= {list}
         renderItem={this.renderItem}
         keyExtractor={(list) => list.ticketNumber}
@@ -69,4 +71,4 @@ class HistoryPreviousScreen extends React.Component {
   }
 }
 
-export default HistoryPreviousScreen;
+export default TicketsPastScreen;

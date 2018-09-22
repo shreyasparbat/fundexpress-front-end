@@ -6,26 +6,37 @@ import { Button } from 'react-native-elements';
 import axios from 'axios';
 //import HomeScreen from './src/pages/home';
 //import {createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+
+//Onboarding imports
 import RegisterScreen from './register';
-import HomeScreen from './home.1';
-import ProfileScreen from './profile';
-import ProfileEditScreen from './profileEdit';
-import HistoryScreen from './history';
-import HistoryCurrentScreen from './historyCurrent';
-import HistoryPreviousScreen from './historyPrevious';
-import HistorySoldScreen from './historySold';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import UploadScreen from './uploadimage';
+import camera from './camera';
+
+//Home page imports
+import HomeScreen from './home.1';
 import PawnScreen from './pawn';
 import RenewScreen from './renew';
 import RedeemScreen from './redeem';
 import FAQScreen from './faq';
+import ProposeScreen from './propose';
+
+//profile imports
+import ProfileScreen from './profile';
+import ProfileEditScreen from './profileEdit';
+
+//tickets imports
+import TicketsPastScreen from './TicketsPast';
+import TicketsCurrentScreen from './TicketsCurrent';
+import TicketsSoldScreen from './TicketsSold';
+import PawnTicket from './pawnticket';
+import MyTicketsScreen from './MyTickets';
+
+//icon imports
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+//contact us imports
 import ContactUsScreen from './ContactUs';
 import InformationScreen from './Information';
-import camera from './camera';
-import PawnTicket from './pawnticket';
-import ProposeScreen from './propose';
-import SellScreen from './sell';
 import ContactScreen from './contact';
 
 
@@ -296,14 +307,13 @@ const RootStack = createStackNavigator({
             main:{screen: HomeScreen},
             pawn:{screen: PawnScreen},
             buy: {screen: PawnScreen},
-            sell: {screen: PawnScreen},
+            MyTickets: {screen: MyTicketsScreen},
             renew: {screen: RenewScreen},
             redeem: {screen: RedeemScreen},
             faq: {screen: FAQScreen},
 
             ticket: {screen: PawnTicket},
             propose: {screen: ProposeScreen},
-            sell: {screen: SellScreen}
           }),
           navigationOptions: {
             initialRouteName: 'main',
@@ -313,12 +323,12 @@ const RootStack = createStackNavigator({
             },
           }
         },
-        History: {
+        MyTickets: {
           screen: createStackNavigator({
-          main: {screen: HistoryScreen},
-          current: { screen: HistoryCurrentScreen},
-          previous: {screen: HistoryPreviousScreen},
-          sold: {screen: HistorySoldScreen},
+          main: {screen: MyTicketsScreen},
+          TicketsCurrent: { screen: TicketsCurrentScreen},
+          TicketsPast: {screen: TicketsPastScreen},
+          TicketsSold: {screen: TicketsSoldScreen},
         }),
           navigationOptions: {
             initialRouteName: 'main',

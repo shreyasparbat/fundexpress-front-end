@@ -1,11 +1,12 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
+const tickets =
 class SellScreen extends React.Component {
     static navigationOptions = {
-    title: "Sell Item",
+    title: "My Tickets",
       headerStyle: {
-        backgroundColor: "#ff0000", 
+        backgroundColor: "#ff0000",
       },
       headerTintColor: "#ffffff",
       headerTitleStyle: {
