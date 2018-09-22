@@ -11,7 +11,7 @@ class HomeScreen extends React.Component {
     title: 'Home',
     headerLeft: null,
       headerStyle: {
-        backgroundColor: '#ff0000', 
+        backgroundColor: '#ff0000',
       },
       headerTintColor: '#ffffff',
       headerTitleStyle: {
@@ -19,11 +19,11 @@ class HomeScreen extends React.Component {
         color: '#ffffff'
       },
       tabBarIcon: ({ focused, tintColor }) => {
-        return <Ionicons name={'md-home'} size={25} 
+        return <Ionicons name={'md-home'} size={25}
         color={'white'} />;
       },
   };
-  
+
   render() {
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
@@ -34,10 +34,10 @@ class HomeScreen extends React.Component {
           />
         </View>
         {/* <View style={{flex:0.06, alignSelf: 'center', marginTop: 5 }}>
-        <Text 
-          style={{ textAlignVertical: 'bottom', fontSize: 25, 
+        <Text
+          style={{ textAlignVertical: 'bottom', fontSize: 25,
           fontWeight: 'bold', color: 'black', flex: 1, alignSelf: 'center', height: 150
-          }} 
+          }}
           >Welcome </Text>
         </View> */}
       <View style={{flex: 0.4, marginTop: 25, alignSelf: 'center'}}>
@@ -51,7 +51,7 @@ class HomeScreen extends React.Component {
               Pawn/Sell
             </Text>
             <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-add-circle'} size={50} 
+              <Ionicons name={'md-add-circle'} size={50}
               color={'#ff0000'} />
             </View>
         </TouchableOpacity>
@@ -78,7 +78,7 @@ class HomeScreen extends React.Component {
               My Tickets
             </Text>
             <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-document'} size={50} 
+              <Ionicons name={'md-document'} size={50}
               color={'#ff0000'} />
             </View>
         </TouchableOpacity> */}
@@ -99,33 +99,33 @@ class HomeScreen extends React.Component {
         </TouchableOpacity>
           <TouchableOpacity 
             onPress={() => this.props.navigation.navigate('redeem')}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
               Redeem
             </Text>
             <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-cash'} size={50} 
+              <Ionicons name={'md-cash'} size={50}
               color={'#ff0000'} />
             </View>
         </TouchableOpacity>
         {/* <TouchableOpacity 
             onPress={() => this.props.navigation.navigate('faq')}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
               FAQ
             </Text>
             <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-help-circle'} size={50} 
+              <Ionicons name={'md-help-circle'} size={50}
               color={'#ff0000'} />
             </View>
         </TouchableOpacity> */}
        </View>
       </View>
-      <Card 
+      <Card
         containerStyle={{flex: 0.4, marginBottom: 10, marginTop: 70, backgroundColor: '#ededed'}}
         title= 'Gold & Silver Prices'
       />
