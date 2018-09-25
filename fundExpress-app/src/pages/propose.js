@@ -5,7 +5,7 @@ class ProposeScreen extends React.Component {
   static navigationOptions = {
     title: "Pawn New Item",
       headerStyle: {
-        backgroundColor: "#ff0000", 
+        backgroundColor: "#C00000", 
       },
       headerTintColor: "#ffffff",
       headerTitleStyle: {

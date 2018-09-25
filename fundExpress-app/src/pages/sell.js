@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-const tickets =
 class SellScreen extends React.Component {
     static navigationOptions = {
     title: "My Tickets",

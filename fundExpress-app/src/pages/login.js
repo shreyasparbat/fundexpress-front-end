@@ -3,42 +3,35 @@ import { AsyncStorage, StyleSheet, Text, View, ImageBackground, Image, ActivityI
 import { Input } from '../components/input';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Button } from 'react-native-elements';
-import config from '../configs/config';
 import RegisterScreen from './register';
 import UploadScreen from './uploadimage';
 import camera from './camera';
-
+import url from '../configs/config';
 //Home page imports
 import HomeScreen from './home.1';
 import PawnScreen from './pawn';
 import RenewScreen from './renew';
 import RedeemScreen from './redeem';
-import FAQScreen from './faq';
 import ProposeScreen from './propose';
+import selectPawn from './selectPawn';
 
 //profile imports
 import ProfileScreen from './profile';
 import ProfileEditScreen from './profileEdit';
 
 //tickets imports
-import TicketsPastScreen from './TicketsPast';
-import TicketsCurrentScreen from './TicketsCurrent';
-import TicketsSoldScreen from './TicketsSold';
-import PawnTicket from './pawnticket';
-import MyTicketsScreen from './MyTickets';
+import MyTicketsScreen from './MyTickets/MyTickets';
+import AllPawnTicketsScreen from './MyTickets/AllPawnTickets';
+import AllSellTicketsScreen from './MyTickets/AllSellTickets';
 
 //icon imports
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //contact us imports
-import ContactUsScreen from './ContactUs';
-import InformationScreen from './Information';
-import ContactScreen from './contact';
-import camera from './camera';
-import PawnTicket from './pawnticket';
-import ProposeScreen from './propose';
-import SellScreen from './sell';
-import selectPawn from './selectPawn';
+import ContactUsScreen from './ContactUs/ContactUs';
+import InformationScreen from './ContactUs/Information';
+import ContactScreen from './ContactUs/contact';
+import FAQScreen from './ContactUs/faq';
 
 
 class LoginScreen extends React.Component {
@@ -47,7 +40,7 @@ class LoginScreen extends React.Component {
     header: null
   };
 
-  url = config.url;
+  //url = config.url;
 
   componentWillMount(){
     this.setState({
@@ -86,7 +79,7 @@ class LoginScreen extends React.Component {
         <Button
           title='Log in'
           color='white'
-          backgroundColor='#ff0000'
+          backgroundColor='#C00000'
           onPress={() => this.props.navigation.navigate('Home')}
           //onPress={() => this.onButtonPress()}
         />
@@ -192,12 +185,7 @@ class LoginScreen extends React.Component {
             secureTextEntry= {true}
           />
         </View>
-        <Text style={{
-              fontSize: 20,
-              alignSelf: 'center',
-              color: 'red',
-              marginTop: 10
-        }}>
+        <Text style={styles.textStyle}>
           {this.state.error}
         </Text>
           {this.renderButton()}
@@ -206,7 +194,7 @@ class LoginScreen extends React.Component {
           marginTop: 130, flexDirection: 'row' }}>
           <Text
             style={{color: 'black'}}
-          >Don't have an account? </Text>
+          >Dont have an account? </Text>
           <Text
             onPress={() => this.props.navigation.navigate('upload')}
             style={{color: 'blue', textDecorationLine: 'underline'}}
@@ -226,6 +214,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  textStyle: {
+      fontSize: 20,
+      fontFamily: Expo.Font.OpenSansLight,
+      alignSelf: 'center',
+      color: 'red',
+      marginTop: 10
+  }
 });
 
 const RootStack = createStackNavigator({
@@ -262,15 +257,13 @@ const RootStack = createStackNavigator({
             main:{screen: HomeScreen},
             pawn:{screen: PawnScreen},
             buy: {screen: PawnScreen},
-            MyTickets: {screen: MyTicketsScreen},
             sell: {screen: PawnScreen},
             select: {screen: selectPawn},
             renew: {screen: RenewScreen},
             redeem: {screen: RedeemScreen},
             faq: {screen: FAQScreen},
             upload: {screen: UploadScreen},
-            ticket: {screen: PawnTicket},
-            propose: {screen: ProposeScreen},
+            propose: {screen: ProposeScreen}
           }),
           navigationOptions: {
             initialRouteName: 'main',
@@ -280,20 +273,18 @@ const RootStack = createStackNavigator({
             },
           }
         },
-        MyTickets: {
-          screen: createStackNavigator({
-          main: {screen: MyTicketsScreen},
-          TicketsCurrent: { screen: TicketsCurrentScreen},
-          TicketsPast: {screen: TicketsPastScreen},
-          TicketsSold: {screen: TicketsSoldScreen},
-        }),
+        "My Tickets": {screen: createStackNavigator({
+              main: {screen: MyTicketsScreen},
+              AllPawnTickets: {screen: AllPawnTicketsScreen},
+              AllSellTickets: {screen: AllSellTicketsScreen}
+          }),
           navigationOptions: {
             initialRouteName: 'main',
             tabBarIcon: ({ focused, tintColor }) => {
               return <Ionicons name={'md-document'} size={25}
               color={'white'} />;
             },
-          },
+          }
       },
       "Contact Us" : {
         screen: createStackNavigator({
@@ -312,20 +303,20 @@ const RootStack = createStackNavigator({
       initialRouteName: 'Home',
       activeTintColor: 'white',
       inactiveTintColor: 'white',
-      barStyle: { backgroundColor: '#ff0000' },
+      barStyle: { backgroundColor: '#C00000' },
       tabBarOptions: {
         activeTintColor: 'white',
         inactiveTintColor: 'white',
         fontWeight: 'bold',
         style: {
-          backgroundColor: '#ff0000',
+          backgroundColor: '#C00000',
         }
       }
     }
   ),
   navigationOptions: {
     headerStyle: {
-        backgroundColor: '#ff0000',
+        backgroundColor: '#C00000',
       },
       headerTintColor: '#ffffff',
       headerTitleStyle: {

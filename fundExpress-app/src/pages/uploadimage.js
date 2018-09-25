@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 export default class UploadScreen extends React.Component {
   static navigationOptions = {
       headerStyle: {
-        backgroundColor: "black", 
+        backgroundColor: "#C00000", 
       },
       headerTintColor: "#ffffff",
   }
@@ -69,10 +69,10 @@ class Autoshoot extends React.Component {
       //MediaLibrary.createAssetAsync(photo.uri);
       //this.props.navigation.navigate('pawn', { uri : photo.uri })
       this.submit(photo);
-      
+
     })
   }
-  
+
   retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('auth');
@@ -94,12 +94,12 @@ class Autoshoot extends React.Component {
     const type = this.state.type;
     console.log(type);
     const formData = new FormData();
-      formData.append('front', {  
+      formData.append('front', {
         uri: photo.uri, // your file path string
         type: 'image/jpg',
         name: 'front.jpg'
       });
-      formData.append('back', {  
+      formData.append('back', {
         uri: photo.uri, // your file path string
         type: 'image/jpg',
         name: 'back.jpg'
@@ -140,7 +140,7 @@ class Autoshoot extends React.Component {
   render() {
 
     const { photo } = this.state;
-    
+
     return (
       <View style={{ flex: 1, width: '100%' }}>
       {/* {photo ? (
@@ -148,7 +148,7 @@ class Autoshoot extends React.Component {
          style={{ flex: 1 }}
          source={{ uri: photo.uri }} />
       ) : ( */}
-        
+
         <Camera
           style={{ flex: 1 }}
           type={Camera.Constants.Type.back}

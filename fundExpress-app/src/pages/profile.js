@@ -10,7 +10,7 @@ class ProfileScreen extends React.Component {
   static navigationOptions = {
     title: 'Profile',
       headerStyle: {
-        backgroundColor: '#ff0000', 
+        backgroundColor: '#C00000',
       },
       headerTintColor: '#ffffff',
       headerTitleStyle: {
@@ -18,7 +18,7 @@ class ProfileScreen extends React.Component {
         color: '#ffffff'
       },
       tabBarIcon: ({ focused, tintColor }) => {
-        return <Ionicons name={'md-contact'} size={25} 
+        return <Ionicons name={'md-contact'} size={25}
         color={'white'} />;
       },
   };
@@ -81,7 +81,7 @@ class ProfileScreen extends React.Component {
       throw error
     }
   }
-  
+
   logOut() {
     // header = new Headers();
     // header.append('x-auth', this.retrieveData());
@@ -122,8 +122,8 @@ class ProfileScreen extends React.Component {
       console.log(error)
     });
 
-    
-  } 
+
+  }
 
 
   render() {
@@ -149,14 +149,14 @@ class ProfileScreen extends React.Component {
           <Button
             title='Edit'
             color='white'
-            backgroundColor='#ff0000'
+            backgroundColor='#C00000'
             onPress={() => this.props.navigation.navigate('edit')}
           />
         <View style={{width:300,marginTop:15}}>
           <Button
               title='Log Out'
               color='white'
-              backgroundColor='#ff0000'
+              backgroundColor='#C00000'
               onPress={() => this.logOut()}
             />
         </View>
@@ -179,10 +179,10 @@ const styles = {
       width: 100,
       height: 100,
       alignSelf: 'center',
-      backgroundColor: '#ff0000',
+      backgroundColor: '#C00000',
       borderRadius: 20,
       borderWidth: 1,
-      borderColor: '#ff0000',
+      borderColor: '#C00000',
       marginLeft: 5,
       marginRight: 5,
       marginTop: 20

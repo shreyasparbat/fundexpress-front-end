@@ -5,7 +5,7 @@ class ContactScreen extends React.Component {
     static navigationOptions = {
     title: "Contact Us",
       headerStyle: {
-        backgroundColor: "#ff0000", 
+        backgroundColor: "#C00000",
       },
       headerTintColor: "#ffffff",
       headerTitleStyle: {

@@ -6,19 +6,19 @@ import { Input } from "../components/input";
 
 class PawnScreen extends Component {
   state = {
-    name: "", 
+    name: "",
     type: "",
-    condition: "", 
+    condition: "",
     material: "",
     weight: "",
     purity: "",
     brand: "",
-    DOP: "", 
+    DOP: "",
   }
   static navigationOptions = {
     title: "Pawn New Item",
       headerStyle: {
-        backgroundColor: "#ff0000", 
+        backgroundColor: "#C00000",
       },
       headerTintColor: "#ffffff",
       headerTitleStyle: {
@@ -26,12 +26,12 @@ class PawnScreen extends Component {
         color: "#ffffff"
       },
   }
-/*                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+/*
   constructor(props) {
     super(props);
     this.state = {
       selected: "key1",
-      chosenDate: new Date 
+      chosenDate: new Date
     };
   }
 
@@ -42,7 +42,7 @@ class PawnScreen extends Component {
   }
 
   shouldComponentUpdate(newDate) {
-    this.setState({ 
+    this.setState({
       chosenDate: newDate
      });
   }
@@ -84,7 +84,7 @@ class PawnScreen extends Component {
       if(select=='jewel'){
         this.setState({
           type: "bracelet",
-        })  
+        })
       }else{
       this.setState({
         type: "others"
@@ -92,16 +92,16 @@ class PawnScreen extends Component {
     }
   }
   }
-  
+
 
  }
 
   render() {
     return (
-      <ScrollView contentContainerStyle={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <ScrollView contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}>
         <Text style={{marginBottom: 10}}> Item Image </Text>
         <View style={{flexDirection: "row"}}>
-          <Avatar 
+          <Avatar
             large
             icon={{name: "camera-alt", color: "grey"}}
             containerStyle={{marginLeft: 15}}
@@ -109,19 +109,19 @@ class PawnScreen extends Component {
             source={{ uri: this.props.navigation.getParam('uri' , null) }}
           />
 
-          <Avatar 
+          <Avatar
             large
             icon={{name: "camera-alt", color: "grey"}}
             containerStyle={{marginLeft: 15}}
           />
 
-          <Avatar 
+          <Avatar
             large
             icon={{name: "camera-alt", color: "grey"}}
             containerStyle={{marginLeft: 15}}
           />
 
-          <Avatar 
+          <Avatar
             large
             icon={{name: "camera-alt", color: "grey"}}
             containerStyle={{marginLeft: 15}}
@@ -130,9 +130,9 @@ class PawnScreen extends Component {
 
         <View style={{width:300,height:50,borderBottomColor:"grey",marginTop:100}} >
           <FormLabel>Name</FormLabel>
-          <FormInput 
-            onChangeText={name => this.setState({ name })} 
-            value={this.state.name} 
+          <FormInput
+            onChangeText={name => this.setState({ name })}
+            value={this.state.name}
             placeholder='Item Name'
           />
         </View>
@@ -161,9 +161,9 @@ class PawnScreen extends Component {
 
           <View style={{width:300,height:50,marginTop:15}}>
             <FormLabel>Condition</FormLabel>
-            <FormInput 
-              onChangeText={condition => this.setState({ condition })} 
-              value={this.state.condition} 
+            <FormInput
+              onChangeText={condition => this.setState({ condition })}
+              value={this.state.condition}
               placeholder='Item Condition'
             />
           </View>
@@ -187,12 +187,12 @@ class PawnScreen extends Component {
 
             </Picker>
           </View>
-      
+
       <View style={{width:300,height:50,marginTop:15}}>
         <FormLabel>Weight</FormLabel>
-          <FormInput 
-            onChangeText={weight => this.setState({ weight })} 
-            value={this.state.weight} 
+          <FormInput
+            onChangeText={weight => this.setState({ weight })}
+            value={this.state.weight}
             placeholder='Item Weight'
           />
       </View>
@@ -223,9 +223,9 @@ class PawnScreen extends Component {
 
         <View style={{width:300,height:50,marginTop:15}}>
           <FormLabel>Brand</FormLabel>
-            <FormInput 
-              onChangeText={brand => this.setState({ brand })} 
-              value={this.state.brand} 
+            <FormInput
+              onChangeText={brand => this.setState({ brand })}
+              value={this.state.brand}
               placeholder='Item Brand'
             />
       </View>
@@ -251,7 +251,7 @@ class PawnScreen extends Component {
         <Button
           title="Submit"
           color="white"
-          backgroundColor="#ff0000"
+          backgroundColor="#C00000"
           //onPress={() => this.submit()}
           onPress={() => this.props.navigation.navigate("ticket", {
             name: this.state.name,
@@ -263,7 +263,7 @@ class PawnScreen extends Component {
 
           })}
           //onPress={() => console.log(this.state)}
-          containerViewStyle={{marginTop:30,marginBottom:30}}      
+          containerViewStyle={{marginTop:30,marginBottom:30}}
         />
     </ScrollView>
     );

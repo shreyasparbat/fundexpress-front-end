@@ -10,7 +10,7 @@ class PawnTicket extends React.Component {
   static navigationOptions = {
     title: "Pawn New Item",
       headerStyle: {
-        backgroundColor: "#ff0000", 
+        backgroundColor: "#C00000",
       },
       headerTintColor: "#ffffff",
       headerTitleStyle: {
@@ -50,7 +50,7 @@ class PawnTicket extends React.Component {
     //     POP: item.POP,
     //     weight: item.weight
     //   })
-      
+
     // })
     // this.setState({
     //   name:this.props.getParam('name', 'no name'),
@@ -66,15 +66,15 @@ class PawnTicket extends React.Component {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text> Proposed Loan To Value: $xxxx.xx</Text>
-        <View 
-          style={{ justifyContent: 'center', alignItems: 'center', 
+        <View
+          style={{ justifyContent: 'center', alignItems: 'center',
           marginTop: 130, flexDirection: 'row' }}>
           <Button
               title='Pawn'
               color='white'
               borderRadius= {3}
               containerViewStyle={{height: 100, width: 80,}}
-              backgroundColor='#ff0000'
+              backgroundColor='#C00000'
               onPress={() => this.props.navigation.navigate('propose')}
             />
           <Button
@@ -82,7 +82,7 @@ class PawnTicket extends React.Component {
               color='white'
               borderRadius= {3}
               containerViewStyle={{height: 100, width: 80,}}
-              backgroundColor='#ff0000'
+              backgroundColor='#C00000'
               onPress={() => this.props.navigation.navigate('sell')}
             />
             <Button
@@ -90,10 +90,10 @@ class PawnTicket extends React.Component {
               color='white'
               borderRadius= {3}
               containerViewStyle={{height: 100, width: 80,}}
-              backgroundColor='#ff0000'
+              backgroundColor='#C00000'
               onPress={() => this.showAlert()}
             />
-            
+
         </View>
         <AwesomeAlert
           show= {this.state.showAlert}
