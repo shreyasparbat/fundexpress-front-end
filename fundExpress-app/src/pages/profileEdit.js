@@ -23,7 +23,7 @@ class ProfileEditScreen extends React.Component {
   static navigationOptions = {
     title: 'Edit Profile',
       headerStyle: {
-        backgroundColor: '#ff0000', 
+        backgroundColor: '#C00000',
       },
       headerTintColor: '#ffffff',
       headerTitleStyle: {
@@ -139,20 +139,20 @@ class ProfileEditScreen extends React.Component {
     }
   )
 }
-      
+
 
 
   render() {
     return (
       <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}
        showsVerticalScrollIndicator bounces={false} >
-        
+
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input 
+          <Input
             value={this.state.fullName}
             onChangeText={fullName => this.setState({ fullName })}
-            placeholder="Full Name" 
+            placeholder="Full Name"
           />
         </View>
 
@@ -193,50 +193,50 @@ class ProfileEditScreen extends React.Component {
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input 
+          <Input
             value={this.state.ic}
             onChangeText={ic => this.setState({ ic })}
-            placeholder="NRIC" 
+            placeholder="NRIC"
           />
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input 
+          <Input
             value={this.state.mobileNumber}
             onChangeText={phoneNumber => this.setState({ phoneNumber })}
-            placeholder="Mobile Number" 
+            placeholder="Mobile Number"
           />
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input 
+          <Input
             value={this.state.landlineNumber}
             onChangeText={landlineNumber => this.setState({ landlineNumber })}
-            placeholder="House Phone Number" 
+            placeholder="House Phone Number"
           />
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input
             value={this.state.address}
-            onChangeText={address => this.setState({ address })} 
-            placeholder="Address" 
+            onChangeText={address => this.setState({ address })}
+            placeholder="Address"
           />
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input 
+          <Input
             value={this.state.citizenship}
-            onChangeText={citizenship => this.setState({ citizenship })} 
-            placeholder="Citizenship" 
+            onChangeText={citizenship => this.setState({ citizenship })}
+            placeholder="Citizenship"
           />
         </View>
 
         <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input 
+          <Input
             value={this.state.nationality}
-            onChangeText={nationality => this.setState({ nationality })} 
-            placeholder="Nationality" 
+            onChangeText={nationality => this.setState({ nationality })}
+            placeholder="Nationality"
           />
         </View>
 

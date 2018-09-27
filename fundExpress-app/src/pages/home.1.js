@@ -2,8 +2,9 @@ import React from 'react';
 import { AsyncStorage, Text, View, Image, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Card } from 'react-native-elements';
+//import { Card } from 'react-native-elements';
 import PawnScreen from './pawn';
+import { Container,  Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body } from 'native-base';
 
 class HomeScreen extends React.Component {
 
@@ -46,7 +47,7 @@ class HomeScreen extends React.Component {
         <View style={{ flexDirection: 'row',marginLeft: 58 }}>
         <TouchableOpacity 
             onPress={() => this.props.navigation.navigate('select')}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
@@ -54,26 +55,26 @@ class HomeScreen extends React.Component {
             </Text>
             <View style={{alignSelf: 'center'}}>
               <Ionicons name={'md-add-circle'} size={50}
-              color={'#ff0000'} />
+              color={'#C00000'} />
             </View>
         </TouchableOpacity>
-        <TouchableOpacity 
+        <TouchableOpacity
             onPress={() => this.props.navigation.navigate('renew')}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
               Renew
             </Text>
             <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-refresh-circle'} size={50} 
-              color={'#ff0000'} />
+              <Ionicons name={'md-refresh-circle'} size={50}
+              color={'#C00000'} />
             </View>
           </TouchableOpacity>
-        
-        {/* <TouchableOpacity 
+
+        {/* <TouchableOpacity
             onPress={() => this.props.navigation.navigate('sell')}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
@@ -81,25 +82,25 @@ class HomeScreen extends React.Component {
             </Text>
             <View style={{alignSelf: 'center'}}>
               <Ionicons name={'md-document'} size={50}
-              color={'#ff0000'} />
+              color={'#C00000'} />
             </View>
         </TouchableOpacity> */}
         </View>
         <View style={{ flexDirection: 'row', marginTop: 7}}>
-        <TouchableOpacity 
+        <TouchableOpacity
             onPress={() => this.props.navigation.navigate('buy')}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
               Buy
             </Text>
             <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-cart'} size={50} 
-              color={'#ff0000'} />
+              <Ionicons name={'md-cart'} size={50}
+              color={'#C00000'} />
             </View>
         </TouchableOpacity>
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={() => this.props.navigation.navigate('redeem')}
             activeOpacity= {0.8}
             style={styles.buttonStyle}
@@ -109,7 +110,7 @@ class HomeScreen extends React.Component {
             </Text>
             <View style={{alignSelf: 'center'}}>
               <Ionicons name={'md-cash'} size={50}
-              color={'#ff0000'} />
+              color={'#C00000'} />
             </View>
         </TouchableOpacity>
         <TouchableOpacity 
@@ -122,7 +123,7 @@ class HomeScreen extends React.Component {
             </Text>
             <View style={{alignSelf: 'center'}}>
               <Ionicons name={'md-help-circle'} size={50}
-              color={'#ff0000'} />
+              color={'#C00000'} />
             </View>
         </TouchableOpacity>
        </View>

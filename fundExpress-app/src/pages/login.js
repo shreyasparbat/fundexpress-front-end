@@ -3,17 +3,15 @@ import { AsyncStorage, StyleSheet, Text, View, ImageBackground, Image, ActivityI
 import { Input } from '../components/input';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Button } from 'react-native-elements';
-import config from '../configs/config';
 import RegisterScreen from './register';
 import UploadScreen from './uploadimage';
 import camera from './camera';
-
+import url from '../configs/config';
 //Home page imports
 import HomeScreen from './home.1';
 import PawnScreen from './pawn';
 import RenewScreen from './renew';
 import RedeemScreen from './redeem';
-import FAQScreen from './faq';
 import ProposeScreen from './propose';
 import BuyScreen from './buy';
 import SellScreen from './sell';
@@ -27,11 +25,9 @@ import ProfileScreen from './profile';
 import ProfileEditScreen from './profileEdit';
 
 //tickets imports
-import TicketsPastScreen from './TicketsPast';
-import TicketsCurrentScreen from './TicketsCurrent';
-import TicketsSoldScreen from './TicketsSold';
-import PawnTicket from './pawnticket';
-import MyTicketsScreen from './MyTickets';
+import MyTicketsScreen from './MyTickets/MyTickets';
+import AllPawnTicketsScreen from './MyTickets/AllPawnTickets';
+import AllSellTicketsScreen from './MyTickets/AllSellTickets';
 
 //icon imports
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -49,7 +45,7 @@ class LoginScreen extends React.Component {
     gesturesEnabled: false,
   };
 
-  url = config.url;
+  //url = config.url;
 
   //set all states to empty when loaded
   componentWillMount(){
@@ -208,12 +204,7 @@ class LoginScreen extends React.Component {
             secureTextEntry= {true}
           />
         </View>
-        <Text style={{
-              fontSize: 20,
-              alignSelf: 'center',
-              color: 'red',
-              marginTop: 10
-        }}>
+        <Text style={styles.textStyle}>
           {this.state.error}
         </Text>
           {this.renderButton()}
@@ -222,7 +213,7 @@ class LoginScreen extends React.Component {
           marginTop: 130, flexDirection: 'row' }}>
           <Text
             style={{color: 'black'}}
-          >Don't have an account? </Text>
+          >Dont have an account? </Text>
           <Text
             onPress={() => this.props.navigation.navigate('register')}
             style={{color: 'blue', textDecorationLine: 'underline'}}
@@ -242,6 +233,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  textStyle: {
+      fontSize: 20,
+      fontFamily: Expo.Font.OpenSansLight,
+      alignSelf: 'center',
+      color: 'red',
+      marginTop: 10
+  }
 });
 
 const RootStack = createStackNavigator({
@@ -286,8 +284,7 @@ const RootStack = createStackNavigator({
             redeem: {screen: RedeemScreen},
             faq: {screen: FAQScreen},
             upload: {screen: UploadScreen},
-            ticket: {screen: PawnTicket},
-            propose: {screen: ProposeScreen},
+            propose: {screen: ProposeScreen}
           }),
           navigationOptions: {
             initialRouteName: 'main',
@@ -299,20 +296,18 @@ const RootStack = createStackNavigator({
             gesturesEnabled: false,
           }
         },
-        MyTickets: {
-          screen: createStackNavigator({
-          main: {screen: MyTicketsScreen},
-          TicketsCurrent: { screen: TicketsCurrentScreen},
-          TicketsPast: {screen: TicketsPastScreen},
-          TicketsSold: {screen: TicketsSoldScreen},
-        }),
+        "My Tickets": {screen: createStackNavigator({
+              main: {screen: MyTicketsScreen},
+              AllPawnTickets: {screen: AllPawnTicketsScreen},
+              AllSellTickets: {screen: AllSellTicketsScreen}
+          }),
           navigationOptions: {
             initialRouteName: 'main',
             tabBarIcon: ({ focused, tintColor }) => {
               return <Ionicons name={'md-document'} size={25}
               color={'white'} />;
             },
-          },
+          }
       },
       "Contact Us" : {
         screen: createStackNavigator({
@@ -331,20 +326,20 @@ const RootStack = createStackNavigator({
       initialRouteName: 'Home',
       activeTintColor: 'white',
       inactiveTintColor: 'white',
-      barStyle: { backgroundColor: '#ff0000' },
+      barStyle: { backgroundColor: '#C00000' },
       tabBarOptions: {
         activeTintColor: 'white',
         inactiveTintColor: 'white',
         fontWeight: 'bold',
         style: {
-          backgroundColor: '#ff0000',
+          backgroundColor: '#C00000',
         }
       }
     }
   ),
   navigationOptions: {
     headerStyle: {
-        backgroundColor: '#ff0000',
+        backgroundColor: '#C00000',
       },
       headerTintColor: '#ffffff',
       headerTitleStyle: {

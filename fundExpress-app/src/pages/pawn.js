@@ -7,9 +7,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 class PawnScreen extends Component {
   state = {
-    name: "", 
+    name: "",
     type: "",
-    condition: "", 
+    condition: "",
     material: "",
     weight: '',
     purity: "",
@@ -22,7 +22,7 @@ class PawnScreen extends Component {
   static navigationOptions = {
     title: "Pawn New Item",
       headerStyle: {
-        backgroundColor: "#ff0000", 
+        backgroundColor: "#C00000",
       },
       headerTintColor: "#ffffff",
       headerTitleStyle: {
@@ -155,7 +155,7 @@ class PawnScreen extends Component {
       >
         <Text style={{marginBottom: 10, marginTop: 30, flexDirection: "row"}}> Item Image </Text>
         <View style={{flexDirection: "row"}}>
-          <Avatar 
+          <Avatar
             large
             icon={{name: "camera-alt", color: "grey"}}
             containerStyle={{marginLeft: 15}}
@@ -163,7 +163,7 @@ class PawnScreen extends Component {
             //source={{ uri: this.props.navigation.getParam('uri' , '') }}
           />
 
-          <Avatar 
+          <Avatar
             large
             icon={{name: "camera-alt", color: "grey"}}
             containerStyle={{marginLeft: 15}}
@@ -174,9 +174,9 @@ class PawnScreen extends Component {
 
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:30,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Name</FormLabel>
-          <FormInput 
-            onChangeText={name => this.setState({ name })} 
-            value={this.state.name} 
+          <FormInput
+            onChangeText={name => this.setState({ name })}
+            value={this.state.name}
             placeholder='Item Name'
           />
         </View>
@@ -206,9 +206,9 @@ class PawnScreen extends Component {
 
           <View style={{flex:1,height:70,marginTop:15,marginLeft:15,backgroundColor:'white'}}>
             <FormLabel>Condition</FormLabel>
-            <FormInput 
-              onChangeText={condition => this.setState({ condition })} 
-              value={this.state.condition} 
+            <FormInput
+              onChangeText={condition => this.setState({ condition })}
+              value={this.state.condition}
               placeholder='Item Condition'
             />
           </View>
@@ -312,7 +312,7 @@ class PawnScreen extends Component {
           onPress={() => this.submit()}
           //onPress={() => this.props.navigation.navigate("ticket")}
           //onPress={() => console.log(this.state)}
-          containerViewStyle={{marginTop:30,marginBottom:30}}      
+          containerViewStyle={{marginTop:30,marginBottom:30}}
         />
     </KeyboardAwareScrollView>
     );

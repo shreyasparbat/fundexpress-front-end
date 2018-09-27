@@ -72,7 +72,7 @@ class RegisterScreen extends React.Component {
   static navigationOptions = {
     title: 'Register',
       headerStyle: {
-        backgroundColor: '#ff0000',
+        backgroundColor: '#C00000',
       },
       headerTintColor: '#ffffff',
       headerTitleStyle: {
@@ -90,7 +90,7 @@ class RegisterScreen extends React.Component {
       Permissions.NOTIFICATIONS
     );
     let finalStatus = existingStatus;
-  
+
     // only ask if permissions have not already been determined, because
     // iOS won't necessarily prompt the user a second time.
     if (existingStatus !== 'granted') {
@@ -99,12 +99,12 @@ class RegisterScreen extends React.Component {
       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
       finalStatus = status;
     }
-  
+
     // Stop here if the user did not grant permissions
     if (finalStatus !== 'granted') {
       return;
     }
-  
+
     // Get the token that uniquely identifies this device
     let token = await Notifications.getExpoPushTokenAsync();
     console.log(token);
@@ -365,7 +365,7 @@ class RegisterScreen extends React.Component {
         <Button
           title='Register!'
           color='white'
-          backgroundColor='#ff0000'
+          backgroundColor='#C00000'
           onPress={() => this.submit()}
           containerViewStyle={{marginTop:30,marginBottom:30}}
         />

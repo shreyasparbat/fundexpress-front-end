@@ -67,7 +67,7 @@ export default class ContactUsScreen extends Component {
   static navigationOptions = {
     title: "Contact Us",
       headerStyle: {
-        backgroundColor: "#ff0000",
+        backgroundColor: "#C00000",
       },
       headerTintColor: "#ffffff",
       headerTitleStyle: {
@@ -108,7 +108,7 @@ export default class ContactUsScreen extends Component {
                 <CardItem>
                   <Left>
                     <Image
-                      source={require('../images/felogo.png')}
+                      source={require('../../images/felogo.png')}
                       style={{ resizeMode: 'contain', width: 45, height: 45
                       }}
                     />

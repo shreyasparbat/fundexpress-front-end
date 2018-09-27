@@ -7,7 +7,7 @@ class ProposeScreen extends React.Component {
     title: "New Pawn Ticket",
     headerLeft: null,
       headerStyle: {
-        backgroundColor: "#ff0000", 
+        backgroundColor: "#C00000", 
       },
       headerTintColor: "#ffffff",
       headerTitleStyle: {

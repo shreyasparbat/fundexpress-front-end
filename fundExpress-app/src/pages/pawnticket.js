@@ -15,7 +15,7 @@ class PawnTicket extends React.Component {
   static navigationOptions = {
     title: "Pawn New Item",
       headerStyle: {
-        backgroundColor: "#ff0000", 
+        backgroundColor: "#C00000",
       },
       headerTintColor: "#ffffff",
       headerTitleStyle: {
@@ -172,10 +172,10 @@ class PawnTicket extends React.Component {
               color='white'
               borderRadius= {3}
               containerViewStyle={{height: 100, width: 80,}}
-              backgroundColor='#ff0000'
+              backgroundColor='#C00000'
               onPress={() => this.showAlert()}
             />
-            
+
         </View>
         <AwesomeAlert
           show= {this.state.showAlert}

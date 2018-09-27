@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 export default class UploadScreen extends React.Component {
   static navigationOptions = {
       headerStyle: {
-        backgroundColor: "black", 
+        backgroundColor: "#C00000", 
       },
       headerTintColor: "#ffffff",
   }
@@ -84,10 +84,10 @@ export default class UploadScreen extends React.Component {
       //MediaLibrary.createAssetAsync(photo.uri);
       //this.props.navigation.navigate('pawn', { uri : photo.uri })
       this.submit(photo);
-      
+
     })
   }
-  
+
   retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('auth');
@@ -120,12 +120,12 @@ export default class UploadScreen extends React.Component {
     console.log(auth);
     console.log(type);
     const formData = new FormData();
-      formData.append('front', {  
+      formData.append('front', {
         uri: photo.uri, // your file path string
         type: 'image/jpg',
         name: 'front.jpg'
       });
-      formData.append('back', {  
+      formData.append('back', {
         uri: photo.uri, // your file path string
         type: 'image/jpg',
         name: 'back.jpg'
@@ -168,7 +168,7 @@ export default class UploadScreen extends React.Component {
   render() {
 
     const { photo } = this.state;
-    
+
     return (
       <View style={{ flex: 1, width: '100%' }}>
       {/* {photo ? (
@@ -176,7 +176,7 @@ export default class UploadScreen extends React.Component {
          style={{ flex: 1 }}
          source={{ uri: photo.uri }} />
       ) : ( */}
-        
+
         <Camera
           style={{ flex: 1 }}
           type={Camera.Constants.Type.back}

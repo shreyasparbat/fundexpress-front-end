@@ -1,12 +1,13 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import { Button } from 'react-native-elements';
+import PawnScreen from './pawn';
 
 class selectPawn extends React.Component {
     static navigationOptions = {
     title: "Pawn Item",
       headerStyle: {
-        backgroundColor: "#ff0000", 
+        backgroundColor: "#C00000",
       },
       headerTintColor: "#ffffff",
       headerTitleStyle: {
@@ -29,8 +30,8 @@ class selectPawn extends React.Component {
               Gold Bar
             </Text>
             {/* <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-add-circle'} size={50} 
-              color={'#ff0000'} />
+              <Ionicons name={'md-add-circle'} size={50}
+              color={'#C00000'} />
             </View> */}
         </TouchableOpacity>
         <TouchableOpacity 
@@ -42,37 +43,37 @@ class selectPawn extends React.Component {
               Watch
             </Text>
             {/* <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-add-circle'} size={50} 
-              color={'#ff0000'} />
+              <Ionicons name={'md-add-circle'} size={50}
+              color={'#C00000'} />
             </View> */}
         </TouchableOpacity>
-        {/* <TouchableOpacity 
+        {/* <TouchableOpacity
             onPress={() => this.props.navigation.navigate('pawn')}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
               Chain
             </Text>
             <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-refresh-circle'} size={50} 
-              color={'#ff0000'} />
+              <Ionicons name={'md-refresh-circle'} size={50}
+              color={'#C00000'} />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={() => this.props.navigation.navigate('pawn')}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
               etc
             </Text>
             <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-document'} size={50} 
-              color={'#ff0000'} />
+              <Ionicons name={'md-document'} size={50}
+              color={'#C00000'} />
             </View>
         </TouchableOpacity> */}
-        
+
         </View>
         <View style={{ flexDirection: 'row', marginTop: 7}}>
         <TouchableOpacity 
@@ -84,34 +85,34 @@ class selectPawn extends React.Component {
               Jewellery
             </Text>
             {/* <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-cart'} size={50} 
-              color={'#ff0000'} />
+              <Ionicons name={'md-cart'} size={50}
+              color={'#C00000'} />
             </View> */}
         </TouchableOpacity>
-          {/* <TouchableOpacity 
+          {/* <TouchableOpacity
             onPress={() => this.props.navigation.navigate('pawn')}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
               Bracelet
             </Text>
             <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-cash'} size={50} 
-              color={'#ff0000'} />
+              <Ionicons name={'md-cash'} size={50}
+              color={'#C00000'} />
             </View>
         </TouchableOpacity>
-        <TouchableOpacity 
+        <TouchableOpacity
             onPress={() => this.props.navigation.navigate('pawn')}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
               Ring
             </Text>
             <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-help-circle'} size={50} 
-              color={'#ff0000'} />
+              <Ionicons name={'md-help-circle'} size={50}
+              color={'#C00000'} />
             </View>
         </TouchableOpacity> */}
         <TouchableOpacity 
@@ -123,8 +124,8 @@ class selectPawn extends React.Component {
               Others
             </Text>
             {/* <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-document'} size={50} 
-              color={'#ff0000'} />
+              <Ionicons name={'md-document'} size={50}
+              color={'#C00000'} />
             </View> */}
         </TouchableOpacity>
        </View>
