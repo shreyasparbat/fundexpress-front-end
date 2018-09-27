@@ -8,16 +8,18 @@ import PawnScreen from './pawn';
 class HomeScreen extends React.Component {
 
   static navigationOptions = {
+    gesturesEnabled: false,
     title: 'Home',
-    headerLeft: null,
-      headerStyle: {
-        backgroundColor: '#ff0000',
-      },
-      headerTintColor: '#ffffff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        color: '#ffffff'
-      },
+    header: null,
+    // headerLeft: null,
+    //   headerStyle: {
+    //     backgroundColor: '#ff0000',
+    //   },
+    //   headerTintColor: '#ffffff',
+    //   headerTitleStyle: {
+    //     fontWeight: 'bold',
+    //     color: '#ffffff'
+    //   },
       tabBarIcon: ({ focused, tintColor }) => {
         return <Ionicons name={'md-home'} size={25}
         color={'white'} />;
@@ -27,7 +29,7 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
-        <View style={{flex:0.14, alignSelf: 'center', justifyContent: 'center', marginTop: 20}}>
+        <View style={{flex:0.14, alignSelf: 'center', justifyContent: 'center', marginTop: 50}}>
           <Image
             source={require('../images/felogo.png')}
             style={{ resizeMode: 'contain', width: 200 }}
@@ -40,8 +42,8 @@ class HomeScreen extends React.Component {
           }}
           >Welcome </Text>
         </View> */}
-      <View style={{flex: 0.4, marginTop: 25, alignSelf: 'center'}}>
-        <View style={{ flexDirection: 'row', }}>
+      <View style={{flex: 0.4, marginTop: 35, alignSelf: 'center', }}>
+        <View style={{ flexDirection: 'row',marginLeft: 58 }}>
         <TouchableOpacity 
             onPress={() => this.props.navigation.navigate('select')}
             activeOpacity= {0.8}  
@@ -110,7 +112,7 @@ class HomeScreen extends React.Component {
               color={'#ff0000'} />
             </View>
         </TouchableOpacity>
-        {/* <TouchableOpacity 
+        <TouchableOpacity 
             onPress={() => this.props.navigation.navigate('faq')}
             activeOpacity= {0.8}
             style={styles.buttonStyle}
@@ -122,26 +124,17 @@ class HomeScreen extends React.Component {
               <Ionicons name={'md-help-circle'} size={50}
               color={'#ff0000'} />
             </View>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
        </View>
       </View>
       <Card
-        containerStyle={{flex: 0.4, marginBottom: 10, marginTop: 70, backgroundColor: '#ededed'}}
+        containerStyle={{flex: 0.4, marginBottom: 10, marginTop: 60, backgroundColor: '#ededed'}}
         title= 'Gold & Silver Prices'
       />
     </View>
     );
   }
 }
-
-const HomeStack = createStackNavigator({
-  mainFlow : {
-    screen: createStackNavigator({
-      home: { screen: HomeScreen },
-      pawn: { screen: PawnScreen },
-    }),
-  },
-})
 
 const styles = {
   textStyle: {

@@ -21,7 +21,7 @@ class selectPawn extends React.Component {
         <View style={{flex: 0.4, marginTop: 25, alignSelf: 'center'}}>
         <View style={{ flexDirection: 'row', }}>
         <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('upload', { type: 'bar' })}
+            onPress={() => this.props.navigation.navigate('pawn', { type: 'bar' })}
             activeOpacity= {0.8}  
             style={styles.buttonStyle}
           >
@@ -34,7 +34,7 @@ class selectPawn extends React.Component {
             </View> */}
         </TouchableOpacity>
         <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('upload', { type: 'watch' })}
+            onPress={() => this.props.navigation.navigate('pawn', { type: 'watch' })}
             activeOpacity= {0.8}  
             style={styles.buttonStyle}
           >
@@ -76,7 +76,7 @@ class selectPawn extends React.Component {
         </View>
         <View style={{ flexDirection: 'row', marginTop: 7}}>
         <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('upload', {type: 'jewel'})}
+            onPress={() => this.props.navigation.navigate('pawn', {type: 'jewel'})}
             activeOpacity= {0.8}  
             style={styles.buttonStyle}
           >
@@ -115,7 +115,7 @@ class selectPawn extends React.Component {
             </View>
         </TouchableOpacity> */}
         <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('upload', {type: 'others'})}
+            onPress={() => this.props.navigation.navigate('pawn', {type: 'others'})}
             activeOpacity= {0.8}  
             style={styles.buttonStyle}
           >

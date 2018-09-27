@@ -1,11 +1,16 @@
 import React from 'react';
-import {View, Text} from 'react-native';
-import { Button } from 'react-native-elements';
+import {View, Text, AsyncStorage,Image} from 'react-native';
+import { Button, Avatar } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
 class PawnTicket extends React.Component {
-  state = {name: ", type: ", material:", DOP: ", POP: ", image: ", weight: '', LTV: '',
-           showAlert: false };
+  state = {
+    pov:'',
+    sov:'',
+    image: '',
+    auth: '',
+    showAlert: false 
+  };
 
   static navigationOptions = {
     title: "Pawn New Item",
@@ -31,51 +36,128 @@ class PawnTicket extends React.Component {
     });
   };
 
-  retrieveData = async () => {
+  retrieveData = async (item) => {
     try{
-      const value = await AsyncStorage.getItem('item');
+      const value = await AsyncStorage.getItem(item);
       return value;
     } catch (error) {
       console.log(error)
     }
   }
-
+//load the image URI, Pawn offered value and Sell offered value
   componentWillMount() {
-    // this.retrieveData().then((item) => {
-    //   this.setState({
-    //     name : item.name,
-    //     type: item.type,
-    //     material: item.material,
-    //     DOP: item.DOP,
-    //     POP: item.POP,
-    //     weight: item.weight
-    //   })
-      
-    // })
-    // this.setState({
-    //   name:this.props.getParam('name', 'no name'),
-    //   type:this.props.getParam('type', 'no type'),
-    //   material:this.props.getParam('material','no material'),
-    //   DOP:this.props.getParam('DOP', 'no DOP'),
-    //   POP: this.props.getParam('POP', 'no POP'),
-    //   weight: this.props.getParam('weight', 'no weight')
-    // })
+    this.retrieveData('photo').then((photo) => {
+      this.setState({
+        image: photo
+      })
+    })
+      this.retrieveData('pov').then((pov) => {
+        this.setState({
+          pov: pov
+        })
+      })
+        this.retrieveData('sov').then((sov) => {
+          this.setState({
+            sov: sov
+          })
+    })
+    this.retrieveData('auth').then((auth) => {
+      this.setState({
+        auth: auth
+      })
+    })
+  }
+
+  pawn(){
+    this.retrieveData('itemID').then((ID) => {
+      fetch('http://206.189.145.2:3000/item/pawn',{
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'x-auth': this.state.auth,
+        },
+        body: JSON.stringify({
+          itemID: ID,
+          specifiedValue: this.state.pov //testing if API accepts string, and deducting 100 to make sure its less than POV
+        }),
+      })
+      .then((response) => {
+        return response.json()
+      })
+      .then((response) => {
+        console.log("/item/pawn Success");
+        console.log("response");
+        console.log(response);
+        this.props.navigation.navigate('propose')
+      })
+      .catch((error) => {
+        console.log("error")
+        console.log(error)
+      })
+    })
+  }
+
+  sell(){
+    this.retrieveData('itemID').then((ID) => {
+    fetch('http://206.189.145.2:3000/item/sell',{
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'x-auth': this.state.auth,
+      },
+      body: JSON.stringify({
+        itemID: ID,
+      }),
+    })
+    .then((response) => {
+      return response.json()
+    })
+    .then((response) => {
+      console.log("/item/sell Success");
+      console.log("response");
+      console.log(response);
+      this.props.navigation.navigate('sell')
+    })
+    .catch((error) => {
+      console.log("error")
+      console.log(error)
+    })
+  })
   }
 
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text> Proposed Loan To Value: $xxxx.xx</Text>
+        {/* display taken image of item */}
+        <Image
+            style={{height: 200, width: 200, marginTop: 70}}
+            source={{ uri: this.state.image}}
+          />
+      
+      {/* Card for the POV and SOV */}
+        <View style={{backgroundColor:'white',
+         borderRadius:3, marginTop:30,
+         height:150,
+         width:300,
+         justifyContent:'center',
+         alignItems:'center'
+         }}>
+          <Text> Pawn Offered Value: {this.state.pov}</Text>
+          <Text> Sell Offered Value: {this.state.sov}</Text>
+        </View>
+        
         <View 
           style={{ justifyContent: 'center', alignItems: 'center', 
-          marginTop: 130, flexDirection: 'row' }}>
+          marginTop: 35, flexDirection: 'row' }}>
           <Button
               title='Pawn'
               color='white'
               borderRadius= {3}
               containerViewStyle={{height: 100, width: 80,}}
               backgroundColor='#ff0000'
-              onPress={() => this.props.navigation.navigate('propose')}
+              onPress={() => this.pawn()}
             />
           <Button
               title='Sell'
@@ -83,7 +165,7 @@ class PawnTicket extends React.Component {
               borderRadius= {3}
               containerViewStyle={{height: 100, width: 80,}}
               backgroundColor='#ff0000'
-              onPress={() => this.props.navigation.navigate('sell')}
+              onPress={() => this.sell()}
             />
             <Button
               title='Reject'

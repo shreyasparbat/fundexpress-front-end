@@ -15,6 +15,12 @@ import RenewScreen from './renew';
 import RedeemScreen from './redeem';
 import FAQScreen from './faq';
 import ProposeScreen from './propose';
+import BuyScreen from './buy';
+import SellScreen from './sell';
+
+//pawn imports
+//import SellScreen from './sell';
+import selectPawn from './selectPawn';
 
 //profile imports
 import ProfileScreen from './profile';
@@ -33,22 +39,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 //contact us imports
 import ContactUsScreen from './ContactUs';
 import InformationScreen from './Information';
-import ContactScreen from './contact';
-import camera from './camera';
-import PawnTicket from './pawnticket';
-import ProposeScreen from './propose';
-import SellScreen from './sell';
-import selectPawn from './selectPawn';
+
 
 
 class LoginScreen extends React.Component {
   state = { email: '', password: '', error: '', loading: false, auth: '' };
   static navigationOptions = {
-    header: null
+    header: null,
+    gesturesEnabled: false,
   };
 
   url = config.url;
 
+  //set all states to empty when loaded
   componentWillMount(){
     this.setState({
       email: '',
@@ -59,14 +62,17 @@ class LoginScreen extends React.Component {
     })
   }
 
+  //this stores the x-auth token in app cache
   storeData = async (auth) => {
     try{
       await AsyncStorage.setItem('auth', auth);
+      console.log('token stored successfully');
     } catch (error) {
       console.log(error)
     }
   }
 
+  //this retrieves the x-auth from the app cache, not used in this page though
   retrieveData = async () => {
     try{
       const value = await AsyncStorage.getItem('auth');
@@ -76,6 +82,7 @@ class LoginScreen extends React.Component {
     }
   }
 
+  //This method renders the button, will render a spinner if loading = true
   renderButton() {
     if (this.state.loading) {
       return <ActivityIndicator />;
@@ -87,27 +94,33 @@ class LoginScreen extends React.Component {
           title='Log in'
           color='white'
           backgroundColor='#ff0000'
-          onPress={() => this.props.navigation.navigate('Home')}
-          //onPress={() => this.onButtonPress()}
+  //these two onPress determine what the button does, either go to home page (for easy work), or run the login api call
+          //onPress={() => this.props.navigation.navigate('Home')}
+          onPress={() => this.onButtonPress()}
         />
       </View>
     );
   }
 
+  //this is the login API call
   onButtonPress() {
+    //log info for debuggging purposes
     console.log('login pressed')
+    console.log('email')
     console.log(this.state.email)
+    console.log('password')
     console.log(this.state.password)
     //const { email, password } = this.state;
 
     this.setState({ error: '', loading: true });
 
-    const user = {
-      email: this.state.email,
-      password: this.state.password
-    }
+    // const user = {
+    //   email: this.state.email,
+    //   password: this.state.password
+    // }
 
-   fetch('url/user/login', {
+  //the actual API call
+   fetch('http://206.189.145.2:3000/user/login', {
       method: 'POST',
       headers:{
         Accept: 'application/json',
@@ -116,6 +129,7 @@ class LoginScreen extends React.Component {
       body: JSON.stringify({
         'email': this.state.email,
         'password': this.state.password
+
       })
     })
       .then((response) => {
@@ -124,25 +138,27 @@ class LoginScreen extends React.Component {
         } else {
           return Promise.reject(response.json())
         }
+        return response.json()
       })
       .then((response) => {
         console.log("logged in")
+        console.log("x-auth")
         //console.log(response)
-        //console.log(response.headers.get('x-auth'))
-        //console.log(response)
+        console.log(response.headers.get('x-auth'))
+        //store x-auth in the app cache
         this.storeData(response.headers.get('x-auth'));
         this.onLoginSuccess()
       })
-      .catch((errorResponse) => {
-        console.log("error")
-        console.log(errorResponse.error)
-        this.onLoginFail(errorResponse.error)
+      .catch((error) => {
+      console.log("error")
+      console.log(error)
+      this.onLoginFail(error)
       })
   }
 
   onLoginFail(error) {
     this.setState({
-      error: 'Authentication Failed',
+      error: 'Login failed, please try again',
       loading: false
     });
   }
@@ -180,13 +196,13 @@ class LoginScreen extends React.Component {
           borderRadius: 3 }}>
           <View style={{width: 260, height: 50, borderColor: 'grey', borderBottomWidth: 1}}>
             <Input
-            //value={this.state.email}
+            value={this.state.email}
             onChangeText={email => this.setState({ email })}
             placeholder='Email'
             />
           </View>
           <Input
-            //value={this.state.password}
+            value={this.state.password}
             onChangeText={password => this.setState({ password })}
             placeholder='Password'
             secureTextEntry= {true}
@@ -208,7 +224,7 @@ class LoginScreen extends React.Component {
             style={{color: 'black'}}
           >Don't have an account? </Text>
           <Text
-            onPress={() => this.props.navigation.navigate('upload')}
+            onPress={() => this.props.navigation.navigate('register')}
             style={{color: 'blue', textDecorationLine: 'underline'}}
           >
           Click here to register
@@ -238,7 +254,7 @@ const RootStack = createStackNavigator({
       }),
       navigationOptions: {
         header: null,
-        disabledBackGesture: true
+        gesturesEnabled: false
       }
     },
     mainFlow : {
@@ -254,6 +270,8 @@ const RootStack = createStackNavigator({
               return <Ionicons name={'md-contact'} size={25}
               color={'white'} />;
             },
+            swipeEnabled: false,
+            gesturesEnabled: false,
           }
 
         },
@@ -261,9 +279,8 @@ const RootStack = createStackNavigator({
           screen: createStackNavigator({
             main:{screen: HomeScreen},
             pawn:{screen: PawnScreen},
-            buy: {screen: PawnScreen},
-            MyTickets: {screen: MyTicketsScreen},
-            sell: {screen: PawnScreen},
+            buy: {screen: BuyScreen},
+            sell: {screen: SellScreen},
             select: {screen: selectPawn},
             renew: {screen: RenewScreen},
             redeem: {screen: RedeemScreen},
@@ -278,6 +295,8 @@ const RootStack = createStackNavigator({
               return <Ionicons name={'md-home'} size={25}
               color={'white'} />;
             },
+            swipeEnabled: false,
+            gesturesEnabled: false,
           }
         },
         MyTickets: {
@@ -332,7 +351,8 @@ const RootStack = createStackNavigator({
         fontWeight: 'bold',
         color: '#ffffff'
       },
-  header:null
+  header:null,
+  gesturesEnabled: false,
   }
   }
 });

@@ -6,6 +6,7 @@ import TicketsCurrentScreen from './TicketsCurrent';
 import TicketsSoldScreen from './TicketsSold';
 import { Container, Header, Tab, Tabs, TabHeading, Icon } from 'native-base';
 
+
 class MyTicketsScreen extends React.Component {
   static navigationOptions = {
     title: 'My Tickets',

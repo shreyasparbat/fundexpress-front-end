@@ -1,6 +1,6 @@
 //this was historyCurrent
 import React from 'react';
-import { Image, Text, Linking, ListView, View, TouchableOpacity, FlatList } from 'react-native';
+import { Image, Text, Linking, ListView, View, TouchableOpacity, FlatList, AsyncStorage } from 'react-native';
 import ListItem from '../components/ListItem';
 import ProgressBar from '../components/ProgressBar';
 import axios from 'axios';
@@ -140,11 +140,47 @@ class TicketsCurrentScreen extends React.Component {
     return day + " " + month + "\r\n" + year;
   }
 
+  retrieveData = async (item) => {
+    try {
+      const value = await AsyncStorage.getItem(item);
+      console.log("token retrieved")
+      console.log(value);
+      return value;
+    } catch (error){
+      throw error
+    }
+  }
+
   componentDidMount(){
 
       this.setState({
           dataSource: this.state.dataSource.cloneWithRowsAndSections(pawnTickets)
       });
+
+      this.retrieveData('auth').then((auth) => {
+        fetch('http://206.189.145.2:3000/tickets/',{
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'x-auth': auth,
+          },
+          body: {}
+        })
+        .then((response) => {
+          return response.json()
+        })
+        .then((response) => {
+          console.log("/item/pawn Success");
+          console.log("response");
+          console.log(response);
+          //this.props.navigation.navigate('propose')
+        })
+        .catch((error) => {
+          console.log("error")
+          console.log(error)
+        })
+      })
   }
 
   renderRow(rowData: string, sectionID: number, rowID: number) {

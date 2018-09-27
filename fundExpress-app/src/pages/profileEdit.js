@@ -126,6 +126,7 @@ class ProfileEditScreen extends React.Component {
       })
       .then((response) => {
         console.log("profile changed")
+        this.props.navigation.navigate('Profile');
       })
       .catch((errorResponse) => {
         console.log("error with profile/edit ")
@@ -243,9 +244,9 @@ class ProfileEditScreen extends React.Component {
           title='Submit Changes'
           color='white'
           backgroundColor='#ff0000'
-          //onPress={() => this.submit()}
+          onPress={() => this.submit()}
           //onPress={()=>console.log(JSON.stringify(this.state))}
-          onPress={() => this.props.navigation.navigate('main')}
+          //onPress={() => this.props.navigation.navigate('main')}
           containerViewStyle={{marginTop:30,marginBottom:30}}      
         />
 

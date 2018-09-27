@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
+import { AsyncStorage, StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
 import { Camera, Permissions, MediaLibrary } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -14,7 +14,15 @@ export default class UploadScreen extends React.Component {
   state = {
     cameraPermission: null,
     rollPermission: null,
+    photo: '',
+    type: this.props.navigation.getParam('type' , null),
+    auth: ''
   };
+
+  // state = {
+  //   cameraPermission: null,
+  //   rollPermission: null,
+  // };
 
   componentDidMount() {
     Permissions.askAsync(Permissions.CAMERA)
@@ -31,31 +39,38 @@ export default class UploadScreen extends React.Component {
       );
   }
 
-
-
-  render() {
-    const { cameraPermission } = this.state;
-
-    return (
-      <View style={styles.container}>
-        {cameraPermission === null ? (
-          <Text>Waiting for permission...</Text>
-        ) : cameraPermission === false ? (
-          <Text>Permission denied</Text>
-        ) : (
-          <Autoshoot/>
-        )}
-      </View>
-    );
+  componentWillMount(){
+    this.retrieveData().then((token) => {
+      this.setState({auth:token})
+    }).catch((error) => {
+      console.log("error retrieving token")
+      console.log(error)
+    });
   }
-}
 
-class Autoshoot extends React.Component {
+//   render() {
+//     const { cameraPermission } = this.state;
 
-  state = {
-    photo: null,
-    type: 'watch'
-  }
+//     return (
+//       <View style={styles.container}>
+//         {cameraPermission === null ? (
+//           <Text>Waiting for permission...</Text>
+//         ) : cameraPermission === false ? (
+//           <Text>Permission denied</Text>
+//         ) : (
+//           <Autoshoot/>
+//         )}
+//       </View>
+//     );
+//   }
+// }
+
+// class Autoshoot extends React.Component {
+
+  // state = {
+  //   photo: null,
+  //   type: 'watch'
+  // }
 
   takePicture = () => {
     this.camera.takePictureAsync({
@@ -83,15 +98,26 @@ class Autoshoot extends React.Component {
     }
   }
 
-  go = (ID,type) => {
+  storeData = async (key,item) => {
+    try{
+      await AsyncStorage.setItem(key, item);
+      console.log(key + " stored successfully");
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  go = (ID) => {
     console.log(ID);
-    console.log(type);
-    this.props.navigation.navigate('pawn', {'itemID' : ID, 'type': type});
+    //this.props.navigation.navigate('pawn', {itemID: ID});
+    this.props.navigation.navigate('pawn');
   }
 
   submit= (photo) => {
     console.log('uploading photo');
     const type = this.state.type;
+    const auth = this.state.auth;
+    console.log(auth);
     console.log(type);
     const formData = new FormData();
       formData.append('front', {  
@@ -110,7 +136,7 @@ class Autoshoot extends React.Component {
       method: 'POST',
       headers: {
         'type' : type,
-        'x-auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmEwYmQwOTFkOGUyZDE2MjNkZmFmZDgiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTM3MjYwODEwfQ.3pultLaO2klbL8QUJfs0gxLjZkG3hRtWa0E39giRYKw',
+        'x-auth': auth,
         'Content-Type': 'multipart/form-data',
       },
       body: formData,
@@ -127,9 +153,11 @@ class Autoshoot extends React.Component {
     })
     .then((response) => {
       console.log("/item/uploadImage Success");
-      //console.log("itemID:");
-      //console.log(response.itemID);
-      this.go(response.itemID,this.state.type);
+      //console.log(response);
+      console.log(response.itemID);
+      this.storeData('itemID',response.itemID);
+      this.storeData('photo',this.state.photo.uri);
+      this.go(response.itemID);
     })
     .catch((error) => {
       console.log("error")

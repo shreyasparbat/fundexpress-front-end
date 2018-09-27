@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Icon, Picker, DatePicker,} from "native-base";
+import { Icon, Picker, DatePicker,Form} from "native-base";
 import {AsyncStorage, View, Text,  ScrollView} from "react-native";
 import { Avatar , Button, FormLabel, FormInput } from "react-native-elements";
 import { Input } from "../components/input";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class PawnScreen extends Component {
   state = {
@@ -10,10 +11,13 @@ class PawnScreen extends Component {
     type: "",
     condition: "", 
     material: "",
-    weight: "",
+    weight: '',
     purity: "",
     brand: "",
-    DOP: "", 
+    DOP: "",
+    ID: '', 
+    otherComments: '',
+    auth: ''
   }
   static navigationOptions = {
     title: "Pawn New Item",
@@ -26,109 +30,149 @@ class PawnScreen extends Component {
         color: "#ffffff"
       },
   }
-/*                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: "key1",
-      chosenDate: new Date 
-    };
-  }
-
-  onValueChange(value) {
-    this.setState({
-      selected: value
-    });
-  }
-
-  shouldComponentUpdate(newDate) {
-    this.setState({ 
-      chosenDate: newDate
-     });
-  }
-  */
 
   submit(){
     this.storeData(this.state);
     this.props.navigation.navigate('ticket');
   }
 
- storeData = async (item) => {
+  retrieveData = async (item) => {
+    try {
+      const value = await AsyncStorage.getItem(item);
+      console.log(item + " retrieved " + value);
+      return value;
+    } catch (error){
+      throw error
+    }
+  }
+
+ storeData = async (key, item) => {
   try{
-    await AsyncStorage.setItem('item', item);
+    await AsyncStorage.setItem(key, item);
   } catch (error) {
     console.log(error)
   }
 }
 
  componentWillMount(){
+  this.retrieveData('auth').then((token) => {
+    this.setState({auth:token})
+  }).catch((error) => {
+    console.log("error retrieving token")
+    console.log(error)
+  });
   select = this.props.navigation.getParam('type','others');
   if(select=='bar'){
     this.setState({
       name: "Gold Bar #0000",
-      type: "gold bar",
-      condition: "NA",
-      material: "gold",
+      type: "Gold Bar",
+      material: "Gold",
 
     })
   }else{
     if(select=='watch'){
       this.setState({
         name: "Watch",
-        type: "watch",
+        type: "Watch",
         material: "NA",
-        weight: "NA",
+        weight: "0",
         purity: "NA"
       })
     }else{
       if(select=='jewel'){
         this.setState({
-          type: "bracelet",
+          type: "Bracelet",
         })  
       }else{
       this.setState({
-        type: "others"
+        type: "Others"
       })
     }
   }
   }
+}
   
+  submit() {
+    this.retrieveData('itemID').then((ID) => {
+      console.log('pawn pressed');
+    console.log(this.state.auth);
+    console.log(ID);
+    //console.log(JSON.stringify(this.state))
+    fetch('http://206.189.145.2:3000/item/add',{
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'x-auth': this.state.auth,
+      },
+      body: JSON.stringify({
+        itemID: ID,
+        name: this.state.name,
+        type: this.state.type,
+        material: this.state.material,
+        brand: this.state.brand,
+        purity: this.state.purity,
+        weight: parseInt(this.state.weight),
+        condition: this.state.condition,
+        dateOfPurchase: this.state.DOP,
+        otherComments: this.state.otherComments,
 
- }
+      }),
+    })
+    .then((response) => {
+      return response.json()
+    })
+    .then((response) => {
+      console.log("/item/add Success");
+      console.log("response");
+      console.log(response);
+      console.log("itemID:");
+      console.log(response.itemID);
+      console.log('POV');
+      console.log(response.pawnOfferedValue);
+      this.storeData('pov',response.pawnOfferedValue.toString());
+      console.log('SOV');
+      console.log(response.sellOfferedValue);
+      this.storeData('sov',response.sellOfferedValue.toString());
+      this.props.navigation.navigate('ticket');
+    })
+    .catch((error) => {
+      console.log("error")
+      console.log(error)
+    })
+    }).catch((error) => {
+      console.log("error retrieving token")
+      console.log(error)
+    });
+    
+  }
 
   render() {
     return (
-      <ScrollView contentContainerStyle={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text style={{marginBottom: 10}}> Item Image </Text>
+      <KeyboardAwareScrollView contentContainerStyle={{ justifyContent: "center", alignItems: "center" }} 
+        extraScrollHeight = {150}
+        keyboardOpeningTime = {10}
+      >
+        <Text style={{marginBottom: 10, marginTop: 30, flexDirection: "row"}}> Item Image </Text>
         <View style={{flexDirection: "row"}}>
           <Avatar 
             large
             icon={{name: "camera-alt", color: "grey"}}
             containerStyle={{marginLeft: 15}}
+            onPress={() => this.props.navigation.navigate('upload', {'type': this.state.type})}
+            //source={{ uri: this.props.navigation.getParam('uri' , '') }}
+          />
+
+          <Avatar 
+            large
+            icon={{name: "camera-alt", color: "grey"}}
+            containerStyle={{marginLeft: 15}}
             onPress={() => this.props.navigation.navigate('upload')}
-            source={{ uri: this.props.navigation.getParam('uri' , null) }}
           />
 
-          <Avatar 
-            large
-            icon={{name: "camera-alt", color: "grey"}}
-            containerStyle={{marginLeft: 15}}
-          />
-
-          <Avatar 
-            large
-            icon={{name: "camera-alt", color: "grey"}}
-            containerStyle={{marginLeft: 15}}
-          />
-
-          <Avatar 
-            large
-            icon={{name: "camera-alt", color: "grey"}}
-            containerStyle={{marginLeft: 15}}
-          />
         </View>
 
-        <View style={{width:300,height:50,borderBottomColor:"grey",marginTop:100}} >
+        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:30,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Name</FormLabel>
           <FormInput 
             onChangeText={name => this.setState({ name })} 
@@ -137,29 +181,30 @@ class PawnScreen extends Component {
           />
         </View>
 
-        <View style={{width:260,height:50,borderBottomColor:"grey",borderBottomWidth:1,marginTop:30}}>
+        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:30, backgroundColor:'white'}}>
+          <FormLabel>Type</FormLabel>
           <Picker
                 mode="dropdown"
                 iosIcon={<Icon name="ios-arrow-down-outline" />}
                 iosHeader="Item Type"
-                style={{ width: 275 }}
+                style={{ height: 40, width: 390}}
                 placeholder="Item Type"
-                placeholderStyle={{ color: "#c7c7cd" }}
+                placeholderStyle={{ color: "#c7c7cd", flexDirection: 'row' }}
                 placeholderIconColor="#007aff"
                 selectedValue={this.state.type}
                 onValueChange={type => this.setState({type})}
               >
-              <Picker.Item label="Gold Bar" value="gold bar" />
-              <Picker.Item label="Watch" value="watch" />
-              <Picker.Item label="Chain" value="chain" />
-              <Picker.Item label="Necklace" value="necklace" />
-              <Picker.Item label="Bracelet" value="bracelet" />
-              <Picker.Item label="Ring" value="ring" />
-              <Picker.Item label="Others" value="others" />
+              <Picker.Item label="Gold Bar" value="Gold Bar" />
+              <Picker.Item label="Watch" value="Watch" />
+              <Picker.Item label="Chain" value="Chain" />
+              <Picker.Item label="Necklace" value="Necklace" />
+              <Picker.Item label="Bracelet" value="Bracelet" />
+              <Picker.Item label="Ring" value="Ring" />
+              <Picker.Item label="Others" value="Others" />
               </Picker>
           </View>
 
-          <View style={{width:300,height:50,marginTop:15}}>
+          <View style={{flex:1,height:70,marginTop:15,marginLeft:15,backgroundColor:'white'}}>
             <FormLabel>Condition</FormLabel>
             <FormInput 
               onChangeText={condition => this.setState({ condition })} 
@@ -168,7 +213,8 @@ class PawnScreen extends Component {
             />
           </View>
 
-          <View style={{width:260,height:50,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15}}>
+          <View style={{flex: 1,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>
+          <FormLabel>Material (if applicable)</FormLabel>
             <Picker
               mode="dropdown"
               iosHeader="Item Material"
@@ -176,20 +222,20 @@ class PawnScreen extends Component {
               placeholderStyle={{ color: "#c7c7cd" }}
               placeholderIconColor="#007aff"
               iosIcon={<Icon name="ios-arrow-down-outline" />}
-              style={{ width: 275 }}
+              style={{ height: 40, width: 390 }}
               selectedValue={this.state.material}
               onValueChange={material => this.setState({material})}
             >
-              <Picker.Item label="Gold" value="gold" />
-              <Picker.Item label="Silver" value="silver" />
-              <Picker.Item label="Platinum" value="platinum" />
+              <Picker.Item label="Gold" value="Gold" />
+              <Picker.Item label="Silver" value="Silver" />
+              <Picker.Item label="Platinum" value="Platinum" />
               <Picker.Item label="NA" value="NA" />
 
             </Picker>
           </View>
       
-      <View style={{width:300,height:50,marginTop:15}}>
-        <FormLabel>Weight</FormLabel>
+      <View style={{flex:1,height:70,marginTop:15, marginLeft:15,backgroundColor:'white'}}>
+        <FormLabel>Weight in Grams (if applicable)</FormLabel>
           <FormInput 
             onChangeText={weight => this.setState({ weight })} 
             value={this.state.weight} 
@@ -197,7 +243,8 @@ class PawnScreen extends Component {
           />
       </View>
 
-      <View style={{width:260,height:50,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15}}>
+      <View style={{flex: 1,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>
+      <FormLabel>Purity (if applicable)</FormLabel>
             <Picker
               mode="dropdown"
               iosHeader="Item Purity"
@@ -205,24 +252,24 @@ class PawnScreen extends Component {
               placeholderStyle={{ color: "#c7c7cd" }}
               placeholderIconColor="#007aff"
               iosIcon={<Icon name="ios-arrow-down-outline" />}
-              style={{ width: 275 }}
+              style={{ height: 40, width: 390 }}
               selectedValue={this.state.purity}
               onValueChange={purity => this.setState({purity})}
             >
-              <Picker.Item label="24K" value="98.5" />
-              <Picker.Item label="22K" value="90" />
-              <Picker.Item label="20K" value="83.5" />
-              <Picker.Item label="18K(Yellow Gold)" value="70" />
-              <Picker.Item label="18K(White Gold)" value="65" />
-              <Picker.Item label="14K" value="50" />
-              <Picker.Item label="9K" value="30" />
+              <Picker.Item label="24K" value="24k/999" />
+              <Picker.Item label="22K" value="22k/916" />
+              <Picker.Item label="20K" value="20k/835" />
+              <Picker.Item label="18K(Yellow Gold)" value="18k/750" />
+              <Picker.Item label="18K(White Gold)" value="18k/750" />
+              <Picker.Item label="14K" value="14k/585" />
+              <Picker.Item label="9K" value="9k/375" />
               <Picker.Item label="NA" value="NA" />
 
             </Picker>
         </View>
 
-        <View style={{width:300,height:50,marginTop:15}}>
-          <FormLabel>Brand</FormLabel>
+        <View style={{flex:1,height:70,marginTop:15,marginLeft:15,backgroundColor:'white'}}>
+          <FormLabel>Brand (if applicable)</FormLabel>
             <FormInput 
               onChangeText={brand => this.setState({ brand })} 
               value={this.state.brand} 
@@ -230,11 +277,13 @@ class PawnScreen extends Component {
             />
       </View>
 
-      <View style={{width:260,height:50,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15}}>
+      <View style={{height: 70, width: 390,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>
+      <FormLabel>Date Purchased</FormLabel>
       <DatePicker
             defaultDate={new Date()}
-            minimumDate={new Date(2018, 1, 1)}
+            minimumDate={new Date(1900, 1, 1)}
             maximumDate={new Date(2018, 12, 31)}
+            style={{marginLeft:15}}
             locale={"SGP"}
             //timeZoneOffsetInMinutes={0}
             modalTransparent={false}
@@ -247,25 +296,25 @@ class PawnScreen extends Component {
             />
         </View>
 
+        <View style={{flex:1,height:70,marginTop:15,marginLeft:15,backgroundColor:'white'}}>
+            <FormLabel>Additional Comments</FormLabel>
+            <FormInput 
+              onChangeText={otherComments => this.setState({ otherComments })}  
+              placeholder='Input any additional comments here'
+              value={this.state.otherComments}
+            />
+        </View>
 
         <Button
           title="Submit"
           color="white"
           backgroundColor="#ff0000"
-          //onPress={() => this.submit()}
-          onPress={() => this.props.navigation.navigate("ticket", {
-            name: this.state.name,
-            type: this.state.type,
-            material: this.state.material,
-            weight: this.state.weight,
-            DOP: this.state.DOP,
-            POP: this.state.POP,
-
-          })}
+          onPress={() => this.submit()}
+          //onPress={() => this.props.navigation.navigate("ticket")}
           //onPress={() => console.log(this.state)}
           containerViewStyle={{marginTop:30,marginBottom:30}}      
         />
-    </ScrollView>
+    </KeyboardAwareScrollView>
     );
   }
 }

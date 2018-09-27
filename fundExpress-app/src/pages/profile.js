@@ -75,7 +75,8 @@ class ProfileScreen extends React.Component {
   retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('auth');
-      console.log("token retrieved " + value);
+      console.log("token retrieved")
+      console.log(value);
       return value;
     } catch (error){
       throw error
@@ -89,30 +90,25 @@ class ProfileScreen extends React.Component {
       fetch('http://206.189.145.2:3000/profile/logout', {
       method: 'DELETE',
       headers: new Headers({
-        // Accept: 'application/json',
-        // 'Content-Type': 'application/json',
         'x-auth' : token,
       }),
-      // body: JSON.stringify({
-      //   auth : token
-      // })
     })
       .then((response) => {
         if (response.ok) {
-          //return response
           console.log('logged out')
+//this clears all the FEapp related temp data when logging out
+          AsyncStorage.multiRemove([
+            'auth',
+            'itemID',
+            'pov',
+            'sov',
+            'photo',
+          ])
           this.props.navigation.navigate('login');
         } else {
           return Promise.reject(response.json())
         }
       })
-      // .then((response) => {
-      //   console.log("logged out")
-      //   //console.log(response)
-      //   //console.log(response.headers.get('x-auth'))
-      //   //console.log(response)
-      //   this.props.navigation.navigate('login');
-      //})
       .catch((errorResponse) => {
         console.log("error")
         console.log(errorResponse)
