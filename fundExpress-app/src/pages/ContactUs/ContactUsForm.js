@@ -39,7 +39,7 @@ export default class ContactUsForm extends Component {
     //if else to determine whether a form gets submitted
   }
   handleEmail = () => {
-      const to = 'amandaohry@gmail.com' // string or array of email addresses
+      const to = 'fundexpressfyp@gmail.com' // string or array of email addresses
       email(to, {
           // Optional additional arguments
           cc: '', // string or array of email addresses
@@ -86,7 +86,7 @@ export default class ContactUsForm extends Component {
                   title='Submit'
                   backgroundColor='#696969'
                   onPress={() => Linking.openURL(
-                    'mailto:amandaohry@gmail.com?subject='+this.state.subject+'&body=Name: ' + this.state.name + '\r\n Contact Number: ' + this.state.contactNumber + '\r\n Reply to: ' + this.state.email +'\r\n \r\n'+ this.state.enquiry
+                    'mailto:fundexpressfyp@gmail.com?subject='+this.state.subject+'&body=Name: ' + this.state.name + '\r\n Contact Number: ' + this.state.contactNumber + '\r\n Reply to: ' + this.state.email +'\r\n \r\n'+ this.state.enquiry
                   )}
                 />
               </View>

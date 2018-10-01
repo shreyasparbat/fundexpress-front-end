@@ -23,7 +23,7 @@ class MyTicketsScreen extends React.Component {
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <View style={{flex:0.14, alignSelf: 'center', justifyContent: 'center', marginTop: 20}}>
           <Image
-            source={require('../../images/felogo.png')}
+            source={require('./images/felogo.png')}
             style={{ resizeMode: 'contain', width: 200 }}
           />
         </View>

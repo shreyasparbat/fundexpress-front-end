@@ -98,9 +98,9 @@ class LoginScreen extends React.Component {
     const user = {
       email: this.state.email,
       password: this.state.password
-    }
+    } 
 
-   fetch('url/user/login', {
+   fetch('http://206.189.145.2:3000/user/login', {
       method: 'POST',
       headers:{
         Accept: 'application/json',
