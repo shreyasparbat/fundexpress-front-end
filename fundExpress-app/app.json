@@ -10,6 +10,7 @@
     "bundleIdentifier": "com.fundExpress.fundExpressApp"
   },
   "android":{
-    "package": "com.fundExpress.fundExpressApp"
+    "package": "com.fundExpress.fundExpressApp",
+    "googleServicesFile": "./google-services.json"
   }
 }

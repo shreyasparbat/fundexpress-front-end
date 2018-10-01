@@ -135,30 +135,30 @@ class RegisterScreen extends React.Component {
         email: this.state.email,
         password: this.state.password,
         fullName: this.state.fullName,
-        // gender: this.state.gender,
+        gender: this.state.gender,
         dateOfBirth: this.state.DOB,
         ic: this.state.ic,
         mobileNumber: parseInt(this.state.mobileNumber),
-        // nationality: this.state.nationality,
-        // citizenship: this.state.citizenship,
+        nationality: this.state.nationality,
+        citizenship: this.state.citizenship,
         landlineNumber: parseInt(this.state.landlineNumber),
         address: this.state.address,
-        // addressType: this.state.house,
-        // race: this.state.race,
-        // expoPushToken: this.state.ptoken,
+        addressType: this.state.house,
+        race: this.state.race,
+        expoPushToken: this.state.ptoken,
     // "email": "averychong6@test.com",
     //"password": "pass1234",
     //"fullName": "AveryChong",
-    "gender": "M",
+    // "gender": "M",
     // "dateOfBirth": "1994-05-23",
     // "ic": "S1234567A",
     // "mobileNumber": parseInt('91234567'),
-    "nationality": "Singaporean",
-    "citizenship": "Singapore",
+    // "nationality": "Singaporean",
+    // "citizenship": "Singapore",
     // "landlineNumber": parseInt('61234567'),
     // "address": "Singapore",
-    "addressType": "C",
-    "race": "Chinese",
+    // "addressType": "C",
+    // "race": "Chinese",
     // expoPushToken: this.state.ptoken,
        
         
@@ -263,6 +263,7 @@ class RegisterScreen extends React.Component {
               selectedValue={this.state.gender}
               onValueChange={gender => this.setState({gender})}
             >
+              <Picker.Item label="Gender" value="" />
               <Picker.Item label="Male" value="M" />
               <Picker.Item label="Female" value="F" />
 
@@ -283,6 +284,7 @@ class RegisterScreen extends React.Component {
               selectedValue={this.state.race}
               onValueChange={race => this.setState({race})}
             >
+              <Picker.Item label="Race" value="" />
               <Picker.Item label="Chinese" value="Chinese" />
               <Picker.Item label="Malay" value="Malay" />
               <Picker.Item label="Indian" value="Indian" />
@@ -368,9 +370,10 @@ class RegisterScreen extends React.Component {
               selectedValue={this.state.house}
               onValueChange={house => this.setState({house})}
             >
-              <Picker.Item label="Flat" value="F" />
-              <Picker.Item label="Condominium" value="C" />
-              <Picker.Item label="Landed" value="L" />
+              <Picker.Item label="Housing Type" value="" />
+              <Picker.Item label="HDB" value="H" />
+              <Picker.Item label="Condominium/Landed" value="C" />
+              <Picker.Item label="Others" value="N" />
 
             </Picker>
         </View>
