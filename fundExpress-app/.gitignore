@@ -5,6 +5,7 @@
 
 # dependencies
 /node_modules
+/utils/keys.js
 
 # misc
 .env.local

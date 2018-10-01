@@ -1,16 +1,15 @@
 import React from 'react';
-import {View, Text} from 'react-native';
-import { Button } from 'react-native-elements';
-import AwesomeAlert from 'react-native-awesome-alerts';
+import {View, Text, AsyncStorage, ActivityIndicator} from 'react-native';
+import { Button, Card } from 'react-native-elements';
 
 class PawnTicket extends React.Component {
-  state = {name: ", type: ", material:", DOP: ", POP: ", image: ", weight: '', LTV: '',
-           showAlert: false };
-
   static navigationOptions = {
-    title: "Pawn New Item",
+    title: "New Pawn Ticket",
+    gesturesEnabled: false,
+    header: null,
+    tabBarVisible: false,
       headerStyle: {
-        backgroundColor: "#C00000",
+        backgroundColor: "#C00000", 
       },
       headerTintColor: "#ffffff",
       headerTitleStyle: {
@@ -19,106 +18,115 @@ class PawnTicket extends React.Component {
       },
   }
 
-  showAlert = () => {
-    this.setState({
-      showAlert: true
-    });
-  };
+  state = {item:'', itemID: '', isLoading:true}
 
-  hideAlert = () => {
-    this.setState({
-      showAlert: false,
-    });
-  };
-
-  retrieveData = async () => {
+  retrieveData = async (item) => {
     try{
-      const value = await AsyncStorage.getItem('item');
+      const value = await AsyncStorage.getItem(item);
+      console.log("successfully retrieved: " + value)
       return value;
     } catch (error) {
       console.log(error)
     }
   }
 
-  componentWillMount() {
-    // this.retrieveData().then((item) => {
-    //   this.setState({
-    //     name : item.name,
-    //     type: item.type,
-    //     material: item.material,
-    //     DOP: item.DOP,
-    //     POP: item.POP,
-    //     weight: item.weight
-    //   })
+  pawn(sValue){
+    this.retrieveData('auth').then((auth) => {
+      fetch('http://206.189.145.2:3000/item/pawn',{
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'x-auth': auth,
+        },
+        body: JSON.stringify({
+          itemID: this.state.itemID,
+          specifiedValue: sValue
+        }),
+      })
+      .then((response) => {
+        return response.json()
+      })
+      .then((response) => {
+        console.log("/item/pawn Success");
+        console.log("response");
+        console.log(response);
+        this.setState({
+          item:response,
+          isLoading:false
+        })
+        //console.log(JSON.stringify(response.item));
+        //this.storeData('itemObj', JSON.stringify(response));
+        //this.props.navigation.navigate('pawnTicket')
+      })
+      .catch((error) => {
+        console.log("error")
+        console.log(error)
+      })
+    })
+  }
 
-    // })
-    // this.setState({
-    //   name:this.props.getParam('name', 'no name'),
-    //   type:this.props.getParam('type', 'no type'),
-    //   material:this.props.getParam('material','no material'),
-    //   DOP:this.props.getParam('DOP', 'no DOP'),
-    //   POP: this.props.getParam('POP', 'no POP'),
-    //   weight: this.props.getParam('weight', 'no weight')
-    // })
+  componentWillMount() {
+    this.retrieveData('itemID').then((ID) => {
+      this.setState({
+        itemID: ID
+      })
+    })
+    this.retrieveData('specifiedValue').then((sValue) => {
+      this.pawn(sValue);
+    })
+    // console.log(this.state.item)
+  }
+
+  componentWillUnmount(){
+    AsyncStorage.multiRemove([
+      'itemID',
+      'pov',
+      'sov',
+      'photo',
+    ])
   }
 
   render() {
+    // console.log("render called")
+    if(this.state.isLoading) return <ActivityIndicator />
+    else{
+      // console.log("creating display")
+      // console.log(this.state.item.item)
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text> Proposed Loan To Value: $xxxx.xx</Text>
-        <View
-          style={{ justifyContent: 'center', alignItems: 'center',
-          marginTop: 130, flexDirection: 'row' }}>
-          <Button
-              title='Pawn'
-              color='white'
-              borderRadius= {3}
-              containerViewStyle={{height: 100, width: 80,}}
-              backgroundColor='#C00000'
-              onPress={() => this.props.navigation.navigate('propose')}
-            />
-          <Button
-              title='Sell'
-              color='white'
-              borderRadius= {3}
-              containerViewStyle={{height: 100, width: 80,}}
-              backgroundColor='#C00000'
-              onPress={() => this.props.navigation.navigate('sell')}
-            />
-            <Button
-              title='Reject'
-              color='white'
-              borderRadius= {3}
-              containerViewStyle={{height: 100, width: 80,}}
-              backgroundColor='#C00000'
-              onPress={() => this.showAlert()}
-            />
+      <Card title="Pawn Ticket" >
 
-        </View>
-        <AwesomeAlert
-          show= {this.state.showAlert}
-          //showProgress={false}
-          //title="AwesomeAlert"
-          message="Are you sure you want to reject the offer?"
-          closeOnTouchOutside={true}
-          closeOnHardwareBackPress={false}
-          showCancelButton={true}
-          showConfirmButton={true}
-          cancelText="Yes" //it's intentionally opposite to place the yes on the left button
-          confirmText="No"
-          confirmButtonColor="#DD6B55"
-          onCancelPressed={() => {
-            this.hideAlert();
-            this.props.navigation.navigate('main')
-
-          }}
-          onConfirmPressed={() => {
-            this.hideAlert();
-            ;
-          }}
-        />
+        <Text>item ID: {this.state.item.item._id}</Text>
+        <Text>Name: {this.state.item.item.name}</Text>
+        <Text>Type: {this.state.item.item.type}</Text>
+        <Text>Condition: {this.state.item.item.condition}</Text>
+        <Text>Material: {this.state.item.item.material}</Text>
+        <Text>Weight (in grams): {this.state.item.item.weight}</Text>
+        <Text>Purity: {this.state.item.item.purity}</Text>
+        <Text>Brand: {this.state.item.item.brand}</Text>
+        <Text>Date Purchased: {this.state.item.item.dateOfPurchase.slice(0,-14)}</Text>
+        <Text>Pawn Offered Value: ${Math.round(this.state.item.item.pawnOfferedValue)}</Text>
+        <Text>Sell Offered Value: ${Math.round(this.state.item.item.sellOfferedValue)}</Text>
+        <Text>Additional Comments: {this.state.item.item.otherComments}</Text>
+        <Text>Expiry Date: {this.state.item.expiryDate.slice(0,-14)}</Text>
+        <Text>Interest Payable: {Math.round(this.state.item.interestPayable)}</Text>
+        <Text>Ticket Pending Approval.</Text>
+        <Text>Please go down to your nearest FundExpress to submit your item!</Text>
+        
+      </Card>
+        
+        <Button
+              title='Return to Home'
+              color='white'
+              borderRadius= {3}
+              containerViewStyle={{height: 50, width: 200, marginTop: 15}}
+              backgroundColor='#C00000'
+              onPress={() => this.props.navigation.navigate("main")}
+            />
       </View>
     );
+      }
   }
 }
 

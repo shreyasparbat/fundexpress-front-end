@@ -13,6 +13,14 @@ import PawnScreen from './pawn';
 import RenewScreen from './renew';
 import RedeemScreen from './redeem';
 import ProposeScreen from './propose';
+import BuyScreen from './buy';
+import SellScreen from './sell';
+import FAQScreen from './ContactUs/faq'
+import PawnTicket from './pawnticket';
+import PawnOptions from './pawnoptions';
+
+//pawn imports
+//import SellScreen from './sell';
 import selectPawn from './selectPawn';
 
 //profile imports
@@ -30,18 +38,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 //contact us imports
 import ContactUsScreen from './ContactUs/ContactUs';
 import InformationScreen from './ContactUs/Information';
-import ContactScreen from './ContactUs/contact';
-import FAQScreen from './ContactUs/faq';
+
 
 
 class LoginScreen extends React.Component {
   state = { email: '', password: '', error: '', loading: false, auth: '' };
   static navigationOptions = {
-    header: null
+    header: null,
+    gesturesEnabled: false,
   };
 
   //url = config.url;
 
+  //set all states to empty when loaded
   componentWillMount(){
     this.setState({
       email: '',
@@ -52,14 +61,17 @@ class LoginScreen extends React.Component {
     })
   }
 
+  //this stores the x-auth token in app cache
   storeData = async (auth) => {
     try{
       await AsyncStorage.setItem('auth', auth);
+      console.log('token stored successfully');
     } catch (error) {
       console.log(error)
     }
   }
 
+  //this retrieves the x-auth from the app cache, not used in this page though
   retrieveData = async () => {
     try{
       const value = await AsyncStorage.getItem('auth');
@@ -69,6 +81,7 @@ class LoginScreen extends React.Component {
     }
   }
 
+  //This method renders the button, will render a spinner if loading = true
   renderButton() {
     if (this.state.loading) {
       return <ActivityIndicator />;
@@ -80,26 +93,40 @@ class LoginScreen extends React.Component {
           title='Log in'
           color='white'
           backgroundColor='#C00000'
-          onPress={() => this.props.navigation.navigate('Home')}
-          //onPress={() => this.onButtonPress()}
+  //these two onPress determine what the button does, either go to home page (for easy work), or run the login api call
+          //onPress={() => this.props.navigation.navigate('Home')}
+          onPress={() => this.onButtonPress()}
         />
       </View>
     );
   }
 
+  //this is the login API call
   onButtonPress() {
+    //log info for debuggging purposes
     console.log('login pressed')
+    console.log('email')
     console.log(this.state.email)
+    console.log('password')
     console.log(this.state.password)
     //const { email, password } = this.state;
 
     this.setState({ error: '', loading: true });
 
+<<<<<<< HEAD
     const user = {
       email: this.state.email,
       password: this.state.password
     } 
 
+=======
+    // const user = {
+    //   email: this.state.email,
+    //   password: this.state.password
+    // }
+
+  //the actual API call
+>>>>>>> 172937049464a23951019e7a6c93ab1e2b21bb2b
    fetch('http://206.189.145.2:3000/user/login', {
       method: 'POST',
       headers:{
@@ -109,6 +136,9 @@ class LoginScreen extends React.Component {
       body: JSON.stringify({
         'email': this.state.email,
         'password': this.state.password
+        // email: "averychong3@test.com",
+        // password: "pass1234"
+
       })
     })
       .then((response) => {
@@ -117,25 +147,28 @@ class LoginScreen extends React.Component {
         } else {
           return Promise.reject(response.json())
         }
+        return response.json()
       })
       .then((response) => {
-        console.log("logged in")
+        // console.log("logged in EASY MODE REMEMBER TO CHANGE THE BODY BACK")
+        console.log(this.state.email + " logged in")
+        console.log("x-auth")
         //console.log(response)
-        //console.log(response.headers.get('x-auth'))
-        //console.log(response)
+        console.log(response.headers.get('x-auth'))
+        //store x-auth in the app cache
         this.storeData(response.headers.get('x-auth'));
         this.onLoginSuccess()
       })
-      .catch((errorResponse) => {
-        console.log("error")
-        console.log(errorResponse.error)
-        this.onLoginFail(errorResponse.error)
+      .catch((error) => {
+      console.log("error")
+      console.log(error)
+      this.onLoginFail(error)
       })
   }
 
   onLoginFail(error) {
     this.setState({
-      error: 'Authentication Failed',
+      error: 'Login failed, please try again',
       loading: false
     });
   }
@@ -173,13 +206,15 @@ class LoginScreen extends React.Component {
           borderRadius: 3 }}>
           <View style={{width: 260, height: 50, borderColor: 'grey', borderBottomWidth: 1}}>
             <Input
-            //value={this.state.email}
+            value={this.state.email}
+            autoCapitalize="none"
             onChangeText={email => this.setState({ email })}
             placeholder='Email'
             />
           </View>
           <Input
-            //value={this.state.password}
+            value={this.state.password}
+            autoCapitalize="none"
             onChangeText={password => this.setState({ password })}
             placeholder='Password'
             secureTextEntry= {true}
@@ -196,7 +231,7 @@ class LoginScreen extends React.Component {
             style={{color: 'black'}}
           >Dont have an account? </Text>
           <Text
-            onPress={() => this.props.navigation.navigate('upload')}
+            onPress={() => this.props.navigation.navigate('register')}
             style={{color: 'blue', textDecorationLine: 'underline'}}
           >
           Click here to register
@@ -233,9 +268,27 @@ const RootStack = createStackNavigator({
       }),
       navigationOptions: {
         header: null,
-        disabledBackGesture: true
+        gesturesEnabled: false
       }
     },
+    // pawnTicket:{
+    //   screen: createStackNavigator({
+    //     main:{screen: PawnTicket},
+    //   }),
+    //   navigationOptions: {
+    //     tabBarVisible: false,
+    //     header: null
+    //   }
+    // },
+    // sellTicket:{
+    //   screen: createStackNavigator({
+    //     main:{screen: SellScreen},
+    //   }),
+    //   navigationOptions: {
+    //     tabBarVisible: false,
+    //     header: null,
+    //   }
+    // },
     mainFlow : {
       screen: createBottomTabNavigator({
         Profile: {
@@ -249,6 +302,8 @@ const RootStack = createStackNavigator({
               return <Ionicons name={'md-contact'} size={25}
               color={'white'} />;
             },
+            swipeEnabled: false,
+            gesturesEnabled: false,
           }
 
         },
@@ -256,16 +311,20 @@ const RootStack = createStackNavigator({
           screen: createStackNavigator({
             main:{screen: HomeScreen},
             pawn:{screen: PawnScreen},
-            buy: {screen: PawnScreen},
-            sell: {screen: PawnScreen},
+            buy: {screen: BuyScreen},
+            sellTicket: {screen: SellScreen},
             select: {screen: selectPawn},
             renew: {screen: RenewScreen},
             redeem: {screen: RedeemScreen},
             faq: {screen: FAQScreen},
             upload: {screen: UploadScreen},
-            propose: {screen: ProposeScreen}
+            propose: {screen: ProposeScreen},
+            options: {screen: PawnOptions},
+            pawnTicket: {screen: PawnTicket},
           }),
           navigationOptions: {
+            gesturesEnabled:false,
+            hardwareBackPress: true,
             initialRouteName: 'main',
             tabBarIcon: ({ focused, tintColor }) => {
               return <Ionicons name={'md-home'} size={25}
@@ -323,7 +382,8 @@ const RootStack = createStackNavigator({
         fontWeight: 'bold',
         color: '#ffffff'
       },
-  header:null
+  header:null,
+  gesturesEnabled: false,
   }
   }
 });

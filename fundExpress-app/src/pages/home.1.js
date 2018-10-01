@@ -1,38 +1,42 @@
 import React from 'react';
-import { AsyncStorage, Text, View, Image, TouchableOpacity } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import { AsyncStorage, Text, View, Image, TouchableOpacity, Platform, BackHandler } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-//import { Card } from 'react-native-elements';
-import PawnScreen from './pawn';
-import { Container,  Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body } from 'native-base';
+import { Card } from 'react-native-elements';
+//import { getGoldSilverPrice } from '../utils/priceScrapper';
+//import { Container,  Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body } from 'native-base';
 
 class HomeScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Home',
-    headerLeft: null,
-      headerStyle: {
-        backgroundColor: '#C00000',
-      },
-      headerTintColor: '#ffffff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        color: '#ffffff'
-      },
+    header: null,
       tabBarIcon: ({ focused, tintColor }) => {
         return <Ionicons name={'md-home'} size={25}
         color={'white'} />;
       },
   };
 
+  handleBackButton(){
+    return true;
+  }
+
+  componentWillMount(){
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  componentWillUnmount(){
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
   render() {
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
-        <View style={{flex:0.14, alignSelf: 'center', justifyContent: 'center', marginTop: 20}}>
+        <View style={{flex:0.14, alignSelf: 'center', justifyContent: 'center', marginTop: 50}}>
           <Image
             source={require('../images/felogo.png')}
             style={{ resizeMode: 'contain', width: 200 }}
           />
+          
         </View>
         {/* <View style={{flex:0.06, alignSelf: 'center', marginTop: 5 }}>
         <Text
@@ -41,9 +45,13 @@ class HomeScreen extends React.Component {
           }}
           >Welcome </Text>
         </View> */}
-      <View style={{flex: 0.4, marginTop: 25, alignSelf: 'center'}}>
-        <View style={{ flexDirection: 'row', }}>
-        <TouchableOpacity
+        <Card
+        containerStyle={{flex: 0.12, marginBottom: 10, marginTop: 5, backgroundColor: '#ededed'}}
+        title= 'Gold & Silver Prices'
+      />
+      <View style={{flex: 0.4, marginTop: 10, alignSelf: 'center', }}>
+        <View style={{ flexDirection: 'row',marginLeft: 58 }}>
+        <TouchableOpacity 
             onPress={() => this.props.navigation.navigate('select')}
             activeOpacity= {0.8}
             style={styles.buttonStyle}
@@ -111,7 +119,7 @@ class HomeScreen extends React.Component {
               color={'#C00000'} />
             </View>
         </TouchableOpacity>
-        {/* <TouchableOpacity
+        <TouchableOpacity 
             onPress={() => this.props.navigation.navigate('faq')}
             activeOpacity= {0.8}
             style={styles.buttonStyle}
@@ -123,26 +131,14 @@ class HomeScreen extends React.Component {
               <Ionicons name={'md-help-circle'} size={50}
               color={'#C00000'} />
             </View>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
        </View>
       </View>
-      <Card
-        containerStyle={{flex: 0.4, marginBottom: 10, marginTop: 70, backgroundColor: '#ededed'}}
-        title= 'Gold & Silver Prices'
-      />
+      
     </View>
     );
   }
 }
-
-const HomeStack = createStackNavigator({
-  mainFlow : {
-    screen: createStackNavigator({
-      home: { screen: HomeScreen },
-      pawn: { screen: PawnScreen },
-    }),
-  },
-})
 
 const styles = {
   textStyle: {
