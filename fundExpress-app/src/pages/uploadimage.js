@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 export default class UploadScreen extends React.Component {
   static navigationOptions = {
       headerStyle: {
-        backgroundColor: "#C00000", 
+        backgroundColor: "#C00000",
       },
       headerTintColor: "#ffffff",
   }
