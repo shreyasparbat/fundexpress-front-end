@@ -150,7 +150,7 @@ class PawnOptions extends React.Component {
               borderRadius= {3}
               containerViewStyle={{height: 100, width: 80,}}
               backgroundColor='#C00000'
-              onPress={() => this.props.navigation.navigate('sellTickets')}
+              onPress={() => this.props.navigation.navigate('sellTicket')}
             />
             <Button
               title='Reject'

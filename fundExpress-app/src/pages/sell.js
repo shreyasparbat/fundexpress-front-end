@@ -18,16 +18,16 @@ class SellScreen extends React.Component {
       },
   }
 
-  state = {item: '',itemID:'', isLoading:true}
+  state = {item: '', isLoading:true}
 
-  sell(){
+  sell(auth){
     this.retrieveData('itemID').then((ID) => {
     fetch('http://206.189.145.2:3000/item/sell',{
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        'x-auth': this.state.auth,
+        'x-auth': auth,
       },
       body: JSON.stringify({
         itemID: ID,
@@ -39,8 +39,16 @@ class SellScreen extends React.Component {
     .then((response) => {
       console.log("/item/sell Success");
       console.log("response");
-      console.log(JSON.stringify(response.item));
-      this.storeData('itemObj', JSON.stringify(response.item)); 
+      console.log(response.item);
+      if(response.item==null){
+        this.navigation.navigate(options);
+      }else{
+      // console.log(JSON.stringify(response.item));
+      // this.storeData('itemObj', JSON.stringify(response.item)); 
+      this.setState({
+        item: response.item
+      })
+    }
       // console.log('pov');
       // console.log(response.item.pawnOfferedValue);
     })
@@ -62,16 +70,18 @@ class SellScreen extends React.Component {
   }
 
   componentWillMount() {
-    this.retrieveData('itemObj').then((item) => {
-      sItem = JSON.parse(item);
-      console.log(sItem);
-      this.setState({
-        item:sItem,
-        isLoading:false
-      })
-      console.log(this.state.item)
-      console.log(this.state.item._id)
+    this.retrieveData('auth').then((auth) => {
+      this.sell(auth)
     })
+  }
+
+  componentWillUnmount(){
+    AsyncStorage.multiRemove([
+      'itemID',
+      'pov',
+      'sov',
+      'photo',
+    ])
   }
 
   render() {
@@ -87,7 +97,7 @@ class SellScreen extends React.Component {
         <Text>Weight (in grams): {this.state.item.weight}</Text>
         <Text>Purity: {this.state.item.purity}</Text>
         <Text>Brand: {this.state.item.brand}</Text>
-        <Text>Date Purchased: {this.state.item.dateOfPurchase.slice(0,-14)}</Text>
+        {/* <Text>Date Purchased: {this.state.item.dateOfPurchase.slice(0,-14)}</Text> */}
         <Text>Pawn Offered Value: ${Math.round(this.state.item.pawnOfferedValue)}</Text>
         <Text>Sell Offered Value: ${Math.round(this.state.item.sellOfferedValue)}</Text>
         <Text>Additional Comments: {this.state.item.otherComments}</Text>

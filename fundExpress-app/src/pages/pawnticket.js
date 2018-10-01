@@ -78,6 +78,15 @@ class PawnTicket extends React.Component {
     // console.log(this.state.item)
   }
 
+  componentWillUnmount(){
+    AsyncStorage.multiRemove([
+      'itemID',
+      'pov',
+      'sov',
+      'photo',
+    ])
+  }
+
   render() {
     // console.log("render called")
     if(this.state.isLoading) return <ActivityIndicator />

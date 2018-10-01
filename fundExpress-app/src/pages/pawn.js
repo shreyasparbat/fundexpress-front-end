@@ -17,7 +17,8 @@ class PawnScreen extends Component {
     DOP: "",
     ID: '', 
     otherComments: '',
-    auth: ''
+    auth: '',
+    error:''
   }
   static navigationOptions = {
     title: "Pawn New Item",
@@ -131,6 +132,11 @@ class PawnScreen extends Component {
       console.log(response.itemID);
       console.log('POV');
       console.log(response.pawnOfferedValue);
+      if(response.pawnOfferedValue==null){
+          this.setState({
+            error: 'error'
+          })
+      }
       this.storeData('pov',response.pawnOfferedValue.toString());
       console.log('SOV');
       console.log(response.sellOfferedValue);
@@ -154,7 +160,7 @@ class PawnScreen extends Component {
         extraScrollHeight = {150}
         keyboardOpeningTime = {10}
       >
-        <Text style={{marginBottom: 10, marginTop: 30, flexDirection: "row"}}> Upload Item Image </Text>
+        <Text style={{marginBottom: 10, marginTop: 30, flexDirection: "row"}}> First Upload Item Image </Text>
         <View style={{flexDirection: "row"}}>
           <Avatar
             large
@@ -307,6 +313,16 @@ class PawnScreen extends Component {
             />
         </View>
 
+        <Text style={{
+          fontSize: 20,
+          fontFamily: Expo.Font.OpenSansLight,
+          alignSelf: 'center',
+          color: 'red',
+          marginTop: 10
+        }}>
+          {this.state.error}
+        </Text>
+          
         <Button
           title="Submit"
           color="white"
