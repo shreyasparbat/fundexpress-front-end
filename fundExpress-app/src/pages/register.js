@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, View, ScrollView, } from 'react-native';
+import { AsyncStorage, View, ScrollView, Text } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, Avatar, Button } from 'react-native-elements';
 import { Input } from '../components/input';
 import { Picker, Icon, DatePicker } from 'native-base';
@@ -67,8 +67,8 @@ validateIC = (icNumber) => {
   }
 }
 class RegisterScreen extends React.Component {
-  state = { email: '', password: '', fullName: '', gender: '', DOB: '', age: '' , ic: '', mobileNumber: '' ,
-  landlineNumber: '' ,address: '', citizenship: '', house: '', race: '' , ptoken: ''};
+  state = { email: '', password: '', fullName: '', gender: '', DOB: '', ic: '', mobileNumber: '' ,
+  landlineNumber: '' ,address: '', nationality:'', citizenship: '', house: '', race: '' , ptoken: '', error:''};
   static navigationOptions = {
     title: 'Register',
       headerStyle: {
@@ -111,10 +111,10 @@ class RegisterScreen extends React.Component {
     this.setState({ ptoken : token });
   }
 
-  storeData = async (auth) => {
+  storeData = async (key,item) => {
     try{
-      await AsyncStorage.setItem('auth', auth);
-      console.log("token stored successfully");
+      await AsyncStorage.setItem(key, item);
+      console.log(key + " stored successfully");
     } catch (error) {
       console.log(error)
     }
@@ -137,26 +137,25 @@ class RegisterScreen extends React.Component {
         fullName: this.state.fullName,
         gender: this.state.gender,
         dateOfBirth: this.state.DOB,
-        //age: this.state.age,
-        ic: validateIC(this.state.ic),
+        ic: this.state.ic,
         mobileNumber: parseInt(this.state.mobileNumber),
         nationality: this.state.nationality,
         citizenship: this.state.citizenship,
         landlineNumber: parseInt(this.state.landlineNumber),
-        //mobileNumber: this.state.mobileNumber,
-        //landlineNumber: this.state.landNumber,
         address: this.state.address,
-        expoPushToken: this.state.ptoken,
-    //     "email": "user115@test.com",
-    // "password": "pass1234",
-    // "fullName": "Test",
+        addressType: this.state.house,
+        race: this.state.race,
+        // expoPushToken: this.state.ptoken,
+    // "email": "averychong6@test.com",
+    //"password": "pass1234",
+    //"fullName": "AveryChong",
     // "gender": "M",
-    // "dateOfBirth": "2018-07-01",
+    // "dateOfBirth": "1994-05-23",
     // "ic": "S1234567A",
-    // "mobileNumber": 91234567,
+    // "mobileNumber": parseInt('91234567'),
     // "nationality": "Singaporean",
     // "citizenship": "Singapore",
-    // "landlineNumber": 61234567,
+    // "landlineNumber": parseInt('61234567'),
     // "address": "Singapore",
     // "addressType": "C",
     // "race": "Chinese",
@@ -166,12 +165,16 @@ class RegisterScreen extends React.Component {
       }),
     })
     .then((response) => {
-      console.log("Success")
       //console.log(response)
-      this.storeData(response.headers.get('x-auth'))
       console.log(response.headers.get('x-auth'))
-      //console.log(response.json())
+      if(response.headers.get('x-auth')==null){
+        this.setState({ error: 'error with registration'})
+      }else{
+      this.storeData('auth',response.headers.get('x-auth'));
+      console.log("Success")
+      console.log(this.state.email + " logged in")
       this.props.navigation.navigate('Home');
+      }
     })
     .catch((error) => {
       console.log("error")
@@ -204,7 +207,8 @@ class RegisterScreen extends React.Component {
 
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:0,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>NRIC</FormLabel>
-          <FormInput 
+          <FormInput
+            autoCapitalize='none' 
             onChangeText={ic => this.setState({ ic })} 
             value={this.state.ic} 
             placeholder='NRIC'
@@ -214,6 +218,7 @@ class RegisterScreen extends React.Component {
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:0,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Email</FormLabel>
           <FormInput 
+            autoCapitalize='none' 
             onChangeText={email => this.setState({ email })} 
             value={this.state.email} 
             placeholder='Email'
@@ -223,6 +228,7 @@ class RegisterScreen extends React.Component {
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Password</FormLabel>
           <FormInput 
+            autoCapitalize='none' 
             onChangeText={password => this.setState({ password })} 
             value={this.state.password}
             secureTextEntry={true} 
@@ -275,15 +281,23 @@ class RegisterScreen extends React.Component {
               selectedValue={this.state.race}
               onValueChange={race => this.setState({race})}
             >
-              <Picker.Item label="Chinese" value="C" />
-              <Picker.Item label="Malay" value="M" />
-              <Picker.Item label="Indian" value="I" />
-              <Picker.Item label="Eurasian" value="E" />
-              <Picker.Item label="Others" value="O" />
+              <Picker.Item label="Chinese" value="Chinese" />
+              <Picker.Item label="Malay" value="Malay" />
+              <Picker.Item label="Indian" value="Indian" />
+              <Picker.Item label="Eurasian" value="Eurasian" />
+              <Picker.Item label="Others" value="Others" />
 
             </Picker>
         </View>
 
+        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:0,marginLeft: 15, backgroundColor: 'white'}} >
+          <FormLabel>Nationality</FormLabel>
+          <FormInput
+            onChangeText={nationality => this.setState({ nationality })} 
+            value={this.state.nationality} 
+            placeholder='Nationality'
+          />
+        </View>
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:0,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Citizenship</FormLabel>
           <FormInput
@@ -361,7 +375,15 @@ class RegisterScreen extends React.Component {
 
         
 
-
+        <Text style={{
+          fontSize: 20,
+          fontFamily: Expo.Font.OpenSansLight,
+          alignSelf: 'center',
+          color: 'red',
+          marginTop: 10
+        }}>
+          {this.state.error}
+        </Text>
         <Button
           title='Register!'
           color='white'

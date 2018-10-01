@@ -1,21 +1,15 @@
 import React from 'react';
-import {View, Text, AsyncStorage,Image} from 'react-native';
-import { Button, Avatar } from 'react-native-elements';
-import AwesomeAlert from 'react-native-awesome-alerts';
+import {View, Text, AsyncStorage, ActivityIndicator} from 'react-native';
+import { Button, Card } from 'react-native-elements';
 
 class PawnTicket extends React.Component {
-  state = {
-    pov:'',
-    sov:'',
-    image: '',
-    auth: '',
-    showAlert: false 
-  };
-
   static navigationOptions = {
-    title: "Pawn New Item",
+    title: "New Pawn Ticket",
+    gesturesEnabled: false,
+    header: null,
+    tabBarVisible: false,
       headerStyle: {
-        backgroundColor: "#C00000",
+        backgroundColor: "#C00000", 
       },
       headerTintColor: "#ffffff",
       headerTitleStyle: {
@@ -24,62 +18,30 @@ class PawnTicket extends React.Component {
       },
   }
 
-  showAlert = () => {
-    this.setState({
-      showAlert: true
-    });
-  };
-
-  hideAlert = () => {
-    this.setState({
-      showAlert: false,
-    });
-  };
+  state = {item:'', itemID: '', isLoading:true}
 
   retrieveData = async (item) => {
     try{
       const value = await AsyncStorage.getItem(item);
+      console.log("successfully retrieved: " + value)
       return value;
     } catch (error) {
       console.log(error)
     }
   }
-//load the image URI, Pawn offered value and Sell offered value
-  componentWillMount() {
-    this.retrieveData('photo').then((photo) => {
-      this.setState({
-        image: photo
-      })
-    })
-      this.retrieveData('pov').then((pov) => {
-        this.setState({
-          pov: pov
-        })
-      })
-        this.retrieveData('sov').then((sov) => {
-          this.setState({
-            sov: sov
-          })
-    })
-    this.retrieveData('auth').then((auth) => {
-      this.setState({
-        auth: auth
-      })
-    })
-  }
 
-  pawn(){
-    this.retrieveData('itemID').then((ID) => {
+  pawn(sValue){
+    this.retrieveData('auth').then((auth) => {
       fetch('http://206.189.145.2:3000/item/pawn',{
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          'x-auth': this.state.auth,
+          'x-auth': auth,
         },
         body: JSON.stringify({
-          itemID: ID,
-          specifiedValue: this.state.pov //testing if API accepts string, and deducting 100 to make sure its less than POV
+          itemID: this.state.itemID,
+          specifiedValue: sValue
         }),
       })
       .then((response) => {
@@ -89,7 +51,13 @@ class PawnTicket extends React.Component {
         console.log("/item/pawn Success");
         console.log("response");
         console.log(response);
-        this.props.navigation.navigate('propose')
+        this.setState({
+          item:response,
+          isLoading:false
+        })
+        //console.log(JSON.stringify(response.item));
+        //this.storeData('itemObj', JSON.stringify(response));
+        //this.props.navigation.navigate('pawnTicket')
       })
       .catch((error) => {
         console.log("error")
@@ -98,109 +66,58 @@ class PawnTicket extends React.Component {
     })
   }
 
-  sell(){
+  componentWillMount() {
     this.retrieveData('itemID').then((ID) => {
-    fetch('http://206.189.145.2:3000/item/sell',{
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'x-auth': this.state.auth,
-      },
-      body: JSON.stringify({
-        itemID: ID,
-      }),
+      this.setState({
+        itemID: ID
+      })
     })
-    .then((response) => {
-      return response.json()
+    this.retrieveData('specifiedValue').then((sValue) => {
+      this.pawn(sValue);
     })
-    .then((response) => {
-      console.log("/item/sell Success");
-      console.log("response");
-      console.log(response);
-      this.props.navigation.navigate('sell')
-    })
-    .catch((error) => {
-      console.log("error")
-      console.log(error)
-    })
-  })
+    // console.log(this.state.item)
   }
 
   render() {
+    // console.log("render called")
+    if(this.state.isLoading) return <ActivityIndicator />
+    else{
+      // console.log("creating display")
+      // console.log(this.state.item.item)
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        {/* display taken image of item */}
-        <Image
-            style={{height: 200, width: 200, marginTop: 70}}
-            source={{ uri: this.state.image}}
-          />
-      
-      {/* Card for the POV and SOV */}
-        <View style={{backgroundColor:'white',
-         borderRadius:3, marginTop:30,
-         height:150,
-         width:300,
-         justifyContent:'center',
-         alignItems:'center'
-         }}>
-          <Text> Pawn Offered Value: {this.state.pov}</Text>
-          <Text> Sell Offered Value: {this.state.sov}</Text>
-        </View>
+      <Card title="Pawn Ticket" >
+
+        <Text>item ID: {this.state.item.item._id}</Text>
+        <Text>Name: {this.state.item.item.name}</Text>
+        <Text>Type: {this.state.item.item.type}</Text>
+        <Text>Condition: {this.state.item.item.condition}</Text>
+        <Text>Material: {this.state.item.item.material}</Text>
+        <Text>Weight (in grams): {this.state.item.item.weight}</Text>
+        <Text>Purity: {this.state.item.item.purity}</Text>
+        <Text>Brand: {this.state.item.item.brand}</Text>
+        <Text>Date Purchased: {this.state.item.item.dateOfPurchase.slice(0,-14)}</Text>
+        <Text>Pawn Offered Value: ${Math.round(this.state.item.item.pawnOfferedValue)}</Text>
+        <Text>Sell Offered Value: ${Math.round(this.state.item.item.sellOfferedValue)}</Text>
+        <Text>Additional Comments: {this.state.item.item.otherComments}</Text>
+        <Text>Expiry Date: {this.state.item.expiryDate.slice(0,-14)}</Text>
+        <Text>Interest Payable: {Math.round(this.state.item.interestPayable)}</Text>
+        <Text>Ticket Pending Approval.</Text>
+        <Text>Please go down to your nearest FundExpress to submit your item!</Text>
         
-        <View 
-          style={{ justifyContent: 'center', alignItems: 'center', 
-          marginTop: 35, flexDirection: 'row' }}>
-          <Button
-              title='Pawn'
+      </Card>
+        
+        <Button
+              title='Return to Home'
               color='white'
               borderRadius= {3}
-              containerViewStyle={{height: 100, width: 80,}}
-              backgroundColor='#ff0000'
-              onPress={() => this.pawn()}
-            />
-          <Button
-              title='Sell'
-              color='white'
-              borderRadius= {3}
-              containerViewStyle={{height: 100, width: 80,}}
-              backgroundColor='#ff0000'
-              onPress={() => this.sell()}
-            />
-            <Button
-              title='Reject'
-              color='white'
-              borderRadius= {3}
-              containerViewStyle={{height: 100, width: 80,}}
+              containerViewStyle={{height: 50, width: 200, marginTop: 15}}
               backgroundColor='#C00000'
-              onPress={() => this.showAlert()}
+              onPress={() => this.props.navigation.navigate("main")}
             />
-
-        </View>
-        <AwesomeAlert
-          show= {this.state.showAlert}
-          //showProgress={false}
-          //title="AwesomeAlert"
-          message="Are you sure you want to reject the offer?"
-          closeOnTouchOutside={true}
-          closeOnHardwareBackPress={false}
-          showCancelButton={true}
-          showConfirmButton={true}
-          cancelText="Yes" //it's intentionally opposite to place the yes on the left button
-          confirmText="No"
-          confirmButtonColor="#DD6B55"
-          onCancelPressed={() => {
-            this.hideAlert();
-            this.props.navigation.navigate('main')
-
-          }}
-          onConfirmPressed={() => {
-            this.hideAlert();
-            ;
-          }}
-        />
       </View>
     );
+      }
   }
 }
 

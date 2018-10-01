@@ -54,14 +54,14 @@ class ProfileEditScreen extends React.Component {
       })
       .then((response) => {
         console.log("profile retrieved")
-        //console.log(response)
-        //console.log(response.body)
+        console.log(response)
+        console.log(response.body)
         //console.log(response)
         this.setState({
           fullName: response.fullName,
           address: response.address,
           citizenship: response.citizenship,
-          DOB: response.dateOfBirth.slice(0,10).toString(),
+          DOB: response.dateOfBirth.slice(0,-14),
           email: response.email,
           gender: response.gender,
           ic: response.ic,
@@ -106,12 +106,9 @@ class ProfileEditScreen extends React.Component {
           fullName: this.state.fullName,
           gender: this.state.gender,
           dateOfBirth: this.state.DOB,
-          //age: this.state.age,
           ic: this.state.ic,
           mobileNumber: parseInt(this.state.mobileNumber),
           landlineNumber: parseInt(this.state.landlineNumber),
-          //mobileNumber: this.state.mobileNumber,
-          //landlineNumber: this.state.landNumber,
           address: this.state.address,
           citizenship: this.state.citizenship,
           nationality: this.state.nationality,
@@ -148,15 +145,15 @@ class ProfileEditScreen extends React.Component {
        showsVerticalScrollIndicator bounces={false} >
 
 
-        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
+        {/* <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input
             value={this.state.fullName}
             onChangeText={fullName => this.setState({ fullName })}
             placeholder="Full Name"
           />
-        </View>
+        </View> */}
 
-        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
+        {/* <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
         <Picker
               note
               mode="dropdown"
@@ -173,9 +170,9 @@ class ProfileEditScreen extends React.Component {
               <Picker.Item label="Female" value="F" />
 
             </Picker>
-        </View>
+        </View> */}
 
-        <View style={{width:300,height:50,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15}}>
+        {/* <View style={{width:300,height:50,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15}}>
       <DatePicker
             defaultDate={this.state.DOB}
             minimumDate={new Date(1900, 1, 1)}
@@ -190,60 +187,75 @@ class ProfileEditScreen extends React.Component {
             placeHolderTextStyle={{ color: "black" }}
             onDateChange={DOB => this.setState({ DOB })}
             />
-        </View>
+        </View> */}
 
-        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
+        {/* <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input
             value={this.state.ic}
             onChangeText={ic => this.setState({ ic })}
             placeholder="NRIC"
           />
-        </View>
+        </View> */}
 
-        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input
-            value={this.state.mobileNumber}
-            onChangeText={phoneNumber => this.setState({ phoneNumber })}
-            placeholder="Mobile Number"
+        {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+          <FormLabel>Password</FormLabel>
+          <FormInput 
+            onChangeText={password => this.setState({ password })} 
+            value={this.state.password} 
+            placeholder='Password'
+          />
+        </View>  */}
+
+        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+          <FormLabel>Mobile Number</FormLabel>
+          <FormInput 
+            onChangeText={mobileNumber => this.setState({ mobileNumber })} 
+            value={this.state.mobileNumber} 
+            placeholder='Mobile Number'
           />
         </View>
 
-        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input
-            value={this.state.landlineNumber}
-            onChangeText={landlineNumber => this.setState({ landlineNumber })}
-            placeholder="House Phone Number"
+        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+          <FormLabel>Home Phone Number</FormLabel>
+          <FormInput 
+            onChangeText={landlineNumber => this.setState({ landlineNumber })} 
+            value={this.state.landlineNumber} 
+            placeholder='Home Phone Number'
           />
         </View>
 
-        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input
-            value={this.state.address}
-            onChangeText={address => this.setState({ address })}
-            placeholder="Address"
+        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+          <FormLabel>Address</FormLabel>
+          <FormInput 
+            onChangeText={address => this.setState({ address })} 
+            value={this.state.address} 
+            placeholder='Address'
           />
         </View>
 
-        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input
-            value={this.state.citizenship}
-            onChangeText={citizenship => this.setState({ citizenship })}
-            placeholder="Citizenship"
+        {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+          <FormLabel>Citizenship</FormLabel>
+          <FormInput 
+            onChangeText={citizenship => this.setState({ citizenship })} 
+            value={this.state.citizenship} 
+            placeholder='Citizenship'
           />
-        </View>
+        </View> */}
 
-        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input
-            value={this.state.nationality}
-            onChangeText={nationality => this.setState({ nationality })}
-            placeholder="Nationality"
+        {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+          <FormLabel>Nationality</FormLabel>
+          <FormInput 
+            onChangeText={nationality => this.setState({ nationality })} 
+            value={this.state.nationality} 
+            placeholder='Nationality'
           />
-        </View>
+        </View> */}
+
 
         <Button
           title='Submit Changes'
           color='white'
-          backgroundColor='#ff0000'
+          backgroundColor='#C00000'
           onPress={() => this.submit()}
           //onPress={()=>console.log(JSON.stringify(this.state))}
           //onPress={() => this.props.navigation.navigate('main')}

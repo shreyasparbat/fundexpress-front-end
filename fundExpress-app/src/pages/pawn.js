@@ -67,6 +67,7 @@ class PawnScreen extends Component {
       name: "Gold Bar #0000",
       type: "Gold Bar",
       material: "Gold",
+      condition: 'NA',
 
     })
   }else{
@@ -134,7 +135,7 @@ class PawnScreen extends Component {
       console.log('SOV');
       console.log(response.sellOfferedValue);
       this.storeData('sov',response.sellOfferedValue.toString());
-      this.props.navigation.navigate('ticket');
+      this.props.navigation.navigate('options');
     })
     .catch((error) => {
       console.log("error")
@@ -153,22 +154,23 @@ class PawnScreen extends Component {
         extraScrollHeight = {150}
         keyboardOpeningTime = {10}
       >
-        <Text style={{marginBottom: 10, marginTop: 30, flexDirection: "row"}}> Item Image </Text>
+        <Text style={{marginBottom: 10, marginTop: 30, flexDirection: "row"}}> Upload Item Image </Text>
         <View style={{flexDirection: "row"}}>
           <Avatar
             large
-            icon={{name: "camera-alt", color: "grey"}}
-            containerStyle={{marginLeft: 15}}
+            rounded
+            icon={{name: "camera-alt", color: 'white'}}
+            containerStyle={{marginLeft: 15, backgroundColor:'#C00000'}}
             onPress={() => this.props.navigation.navigate('upload', {'type': this.state.type})}
             //source={{ uri: this.props.navigation.getParam('uri' , '') }}
           />
 
-          <Avatar
+          {/* <Avatar
             large
             icon={{name: "camera-alt", color: "grey"}}
             containerStyle={{marginLeft: 15}}
             onPress={() => this.props.navigation.navigate('upload')}
-          />
+          /> */}
 
         </View>
 
@@ -181,7 +183,7 @@ class PawnScreen extends Component {
           />
         </View>
 
-        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:30, backgroundColor:'white'}}>
+        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>
           <FormLabel>Type</FormLabel>
           <Picker
                 mode="dropdown"
@@ -205,11 +207,11 @@ class PawnScreen extends Component {
           </View>
 
           <View style={{flex:1,height:70,marginTop:15,marginLeft:15,backgroundColor:'white'}}>
-            <FormLabel>Condition</FormLabel>
+            <FormLabel>Condition out of 10 (if applicable)</FormLabel>
             <FormInput
               onChangeText={condition => this.setState({ condition })}
               value={this.state.condition}
-              placeholder='Item Condition'
+              placeholder=''
             />
           </View>
 
@@ -259,8 +261,8 @@ class PawnScreen extends Component {
               <Picker.Item label="24K" value="24k/999" />
               <Picker.Item label="22K" value="22k/916" />
               <Picker.Item label="20K" value="20k/835" />
-              <Picker.Item label="18K(Yellow Gold)" value="18k/750" />
-              <Picker.Item label="18K(White Gold)" value="18k/750" />
+              <Picker.Item label="18K(Yellow Gold)" value="18k/750 (Yellow gold)" />
+              <Picker.Item label="18K(White Gold)" value="18k/750 (White gold)" />
               <Picker.Item label="14K" value="14k/585" />
               <Picker.Item label="9K" value="9k/375" />
               <Picker.Item label="NA" value="NA" />
@@ -308,7 +310,7 @@ class PawnScreen extends Component {
         <Button
           title="Submit"
           color="white"
-          backgroundColor="#ff0000"
+          backgroundColor="#C00000"
           onPress={() => this.submit()}
           //onPress={() => this.props.navigation.navigate("ticket")}
           //onPress={() => console.log(this.state)}

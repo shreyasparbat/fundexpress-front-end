@@ -15,6 +15,9 @@ import RedeemScreen from './redeem';
 import ProposeScreen from './propose';
 import BuyScreen from './buy';
 import SellScreen from './sell';
+import FAQScreen from './ContactUs/faq'
+import PawnTicket from './pawnticket';
+import PawnOptions from './pawnoptions';
 
 //pawn imports
 //import SellScreen from './sell';
@@ -33,8 +36,8 @@ import AllSellTicketsScreen from './MyTickets/AllSellTickets';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //contact us imports
-import ContactUsScreen from './ContactUs';
-import InformationScreen from './Information';
+import ContactUsScreen from './ContactUs/ContactUs';
+import InformationScreen from './ContactUs/Information';
 
 
 
@@ -89,7 +92,7 @@ class LoginScreen extends React.Component {
         <Button
           title='Log in'
           color='white'
-          backgroundColor='#ff0000'
+          backgroundColor='#C00000'
   //these two onPress determine what the button does, either go to home page (for easy work), or run the login api call
           //onPress={() => this.props.navigation.navigate('Home')}
           onPress={() => this.onButtonPress()}
@@ -125,6 +128,8 @@ class LoginScreen extends React.Component {
       body: JSON.stringify({
         'email': this.state.email,
         'password': this.state.password
+        // email: "averychong3@test.com",
+        // password: "pass1234"
 
       })
     })
@@ -137,7 +142,8 @@ class LoginScreen extends React.Component {
         return response.json()
       })
       .then((response) => {
-        console.log("logged in")
+        // console.log("logged in EASY MODE REMEMBER TO CHANGE THE BODY BACK")
+        console.log(this.state.email + " logged in")
         console.log("x-auth")
         //console.log(response)
         console.log(response.headers.get('x-auth'))
@@ -193,12 +199,14 @@ class LoginScreen extends React.Component {
           <View style={{width: 260, height: 50, borderColor: 'grey', borderBottomWidth: 1}}>
             <Input
             value={this.state.email}
+            autoCapitalize="none"
             onChangeText={email => this.setState({ email })}
             placeholder='Email'
             />
           </View>
           <Input
             value={this.state.password}
+            autoCapitalize="none"
             onChangeText={password => this.setState({ password })}
             placeholder='Password'
             secureTextEntry= {true}
@@ -255,6 +263,24 @@ const RootStack = createStackNavigator({
         gesturesEnabled: false
       }
     },
+    // pawnTicket:{
+    //   screen: createStackNavigator({
+    //     main:{screen: PawnTicket},
+    //   }),
+    //   navigationOptions: {
+    //     tabBarVisible: false,
+    //     header: null
+    //   }
+    // },
+    // sellTicket:{
+    //   screen: createStackNavigator({
+    //     main:{screen: SellScreen},
+    //   }),
+    //   navigationOptions: {
+    //     tabBarVisible: false,
+    //     header: null,
+    //   }
+    // },
     mainFlow : {
       screen: createBottomTabNavigator({
         Profile: {
@@ -278,22 +304,24 @@ const RootStack = createStackNavigator({
             main:{screen: HomeScreen},
             pawn:{screen: PawnScreen},
             buy: {screen: BuyScreen},
-            sell: {screen: SellScreen},
+            sellTicket: {screen: SellScreen},
             select: {screen: selectPawn},
             renew: {screen: RenewScreen},
             redeem: {screen: RedeemScreen},
             faq: {screen: FAQScreen},
             upload: {screen: UploadScreen},
-            propose: {screen: ProposeScreen}
+            propose: {screen: ProposeScreen},
+            options: {screen: PawnOptions},
+            pawnTicket: {screen: PawnTicket},
           }),
           navigationOptions: {
+            gesturesEnabled:false,
+            hardwareBackPress: true,
             initialRouteName: 'main',
             tabBarIcon: ({ focused, tintColor }) => {
               return <Ionicons name={'md-home'} size={25}
               color={'white'} />;
             },
-            swipeEnabled: false,
-            gesturesEnabled: false,
           }
         },
         "My Tickets": {screen: createStackNavigator({

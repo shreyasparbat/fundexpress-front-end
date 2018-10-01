@@ -95,7 +95,7 @@ class ProfileScreen extends React.Component {
     })
       .then((response) => {
         if (response.ok) {
-          console.log('logged out')
+          console.log(this.state.email + ' logged out')
 //this clears all the FEapp related temp data when logging out
           AsyncStorage.multiRemove([
             'auth',
