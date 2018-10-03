@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Text, AsyncStorage, ActivityIndicator} from 'react-native';
 import { Button, Card } from 'react-native-elements';
-
 class PawnTicket extends React.Component {
   static navigationOptions = {
     title: "New Pawn Ticket",

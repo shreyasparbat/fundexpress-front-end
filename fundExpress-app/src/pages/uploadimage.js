@@ -19,19 +19,14 @@ export default class UploadScreen extends React.Component {
     auth: ''
   };
 
-  // state = {
-  //   cameraPermission: null,
-  //   rollPermission: null,
-  // };
-
   componentDidMount() {
-    Permissions.askAsync(Permissions.CAMERA)
+  Permissions.askAsync(Permissions.CAMERA)
       .then(({ status }) =>
         this.setState({
           cameraPermission: status === 'granted'
         })
       );
-    Permissions.askAsync(Permissions.CAMERA_ROLL)
+  Permissions.askAsync(Permissions.CAMERA_ROLL)
       .then(({ status }) =>
         this.setState({
           rollPermission: status === 'granted'
@@ -110,7 +105,7 @@ export default class UploadScreen extends React.Component {
   go = (ID) => {
     console.log(ID);
     //this.props.navigation.navigate('pawn', {itemID: ID});
-    this.props.navigation.navigate('pawn');
+    this.props.navigation.navigate('pawn', {'type': this.state.type});
   }
 
   submit= (photo) => {

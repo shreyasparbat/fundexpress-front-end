@@ -113,20 +113,11 @@ class LoginScreen extends React.Component {
 
     this.setState({ error: '', loading: true });
 
-<<<<<<< HEAD
     const user = {
       email: this.state.email,
       password: this.state.password
     } 
 
-=======
-    // const user = {
-    //   email: this.state.email,
-    //   password: this.state.password
-    // }
-
-  //the actual API call
->>>>>>> 172937049464a23951019e7a6c93ab1e2b21bb2b
    fetch('http://206.189.145.2:3000/user/login', {
       method: 'POST',
       headers:{

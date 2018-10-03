@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Icon, Picker, DatePicker,Form} from "native-base";
-import {AsyncStorage, View, Text,  ScrollView} from "react-native";
+import {AsyncStorage, View, Text,  Image} from "react-native";
 import { Avatar , Button, FormLabel, FormInput } from "react-native-elements";
 import { Input } from "../components/input";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -18,7 +18,8 @@ class PawnScreen extends Component {
     ID: '', 
     otherComments: '',
     auth: '',
-    error:''
+    error:'',
+    image:''
   }
   static navigationOptions = {
     title: "Pawn New Item",
@@ -30,8 +31,15 @@ class PawnScreen extends Component {
         fontWeight: "bold",
         color: "#ffffff"
       },
+      // headerLeft: {
+      //   onPress: this.goBack()
+      // }
+
   }
 
+  goBack(){
+    this.props.navigation.navigate('select');
+  }
   submit(){
     this.storeData(this.state);
     this.props.navigation.navigate('ticket');
@@ -56,6 +64,11 @@ class PawnScreen extends Component {
 }
 
  componentWillMount(){
+  this.retrieveData('photo').then((photo) => {
+    this.setState({
+      image: photo
+    })
+  })
   this.retrieveData('auth').then((token) => {
     this.setState({auth:token})
   }).catch((error) => {
@@ -160,23 +173,22 @@ class PawnScreen extends Component {
         extraScrollHeight = {150}
         keyboardOpeningTime = {10}
       >
-        <Text style={{marginBottom: 10, marginTop: 30, flexDirection: "row"}}> First Upload Item Image </Text>
+        {/* <Text style={{marginBottom: 10, marginTop: 30, flexDirection: "row"}}> First Upload Item Image </Text> */}
         <View style={{flexDirection: "row"}}>
-          <Avatar
+          {/* <Avatar
             large
             rounded
             icon={{name: "camera-alt", color: 'white'}}
             containerStyle={{marginLeft: 15, backgroundColor:'#C00000'}}
             onPress={() => this.props.navigation.navigate('upload', {'type': this.state.type})}
             //source={{ uri: this.props.navigation.getParam('uri' , '') }}
-          />
-
-          {/* <Avatar
-            large
-            icon={{name: "camera-alt", color: "grey"}}
-            containerStyle={{marginLeft: 15}}
-            onPress={() => this.props.navigation.navigate('upload')}
           /> */}
+
+          {/* display taken image of item */}
+        <Image
+            style={{height: 200, width: 200, marginTop: 50}}
+            source={{ uri: this.state.image}}
+          />
 
         </View>
 

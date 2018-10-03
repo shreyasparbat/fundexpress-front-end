@@ -56,11 +56,6 @@ class PawnOptions extends React.Component {
 
 //load the image URI, Pawn offered value and Sell offered value
   componentWillMount() {
-    this.retrieveData('photo').then((photo) => {
-      this.setState({
-        image: photo
-      })
-    })
       this.retrieveData('pov').then((pov) => {
         this.setState({
           pov: pov
@@ -115,11 +110,7 @@ class PawnOptions extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        {/* display taken image of item */}
-        <Image
-            style={{height: 200, width: 200, marginTop: 70}}
-            source={{ uri: this.state.image}}
-          />
+        
       
       {/* Card for the POV and SOV */}
         <View style={{backgroundColor:'white',
