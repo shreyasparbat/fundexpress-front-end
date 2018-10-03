@@ -17,7 +17,7 @@ export default class UploadScreen extends React.Component {
     photo: '',
     type: this.props.navigation.getParam('type' , null),
     auth: ''
-  };
+  }
 
   componentDidMount() {
   Permissions.askAsync(Permissions.CAMERA)
@@ -25,13 +25,13 @@ export default class UploadScreen extends React.Component {
         this.setState({
           cameraPermission: status === 'granted'
         })
-      );
+      )
   Permissions.askAsync(Permissions.CAMERA_ROLL)
       .then(({ status }) =>
         this.setState({
           rollPermission: status === 'granted'
         })
-      );
+      )
   }
 
   componentWillMount(){
@@ -40,7 +40,7 @@ export default class UploadScreen extends React.Component {
     }).catch((error) => {
       console.log("error retrieving token")
       console.log(error)
-    });
+    })
   }
 
 //   render() {
@@ -105,7 +105,7 @@ export default class UploadScreen extends React.Component {
   go = (ID) => {
     console.log(ID);
     //this.props.navigation.navigate('pawn', {itemID: ID});
-    this.props.navigation.navigate('pawn', {'type': this.state.type});
+    this.props.navigation.navigate('pawn', {'type': this.state.type})
   }
 
   submit= (photo) => {
@@ -162,8 +162,6 @@ export default class UploadScreen extends React.Component {
 
   render() {
 
-    const { photo } = this.state;
-
     return (
       <View style={{ flex: 1, width: '100%' }}>
       {/* {photo ? (
@@ -186,17 +184,7 @@ export default class UploadScreen extends React.Component {
         </View>
         </Camera>
      {/* ) */}
-    }
     </View>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
