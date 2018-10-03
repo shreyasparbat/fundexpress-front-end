@@ -75,12 +75,18 @@ export default class PawnTicket extends React.Component {
   }
 
   getDateNicelyFormatted(date){
+    // console.log("date: " + date);
     var currentDateString = date.toLocaleDateString("en-US", { day: "numeric", month: "long", year:"numeric" })
-    var arrayOfDateParts = currentDateString.split(" ");
+    // console.log("currentDateString: " + currentDateString)
+    var arrayOfDateParts = currentDateString.split("/");
+    // console.log("arrayOfDateParts: " + arrayOfDateParts)
     var month = arrayOfDateParts[0]
+    // console.log('month: ' + month)
     var day = arrayOfDateParts[1].substring(0, arrayOfDateParts[1].indexOf(","))
+    // console.log('day: ' + day)
     var year = arrayOfDateParts[2]
-    return day + " " + month.substring(0, 3) + "\r\n" + year;
+    // console.log('year: ' + year)
+    return day + " " + month.substring(0, 3) + "/" + "\r\n" + year;
   }
   render(){
     return(
@@ -95,47 +101,47 @@ export default class PawnTicket extends React.Component {
               </Left>
                   <Body>
 
-                    //
+                    
                     <View style={{marginBottom: 10}}>
                       <Text style={{fontSize:25}}>Ticket #{this.state.ticketNumber}</Text>
                       <Text note>{this.state.itemName}</Text>
                     </View>
 
-                    //ProgressBar
+                    {/* //ProgressBar */}
                     <ProgressBar
                         percentage={this.getTimePassed(this.state.dateCreated, this.state.expiryDate)}
                         color={this.getProgressBarColor(this.state.dateCreated, this.state.expiryDate)}
                     />
 
-                    // date under the ProgressBar
+                    {/* // date under the ProgressBar */}
                     <View style={{flexDirection: 'row', marginBottom: 10}}>
                       <Text style={{width:85}}>{this.getDateNicelyFormatted(this.state.dateCreated)}</Text>
                       <Text style={{width:85, textAlign: 'right'}}>{this.getDateNicelyFormatted(this.state.expiryDate)}</Text>
                     </View>
 
-                    //pawn amount and interestPayable
+                    {/* //pawn amount and interestPayable */}
                     <View style={{flexDirection: 'row', padding: 5}}>
-                      //column 1
+                      {/* //column 1 */}
                       <View style={{flexDirection: 'column', backgroundColor: '#d3d3d3'}}>
                         <Text>Pawn amount: </Text>
                         <Text>Interest Payable: </Text>
 
                       </View>
-                      //column 2
+                      {/* //column 2 */}
                       <View style={{flexDirection: 'column'}}>
                         <Text>{this.state.offeredValue}</Text>
                         <Text>{this.state.interestPayable}</Text>
                       </View>
                     </View>
 
-                    //Buttons container
+                    {/* //Buttons container */}
                     <CardItem style={{justifyContent: 'center'}}>
-                      //Renew Now Button
+                      {/* //Renew Now Button */}
                       <Button style={styles.buttonStyle} onPress={() => this.props.navigation.navigate('renew')}>
                         <Text style={{fontSize: 16, color: '#ffffff', }}>Renew Now</Text>
                       </Button>
 
-                      //Value Button
+                      {/* //Value Button */}
                       <Button style={styles.buttonStyle}>
                         <Text style={{fontSize: 16, color: '#ffffff', }}>Value</Text>
                       </Button>

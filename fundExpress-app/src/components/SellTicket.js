@@ -28,11 +28,11 @@ export default class SellTicket extends React.Component {
   }
   getDateNicelyFormatted(date){
     var currentDateString = date.toLocaleDateString("en-US", { day: "numeric", month: "long", year:"numeric" })
-    var arrayOfDateParts = currentDateString.split(" ");
+    var arrayOfDateParts = currentDateString.split("/");
     var month = arrayOfDateParts[0]
     var day = arrayOfDateParts[1].substring(0, arrayOfDateParts[1].indexOf(","))
     var year = arrayOfDateParts[2]
-    return day + " " + month.substring(0, 3)  + " " + year;
+    return day + " " + month.substring(0, 3)  + "/" + year;
   }
   render(){
     return(
@@ -47,32 +47,32 @@ export default class SellTicket extends React.Component {
               </Left>
                   <Body>
 
-                    //
+                    {/* // */}
                     <View style={{marginBottom: 10}}>
                       <Text style={{fontSize:25}}>Ticket #{this.state.ticketNumber}</Text>
                       <Text note>{this.state.itemName}</Text>
                     </View>
 
 
-                    //pawn amount and interestPayable
+                    {/* //pawn amount and interestPayable */}
                     <View style={{flexDirection: 'row', padding: 5}}>
-                      //column 1
+                      {/* //column 1 */}
                       <View style={{flexDirection: 'column', backgroundColor: '#d3d3d3'}}>
                         <Text>Date Created: </Text>
                         <Text>Item Value: </Text>
 
                       </View>
-                      //column 2
+                      {/* //column 2 */}
                       <View style={{flexDirection: 'column'}}>
                         <Text>{this.getDateNicelyFormatted(this.state.dateCreated)}</Text>
                         <Text>{this.state.value}</Text>
                       </View>
                     </View>
 
-                    //Buttons container
+                    {/* //Buttons container */}
                     <View style={{alignSelf: 'center'}}>
                     <CardItem>
-                      //Value Button
+                      {/* //Value Button */}
                       <Button style={styles.buttonStyle}>
                         <Text style={{fontSize: 16, color: '#ffffff', }}>Value</Text>
                       </Button>

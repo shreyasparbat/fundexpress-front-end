@@ -68,6 +68,7 @@ class CurrentPawnTickets extends React.Component {
   };
 
   constructor(props) {
+    console.log("constructor")
     super(props);
 
     this.renderRow = this.renderRow.bind(this);
@@ -86,7 +87,7 @@ class CurrentPawnTickets extends React.Component {
 
 
   componentDidMount(){
-
+      console.log("1. Component Will Mount")
       this.setState({
           dataSource: this.state.dataSource.cloneWithRowsAndSections(pawnTickets)
       });
@@ -120,6 +121,7 @@ class CurrentPawnTickets extends React.Component {
   }
 
   render(){
+      console.log("render")
       return (
         <View style={{paddingTop:5}}>
 

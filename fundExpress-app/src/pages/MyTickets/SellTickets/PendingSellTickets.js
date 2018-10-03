@@ -78,38 +78,38 @@ class CurrentSellTickets extends React.Component {
   }
 
 
-  componentWillMount(){
-    console.log("3. retrieve tickets called")
-    this.retrieveTickets();
+  // componentWillMount(){
+  //   console.log("3. retrieve tickets called")
+  //   this.retrieveTickets();
       
-  }
+  // }
 
-  componentDidMount(){
+  componentWillMount(){
 
     this.setState({
-        dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.sellTickets)
+        dataSource: this.state.dataSource.cloneWithRowsAndSections(sellTickets)
     });
 }
 
   renderRow(rowData: string, sectionID: number, rowID: number) {
-      const sellTickets = this.state.sellTickets;
-      console.log(sellTickets[0]);
+      // const sellTickets = this.state.sellTickets;
+      // console.log(sellTickets[0]);
       return (
         <SellTicket
-          // userId={sellTickets.dataSource[rowID].userId}
-          // itemId={sellTickets.dataSource[rowID].itemId}
-          // itemName={sellTickets.dataSource[rowID].itemName}
-          // ticketNumber={sellTickets.dataSource[rowID].ticketNumber}
-          // dateCreated={sellTickets.dataSource[rowID].dateCreated}
-          // value={sellTickets.dataSource[rowID].value}
-          // approvalStatus={sellTickets.dataSource[rowID].approvalStatus}
-          userId={sellTickets[rowID].userId}
-          itemId={sellTickets[rowID].itemId}
-          itemName={sellTickets[rowID].itemName}
-          ticketNumber={sellTickets[rowID].ticketNumber}
-          dateCreated={sellTickets[rowID].dateCreated}
-          value={sellTickets[rowID].value}
-          approvalStatus={sellTickets[rowID].approvalStatus}
+          userId={sellTickets.dataSource[rowID].userId}
+          itemId={sellTickets.dataSource[rowID].itemId}
+          itemName={sellTickets.dataSource[rowID].itemName}
+          ticketNumber={sellTickets.dataSource[rowID].ticketNumber}
+          dateCreated={sellTickets.dataSource[rowID].dateCreated}
+          value={sellTickets.dataSource[rowID].value}
+          approvalStatus={sellTickets.dataSource[rowID].approvalStatus}
+          // userId={sellTickets[rowID].userId}
+          // itemId={sellTickets[rowID].itemId}
+          // itemName={sellTickets[rowID].itemName}
+          // ticketNumber={sellTickets[rowID].ticketNumber}
+          // dateCreated={sellTickets[rowID].dateCreated}
+          // value={sellTickets[rowID].value}
+          // approvalStatus={sellTickets[rowID].approvalStatus}
         />
       );
   }
@@ -145,33 +145,33 @@ class CurrentSellTickets extends React.Component {
 export default CurrentSellTickets;
 
 
-// const sellTickets = {dataSource: [
-//   {
-//     userId: 'user123',
-//     itemId: 'item001',
-//     itemName: 'ROLEX Datejust Automatic Gold Dial 18kt Yellow Gold Watch',
-//     ticketNumber: '202030',
-//     dateCreated: new Date('2018-09-25'),
-//     value: '1000',
-//     approvalStatus: 'approved'
-//   },
-//   {
-//     userId: 'user123',
-//     itemId: 'item001',
-//     itemName: 'ROLEX Datejust Automatic Gold Dial 18kt Yellow Gold Watch',
-//     ticketNumber: '202031',
-//     dateCreated: new Date('2018-09-23'),
-//     value: '1000',
-//     approvalStatus: 'approved'
-//   },
-//   {
-//     userId: 'user123',
-//     itemId: 'item001',
-//     itemName: 'ROLEX Datejust Automatic Gold Dial 18kt Yellow Gold Watch',
-//     ticketNumber: '202032',
-//     dateCreated: new Date('2018-09-22'),
-//     value: '1000',
-//     approvalStatus: 'approved'
-//   }
-// ]
-// }
+const sellTickets = {dataSource: [
+  {
+    userId: 'user123',
+    itemId: 'item001',
+    itemName: 'ROLEX Datejust Automatic Gold Dial 18kt Yellow Gold Watch',
+    ticketNumber: '202030',
+    dateCreated: new Date('2018-09-25'),
+    value: '1000',
+    approvalStatus: 'approved'
+  },
+  {
+    userId: 'user123',
+    itemId: 'item001',
+    itemName: 'ROLEX Datejust Automatic Gold Dial 18kt Yellow Gold Watch',
+    ticketNumber: '202031',
+    dateCreated: new Date('2018-09-23'),
+    value: '1000',
+    approvalStatus: 'approved'
+  },
+  {
+    userId: 'user123',
+    itemId: 'item001',
+    itemName: 'ROLEX Datejust Automatic Gold Dial 18kt Yellow Gold Watch',
+    ticketNumber: '202032',
+    dateCreated: new Date('2018-09-22'),
+    value: '1000',
+    approvalStatus: 'approved'
+  }
+]
+}
