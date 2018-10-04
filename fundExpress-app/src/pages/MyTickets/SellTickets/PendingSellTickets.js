@@ -62,13 +62,17 @@ class CurrentSellTickets extends React.Component {
     })
     .then((response) => {
       console.log("/tickets Success");
-      //console.log("response");
-      console.log(response.sellTicketPendingApproval[0]);
-      console.log("set state")
+      console.log("response" + response);
+      //console.log(response.sellTicketPendingApproval[0]);
+      //console.log("set state")
       this.setState({
-        sellTickets:response.sellTicketPendingApproval,
+        //dataSource: this.state.dataSource.cloneWithRowsAndSections(response.sellTicketPendingApproval),
+        sellTickets: {dataSource: response.sellTicketPendingApproval},
         loading:false
       })
+      console.log('state.sellTickets: ' + this.state.sellTickets)
+      //console.log("userID: " + this.state.sellTickets[0].userID)
+      //console.log('dataRow' + sellTickets.dataSource[0].userID)
     })
     .catch((error) => {
       console.log("error")
@@ -84,32 +88,48 @@ class CurrentSellTickets extends React.Component {
       
   // }
 
-  componentWillMount(){
-
+  componentDidMount(){
+    this.retrieveTickets()
+    //console.log('const sellTickets: ' + sellTickets)
     this.setState({
-        dataSource: this.state.dataSource.cloneWithRowsAndSections(sellTickets)
+      dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.sellTickets)
     });
-}
+    
+  }
+
+//   componentWillMount(){
+//     this.retrieveTickets().then((tickets) => {
+//       this.setState({
+//         sellTickets: {dataSource: [tickets]}
+//       })
+//     })
+//     console.log('selltickets: ' + this.state.sellTickets);
+//     //console.log(this.retrieveTickets());
+//     this.setState({
+//         dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.sellTickets)
+//     });
+// }
 
   renderRow(rowData: string, sectionID: number, rowID: number) {
       // const sellTickets = this.state.sellTickets;
       // console.log(sellTickets[0]);
       return (
         <SellTicket
-          userId={sellTickets.dataSource[rowID].userId}
-          itemId={sellTickets.dataSource[rowID].itemId}
-          itemName={sellTickets.dataSource[rowID].itemName}
-          ticketNumber={sellTickets.dataSource[rowID].ticketNumber}
-          dateCreated={sellTickets.dataSource[rowID].dateCreated}
-          value={sellTickets.dataSource[rowID].value}
-          approvalStatus={sellTickets.dataSource[rowID].approvalStatus}
-          // userId={sellTickets[rowID].userId}
-          // itemId={sellTickets[rowID].itemId}
-          // itemName={sellTickets[rowID].itemName}
-          // ticketNumber={sellTickets[rowID].ticketNumber}
-          // dateCreated={sellTickets[rowID].dateCreated}
-          // value={sellTickets[rowID].value}
-          // approvalStatus={sellTickets[rowID].approvalStatus}
+          userId={this.state.sellTickets.dataSource[rowID].userID}
+          itemId={this.state.sellTickets.dataSource[rowID].item._id}
+          itemName={this.state.sellTickets.dataSource[rowID].item.name}
+          ticketNumber={this.state.sellTickets.dataSource[rowID].item._v}
+          dateCreated={this.state.sellTickets.dataSource[rowID].dateCreated}
+          value={this.state.sellTickets.dataSource[rowID].value}
+          approvalStatus={this.state.sellTickets.dataSource[rowID].approved}
+          // userId={this.state.sellTickets[rowID].userID}
+          // itemId={this.state.sellTickets[rowID].itemid}
+          // itemName={this.state.sellTickets[rowID].itemName}
+          // ticketNumber={this.state.sellTickets[rowID].ticketNumber}
+          // dateCreated={this.state.sellTickets[rowID].dateCreated}
+          // value={this.state.sellTickets[rowID].value}
+          // approvalStatus={this.state.sellTickets[rowID].approvalStatus}
+          
         />
       );
   }

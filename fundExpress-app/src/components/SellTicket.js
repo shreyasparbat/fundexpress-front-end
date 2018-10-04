@@ -1,7 +1,7 @@
 import { Container,  Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body } from 'native-base';
 import React from 'react';
 import ProgressBar from './ProgressBar';
-import { Image, Text, Linking, ListView, View, TouchableOpacity, FlatList } from 'react-native';
+import { Image, Text, Linking, ListView, View, TouchableOpacity, FlatList, Platform } from 'react-native';
 
 const styles = {
   buttonStyle: {
@@ -27,12 +27,33 @@ export default class SellTicket extends React.Component {
     }
   }
   getDateNicelyFormatted(date){
-    var currentDateString = date.toLocaleDateString("en-US", { day: "numeric", month: "long", year:"numeric" })
-    var arrayOfDateParts = currentDateString.split("/");
-    var month = arrayOfDateParts[0]
-    var day = arrayOfDateParts[1].substring(0, arrayOfDateParts[1].indexOf(","))
-    var year = arrayOfDateParts[2]
-    return day + " " + month.substring(0, 3)  + "/" + year;
+    if(Platform.OS==="ios"){
+      // console.log("date: " + date);
+      var currentDateString = date.toLocaleDateString("en-US", { day: "numeric", month: "long", year:"numeric" })
+      // console.log("currentDateString: " + currentDateString)
+      var arrayOfDateParts = currentDateString.split(" ");
+      // console.log("arrayOfDateParts: " + arrayOfDateParts)
+      var month = arrayOfDateParts[0]
+      // console.log('month: ' + month)
+      var day = arrayOfDateParts[1].substring(0, arrayOfDateParts[1].indexOf(","))
+      // console.log('day: ' + day)
+      var year = arrayOfDateParts[2]
+      // console.log('year: ' + year)
+      return day + " " + month.substring(0, 3) + "\r\n" + year;
+    }else{
+      // console.log("date: " + date);
+      var currentDateString = date.toLocaleDateString("en-US", { day: "numeric", month: "long", year:"numeric" })
+      // console.log("currentDateString: " + currentDateString)
+      var arrayOfDateParts = currentDateString.split("/");
+      // console.log("arrayOfDateParts: " + arrayOfDateParts)
+      var month = arrayOfDateParts[0]
+      // console.log('month: ' + month)
+      var day = arrayOfDateParts[1].substring(0, arrayOfDateParts[1].indexOf(","))
+      // console.log('day: ' + day)
+      var year = arrayOfDateParts[2]
+      // console.log('year: ' + year)
+      return day + " " + month.substring(0, 3) + "/" + "\r\n" + year;
+    }
   }
   render(){
     return(
