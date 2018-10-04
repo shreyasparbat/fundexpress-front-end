@@ -27,7 +27,7 @@ class MyTicketsScreen extends React.Component {
             style={{ resizeMode: 'contain', width: 200 }}
           />
         </View>
-        <View style={{flex: 0.4, marginTop: 25, alignSelf: 'center'}}>
+        <View style={{flex: 0.4, marginTop: 100, alignSelf: 'center'}}>
           <View style={{ flexDirection: 'row', }}>
           <TouchableOpacity
               onPress={() => this.props.navigation.navigate('AllPawnTickets')}
@@ -81,8 +81,8 @@ const styles = {
     //fontFamily: 'sans'
   },
   buttonStyle: {
-      width: 105,
-      height: 105,
+      width: 120,
+      height: 120,
       alignSelf: 'center',
       backgroundColor: '#ededed',
       borderRadius: 2,

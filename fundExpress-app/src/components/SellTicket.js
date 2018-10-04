@@ -17,13 +17,13 @@ export default class SellTicket extends React.Component {
     super(props)
 
     this.state = {
-      userId: props.userId,
-      itemId: props.itemId,
-      itemName: props.itemName,
-      ticketNumber: props.ticketNumber,
-      dateCreated: props.dateCreated,
-      value: props.value,
-      approvalStatus: props.approvalStatus
+      userId: props.data.userID,
+      itemId: props.data.itemId,
+      itemName: props.data.item.name,
+      ticketNumber: props.data.item._id,
+      dateCreated: new Date(props.data.dateCreated),
+      value: props.data.value,
+      approvalStatus: props.data.approved
     }
   }
   getDateNicelyFormatted(date){
@@ -39,7 +39,7 @@ export default class SellTicket extends React.Component {
       // console.log('day: ' + day)
       var year = arrayOfDateParts[2]
       // console.log('year: ' + year)
-      return day + " " + month.substring(0, 3) + "\r\n" + year;
+      return day + " " + month.substring(0, 3) + year;
     }else{
       // console.log("date: " + date);
       var currentDateString = date.toLocaleDateString("en-US", { day: "numeric", month: "long", year:"numeric" })
@@ -52,26 +52,27 @@ export default class SellTicket extends React.Component {
       // console.log('day: ' + day)
       var year = arrayOfDateParts[2]
       // console.log('year: ' + year)
-      return day + " " + month.substring(0, 3) + "/" + "\r\n" + year;
+      return day + " " + month.substring(0, 3) + "/" + year;
     }
   }
   render(){
+    // console.log(this.state);
     return(
       <View>
             <Card style={{flex: 0}}>
               <CardItem>
-              <Left>
+              {/* <Left>
               <Image
                 source={require('../images/feplaceholder.png')}
                 style={{ resizeMode: 'contain', width: 100 , height: 100}}
               />
-              </Left>
+              </Left> */}
                   <Body>
 
                     {/* // */}
                     <View style={{marginBottom: 10}}>
-                      <Text style={{fontSize:25}}>Ticket #{this.state.ticketNumber}</Text>
-                      <Text note>{this.state.itemName}</Text>
+                      <Text style={{fontSize:25}}>{this.state.itemName}</Text>
+                      {/* <Text note>Ticket #{this.state.ticketNumber}</Text> */}
                     </View>
 
 
@@ -86,7 +87,7 @@ export default class SellTicket extends React.Component {
                       {/* //column 2 */}
                       <View style={{flexDirection: 'column'}}>
                         <Text>{this.getDateNicelyFormatted(this.state.dateCreated)}</Text>
-                        <Text>{this.state.value}</Text>
+                        <Text>${Math.round(this.state.value)}</Text>
                       </View>
                     </View>
 

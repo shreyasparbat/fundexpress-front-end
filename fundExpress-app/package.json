@@ -39,6 +39,8 @@
     "react-native-keyboard-aware-scroll-view": "^0.7.2",
     "react-native-material-kit": "^0.5.1",
     "react-native-phone-call": "^1.0.8",
+    "react-native-scripts": "^2.0.1",
+    "react-native-sglistview": "^0.4.5",
     "react-native-vector-icons": "^5.0.0",
     "react-navigation": "^2.9.3",
     "react-redux": "^5.0.7",

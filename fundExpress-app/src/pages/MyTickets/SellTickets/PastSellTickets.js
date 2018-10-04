@@ -1,6 +1,6 @@
 //this was HistorySold
 import React from 'react';
-import { Image, Text, Linking, ListView, View, TouchableOpacity, FlatList } from 'react-native';
+import { Image, Text, Linking, ListView, View, TouchableOpacity, FlatList, AsyncStorage, ScrollView } from 'react-native';
 import { Container,  Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body } from 'native-base';
 import SellTicket from '../../../components/SellTicket';
 
@@ -18,101 +18,72 @@ class CurrentSellTickets extends React.Component {
     },
   };
 
-  constructor(props) {
-    super(props);
+  state = { data: [] };
 
-    this.renderRow = this.renderRow.bind(this);
-    this.renderSectionHeader = this.renderSectionHeader.bind(this);
-
-
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2,
-    sectionHeaderHasChanged: (s1, s2) => s1 !== s2});
-
-    this.state = {
-        dataSource: ds.cloneWithRowsAndSections({}),
-    };
-
+  retrieveData = async () => {
+    try{
+      const value = await AsyncStorage.getItem('auth');
+      console.log('2. auth retrieved: ' + value)
+      return value;
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-
-
-  componentDidMount(){
-
+  retrieveTickets(){
+    this.retrieveData().then((auth) => {
+    fetch('http://206.189.145.2:3000/tickets/',{
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'x-auth': auth,
+      },
+      //body:{}
+    })
+    .then((response) => {
+      return response.json()
+    })
+    .then((response) => {
+      console.log("/tickets Success");
+      console.log("response" + response);
       this.setState({
-          dataSource: this.state.dataSource.cloneWithRowsAndSections(sellTickets)
-      });
+        data: response.approvedSellTickets,
+        loading:false
+      })
+    })
+    .catch((error) => {
+      console.log("error")
+      console.log(error)
+    })
+  })
   }
 
-  renderRow(rowData: string, sectionID: number, rowID: number) {
-
-      return (
-        <SellTicket
-          userId={sellTickets.dataSource[rowID].userId}
-          itemId={sellTickets.dataSource[rowID].itemId}
-          itemName={sellTickets.dataSource[rowID].itemName}
-          ticketNumber={sellTickets.dataSource[rowID].ticketNumber}
-          dateCreated={sellTickets.dataSource[rowID].dateCreated}
-          value={sellTickets.dataSource[rowID].value}
-          approvalStatus={sellTickets.dataSource[rowID].approvalStatus}
-        />
-      );
+  componentWillMount(){
+    this.retrieveTickets()
   }
 
-
-  renderSectionHeader(sectionData, category) {
-    return (
-      <View >
-
-      </View>
+  renderTickets(){
+    return this.state.data.map(ticket =>
+    <SellTicket 
+      key={ticket._id} 
+      data={ticket}
+    />
     );
   }
 
   render(){
+    console.log(this.state);
+    if(this.state.loading){
+      return <ActivityIndicator />
+    }
       return (
-        <View style={{paddingTop:5}}>
-
-            <ListView
-                dataSource={this.state.dataSource}
-                renderRow={this.renderRow}
-                enableEmptySections={true}
-                renderSectionHeader={this.renderSectionHeader}
-            />
-
-        </View>
+        <ScrollView style={{paddingTop:5,backgroundColor:'#e5e5e5'}}>
+          {this.renderTickets()}
+        </ScrollView>
       );
     }
 }
 
 export default CurrentSellTickets;
 
-
-const sellTickets = {dataSource: [
-  {
-    userId: 'user123',
-    itemId: 'item001',
-    itemName: 'ROLEX Datejust Automatic Gold Dial 18kt Yellow Gold Watch',
-    ticketNumber: '201014',
-    dateCreated: new Date('2018-03-01'),
-    value: '1000',
-    approvalStatus: 'approved'
-  },
-  {
-    userId: 'user123',
-    itemId: 'item001',
-    itemName: 'ROLEX Datejust Automatic Gold Dial 18kt Yellow Gold Watch',
-    ticketNumber: '201015',
-    dateCreated: new Date('2018-04-01'),
-    value: '1000',
-    approvalStatus: 'approved'
-  },
-  {
-    userId: 'user123',
-    itemId: 'item001',
-    itemName: 'ROLEX Datejust Automatic Gold Dial 18kt Yellow Gold Watch',
-    ticketNumber: '201016',
-    dateCreated: new Date('2018-05-01'),
-    value: '1000',
-    approvalStatus: 'approved'
-  }
-]
-}

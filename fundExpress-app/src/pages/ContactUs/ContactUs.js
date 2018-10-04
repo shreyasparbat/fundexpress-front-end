@@ -102,7 +102,7 @@ export default class ContactUsScreen extends Component {
   renderRow(rowData: string, sectionID: number, rowID: number) {
 
       return (
-        <View>
+        <View style={{backgroundColor:'#e5e5e5'}}>
             <TouchableOpacity /*onPress={()=>this.onRowPress(rowData)}*/>
               <Card style={{flex: 0}}>
                 <CardItem>

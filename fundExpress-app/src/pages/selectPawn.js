@@ -17,8 +17,8 @@ class selectPawn extends React.Component {
   }
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>What will you be Pawning today?</Text>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor:'white' }}>
+        <Text style={{fontSize: 15, fontWeight:'bold'}}>What will you be Pawning today?</Text>
         <View style={{flex: 0.4, marginTop: 25, alignSelf: 'center'}}>
         <View style={{ flexDirection: 'row', }}>
         <TouchableOpacity 
@@ -137,12 +137,14 @@ class selectPawn extends React.Component {
 
 const styles = {
   textStyle: {
+    justifyContent:'center',
     alignSelf: 'center',
     color: 'black',
     fontSize: 18,
     fontWeight: 'bold',
     paddingTop: 10,
     paddingBottom: 10,
+    marginTop: 35,
     //fontFamily: 'sans'
   },
   buttonStyle: {

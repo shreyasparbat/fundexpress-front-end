@@ -135,10 +135,10 @@ class ProfileScreen extends React.Component {
           <Text>Full Name: {this.state.fullName}</Text>
           <Text>NRIC: {this.state.ic}</Text>
           <Text>Email: {this.state.email}</Text>
-          <Text>Date of Birth: {this.state.DOB}</Text>
+          {/* <Text>Date of Birth: {this.state.DOB}</Text>
           <Text>Landline Number: {this.state.landlineNumber}</Text>
           <Text>Mobile Number: {this.state.mobileNumber}</Text>
-          <Text>Address: {this.state.address}</Text>
+          <Text>Address: {this.state.address}</Text> */}
         </View>
 
         <View style={{width: 300}}>

@@ -8,7 +8,7 @@ const styles = {
     margin: 5,
     height:35,
     backgroundColor: '#C00000',
-    width:80,
+    width:100,
     justifyContent: 'center'
   }
 }
@@ -18,16 +18,16 @@ export default class PawnTicket extends React.Component {
     super(props)
 
     this.state = {
-      userId: props.userId,
+      userId: props.data.userID,
       itemId: props.itemId,
-      itemName: props.itemName,
-      ticketNumber: props.ticketNumber,
-      dateCreated: props.dateCreated,
-      expiryDate: props.expiryDate,
-      interestPayable: props.interestPayable,
-      offeredValue: props.offeredValue,
-      specifiedValue: props.specifiedValue,
-      approvalStatus: props.approvalStatus
+      itemName: props.data.item.name,
+      ticketNumber: props.data.item._id,
+      dateCreated: new Date(props.data.dateCreated),
+      expiryDate: new Date(props.data.expiryDate),
+      interestPayable: props.data.interestPayable,
+      offeredValue: props.data.item.pawnOfferedValue,
+      specifiedValue: props.data.specifiedValue,
+      approvalStatus: props.data.approved
     }
   }
   getTimePassed(dateCreated, expiryDate){
@@ -87,7 +87,7 @@ export default class PawnTicket extends React.Component {
       // console.log('day: ' + day)
       var year = arrayOfDateParts[2]
       // console.log('year: ' + year)
-      return day + " " + month.substring(0, 3) + "\r\n" + year;
+      return day + " " + month.substring(0, 3) + year;
     }else{
       // console.log("date: " + date);
       var currentDateString = date.toLocaleDateString("en-US", { day: "numeric", month: "long", year:"numeric" })
@@ -100,7 +100,7 @@ export default class PawnTicket extends React.Component {
       // console.log('day: ' + day)
       var year = arrayOfDateParts[2]
       // console.log('year: ' + year)
-      return day + " " + month.substring(0, 3) + "/" + "\r\n" + year;
+      return day + " " + month.substring(0, 3) + year;
     }
     
   }
@@ -109,18 +109,18 @@ export default class PawnTicket extends React.Component {
       <View>
             <Card style={{flex: 0}}>
               <CardItem>
-              <Left>
+              {/* <Left>
               <Image
                 source={require('../images/feplaceholder.png')}
                 style={{ resizeMode: 'contain', width: 90 , height: 90}}
               />
-              </Left>
+              </Left> */}
                   <Body>
 
                     
                     <View style={{marginBottom: 10}}>
-                      <Text style={{fontSize:25}}>Ticket #{this.state.ticketNumber}</Text>
-                      <Text note>{this.state.itemName}</Text>
+                      <Text style={{fontSize:25}}>{this.state.itemName}</Text>
+                      {/* <Text note>Ticket #{this.state.ticketNumber}</Text> */}
                     </View>
 
                     {/* //ProgressBar */}
@@ -145,8 +145,8 @@ export default class PawnTicket extends React.Component {
                       </View>
                       {/* //column 2 */}
                       <View style={{flexDirection: 'column'}}>
-                        <Text>{this.state.offeredValue}</Text>
-                        <Text>{this.state.interestPayable}</Text>
+                        <Text>${Math.round(this.state.offeredValue)}</Text>
+                        <Text>${Math.round(this.state.interestPayable)}</Text>
                       </View>
                     </View>
 

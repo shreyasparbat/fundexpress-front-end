@@ -135,30 +135,30 @@ class RegisterScreen extends React.Component {
         email: this.state.email,
         password: this.state.password,
         fullName: this.state.fullName,
-        gender: this.state.gender,
-        dateOfBirth: this.state.DOB,
+        // gender: this.state.gender,
+        // dateOfBirth: this.state.DOB,
         ic: this.state.ic,
-        mobileNumber: parseInt(this.state.mobileNumber),
-        nationality: this.state.nationality,
-        citizenship: this.state.citizenship,
-        landlineNumber: parseInt(this.state.landlineNumber),
-        address: this.state.address,
-        addressType: this.state.house,
-        race: this.state.race,
+        // mobileNumber: parseInt(this.state.mobileNumber),
+        // nationality: this.state.nationality,
+        // citizenship: this.state.citizenship,
+        // landlineNumber: parseInt(this.state.landlineNumber),
+        // address: this.state.address,
+        // addressType: this.state.house,
+        // race: this.state.race,
         expoPushToken: this.state.ptoken,
     // "email": "averychong6@test.com",
     //"password": "pass1234",
     //"fullName": "AveryChong",
-    // "gender": "M",
-    // "dateOfBirth": "1994-05-23",
+    "gender": "M",
+    "dateOfBirth": "1994-05-23",
     // "ic": "S1234567A",
-    // "mobileNumber": parseInt('91234567'),
-    // "nationality": "Singaporean",
-    // "citizenship": "Singapore",
-    // "landlineNumber": parseInt('61234567'),
-    // "address": "Singapore",
-    // "addressType": "C",
-    // "race": "Chinese",
+    "mobileNumber": parseInt('91234567'),
+    "nationality": "Singaporean",
+    "citizenship": "Singapore",
+    "landlineNumber": parseInt('61234567'),
+    "address": "Singapore",
+    "addressType": "C",
+    "race": "Chinese",
     // expoPushToken: this.state.ptoken,
        
         
@@ -249,7 +249,7 @@ class RegisterScreen extends React.Component {
         </View> */}
 
 
-        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>
+        {/* <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>
           <FormLabel>Gender</FormLabel>
         <Picker
               note
@@ -375,8 +375,8 @@ class RegisterScreen extends React.Component {
               <Picker.Item label="Condominium/Landed" value="C" />
               <Picker.Item label="Others" value="N" />
 
-            </Picker>
-        </View>
+            </Picker> */}
+        {/* </View> */}
 
         
 
