@@ -6,6 +6,7 @@ import { Button } from 'react-native-elements';
 import RegisterScreen from './register';
 import UploadScreen from './uploadimage';
 import camera from './camera';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import url from '../configs/config';
 //Home page imports
 import HomeScreen from './home.1';
@@ -42,7 +43,7 @@ import InformationScreen from './ContactUs/Information';
 
 
 class LoginScreen extends React.Component {
-  state = { email: '', password: '', error: '', loading: false, auth: '' };
+  state = { email: '', password: '', error: '', loading: false, auth: '', showAlert: false };
   static navigationOptions = {
     header: null,
     gesturesEnabled: false,
@@ -58,8 +59,22 @@ class LoginScreen extends React.Component {
       error:'',
       loading: false,
       auth: '',
+      showAlert: false
     })
   }
+
+  //this shows/hides the alerts popup
+  showAlert = () => {
+    this.setState({
+      showAlert: true
+    });
+  };
+
+  hideAlert = () => {
+    this.setState({
+      showAlert: false,
+    });
+  };
 
   //this stores the x-auth token in app cache
   storeData = async (auth) => {
@@ -93,8 +108,6 @@ class LoginScreen extends React.Component {
           title='Log in'
           color='white'
           backgroundColor='#C00000'
-  //these two onPress determine what the button does, either go to home page (for easy work), or run the login api call
-          //onPress={() => this.props.navigation.navigate('Home')}
           onPress={() => this.onButtonPress()}
         />
       </View>
@@ -105,18 +118,11 @@ class LoginScreen extends React.Component {
   onButtonPress() {
     //log info for debuggging purposes
     console.log('login pressed')
-    console.log('email')
-    console.log(this.state.email)
-    console.log('password')
-    console.log(this.state.password)
-    //const { email, password } = this.state;
-
+    console.log('email: ' + this.state.email)
+    console.log('password: ' + this.state.password)
     this.setState({ error: '', loading: true });
 
-    const user = {
-      email: this.state.email,
-      password: this.state.password
-    } 
+    var res = ''
 
    fetch('http://206.189.145.2:3000/user/login', {
       method: 'POST',
@@ -127,40 +133,42 @@ class LoginScreen extends React.Component {
       body: JSON.stringify({
         'email': this.state.email,
         'password': this.state.password
-        // email: "averychong3@test.com",
-        // password: "pass1234"
-
       })
     })
       .then((response) => {
-        if (response.ok) {
-          return response
-        } else {
-          return Promise.reject(response.json())
-        }
+        //store the response as a var
+        res = response
+        //return the response in json() to obtain the error message
         return response.json()
       })
       .then((response) => {
-        // console.log("logged in EASY MODE REMEMBER TO CHANGE THE BODY BACK")
-        console.log(this.state.email + " logged in")
-        console.log("x-auth")
-        //console.log(response)
-        console.log(response.headers.get('x-auth'))
-        //store x-auth in the app cache
-        this.storeData(response.headers.get('x-auth'));
-        this.onLoginSuccess()
+        //check if error message exists
+        if(response.error==null){
+          //if does not exist, pull xauth from stored res var
+          console.log(res)
+          console.log(this.state.email + " logged in")
+          console.log("x-auth")
+          console.log(res.headers.get('x-auth'))
+          //store x-auth in the app cache
+          this.storeData(res.headers.get('x-auth'));
+          this.onLoginSuccess()
+        }else{
+          //else pass the error message to be displayed
+          console.log(response.error)
+          this.onLoginFail(response.error)
+        }          
       })
       .catch((error) => {
-      console.log("error")
-      console.log(error)
-      this.onLoginFail(error)
+      //for any other errors (likely to be connection failed)
+      this.onLoginFail("Network error")
       })
   }
 
   onLoginFail(error) {
     this.setState({
-      error: 'Login failed, please try again',
-      loading: false
+      error: error,
+      loading: false,
+      showAlert: true
     });
   }
 
@@ -187,11 +195,11 @@ class LoginScreen extends React.Component {
         <Image
           source={require('../images/felogo.png')}
           style={{ resizeMode: 'contain', width: 300, height: 80,
-          marginTop: 45 }}
+          marginTop: 40 }}
         />
         <View style={{
           width: 260, height: 100,
-          marginTop: 50,
+          marginTop: 40,
           borderColor: 'grey',
           borderWidth: 1,
           borderRadius: 3 }}>
@@ -211,13 +219,9 @@ class LoginScreen extends React.Component {
             secureTextEntry= {true}
           />
         </View>
-        <Text style={styles.textStyle}>
-          {this.state.error}
-        </Text>
-          {this.renderButton()}
         <View
           style={{ justifyContent: 'center', alignItems: 'center',
-          marginTop: 130, flexDirection: 'row' }}>
+          marginTop: 30, flexDirection: 'row' }}>
           <Text
             style={{color: 'black'}}
           >Dont have an account? </Text>
@@ -228,6 +232,25 @@ class LoginScreen extends React.Component {
           Click here to register
           </Text>
         </View>
+        {/* <Text style={styles.textStyle}>
+          {this.state.error}
+        </Text> */}
+          {this.renderButton()}
+          <AwesomeAlert
+          show= {this.state.showAlert}
+          title="Login Error!"
+          message={this.state.error}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          confirmButtonColor="#C00000"
+          confirmText="Close"
+          onConfirmPressed={() => {
+            this.hideAlert();
+            ;
+          }}
+        />
       </ImageBackground>
     );
   }

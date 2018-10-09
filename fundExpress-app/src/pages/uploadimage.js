@@ -1,8 +1,8 @@
 import React from 'react';
-import { AsyncStorage, StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
+import { ActivityIndicator, AsyncStorage, StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
 import { Camera, Permissions, MediaLibrary } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
-
+import AwesomeAlert from 'react-native-awesome-alerts';
 export default class UploadScreen extends React.Component {
   static navigationOptions = {
       headerStyle: {
@@ -16,7 +16,8 @@ export default class UploadScreen extends React.Component {
     rollPermission: null,
     photo: '',
     type: this.props.navigation.getParam('type' , null),
-    auth: ''
+    auth: '',
+    showAlert: false
   }
 
   componentDidMount() {
@@ -73,7 +74,10 @@ export default class UploadScreen extends React.Component {
       base64: true,
       exif: false
     }).then(photo => {
-      this.setState({ photo });
+      this.setState({ 
+        photo: photo,
+        showAlert: true
+      });
       //console.log(photo);
       image = photo.base64;
       //MediaLibrary.createAssetAsync(photo.uri);
@@ -104,6 +108,7 @@ export default class UploadScreen extends React.Component {
 
   go = (ID) => {
     console.log(ID);
+    this.setState({ showAlert: false})
     //this.props.navigation.navigate('pawn', {itemID: ID});
     this.props.navigation.navigate('pawn', {'type': this.state.type})
   }
@@ -183,6 +188,12 @@ export default class UploadScreen extends React.Component {
           </TouchableOpacity>
         </View>
         </Camera>
+        <AwesomeAlert
+          show= {this.state.showAlert}
+          title="Uploading Image"
+          message={"This will take a few seconds"}
+          showProgress={true}
+        />
      {/* ) */}
     </View>
     )

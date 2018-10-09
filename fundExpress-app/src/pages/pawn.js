@@ -3,6 +3,7 @@ import { Icon, Picker, DatePicker,Form} from "native-base";
 import {AsyncStorage, View, Text,  Image} from "react-native";
 import { Avatar , Button, FormLabel, FormInput } from "react-native-elements";
 import { Input } from "../components/input";
+import AwesomeAlert from 'react-native-awesome-alerts';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class PawnScreen extends Component {
@@ -19,7 +20,8 @@ class PawnScreen extends Component {
     otherComments: '',
     auth: '',
     error:'',
-    image:''
+    image:'',
+    showAlert: false
   }
   static navigationOptions = {
     title: "Pawn New Item",
@@ -147,14 +149,16 @@ class PawnScreen extends Component {
       console.log(response.pawnOfferedValue);
       if(response.pawnOfferedValue==null){
           this.setState({
-            error: 'error'
+            error: response.error,
+            showAlert:true
           })
-      }
+      }else{
       this.storeData('pov',response.pawnOfferedValue.toString());
       console.log('SOV');
       console.log(response.sellOfferedValue);
       this.storeData('sov',response.sellOfferedValue.toString());
       this.props.navigation.navigate('options');
+      }
     })
     .catch((error) => {
       console.log("error")
@@ -325,7 +329,7 @@ class PawnScreen extends Component {
             />
         </View>
 
-        <Text style={{
+        {/* <Text style={{
           fontSize: 20,
           fontFamily: Expo.Font.OpenSansLight,
           alignSelf: 'center',
@@ -333,7 +337,7 @@ class PawnScreen extends Component {
           marginTop: 10
         }}>
           {this.state.error}
-        </Text>
+        </Text> */}
           
         <Button
           title="Submit"
@@ -343,6 +347,23 @@ class PawnScreen extends Component {
           //onPress={() => this.props.navigation.navigate("ticket")}
           //onPress={() => console.log(this.state)}
           containerViewStyle={{marginTop:30,marginBottom:30}}
+        />
+        <AwesomeAlert
+          show= {this.state.showAlert}
+          title="Pawn Error!"
+          message={this.state.error}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          confirmButtonColor="#C00000"
+          confirmText="Close"
+          onConfirmPressed={() => {
+            this.setState({
+              showAlert:false
+            });
+            ;
+          }}
         />
     </KeyboardAwareScrollView>
     );

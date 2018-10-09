@@ -165,6 +165,7 @@ class PawnOptions extends React.Component {
           cancelText="Yes" //it's intentionally opposite to place the yes on the left button
           confirmText="No"
           confirmButtonColor="#DD6B55"
+          cancelButtonColor="green"
           onCancelPressed={() => {
             this.hideAlert();
             this.props.navigation.navigate('main')

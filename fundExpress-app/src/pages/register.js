@@ -3,6 +3,7 @@ import { AsyncStorage, View, ScrollView, Text } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, Avatar, Button } from 'react-native-elements';
 import { Input } from '../components/input';
 import { Picker, Icon, DatePicker } from 'native-base';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import { Permissions, Notifications } from 'expo';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -67,8 +68,9 @@ validateIC = (icNumber) => {
   }
 }
 class RegisterScreen extends React.Component {
-  state = { email: '', password: '', fullName: '', gender: '', DOB: '', ic: '', mobileNumber: '' ,
-  landlineNumber: '' ,address: '', nationality:'', citizenship: '', house: '', race: '' , ptoken: '', error:''};
+  state = { email: '', password: '', fullName: '', gender: 'M', DOB: '1994-05-23', ic: '', mobileNumber: '91182627' ,
+  landlineNumber: '68993060' ,address: '456 Corporation road', nationality:'Singaporean', citizenship: 'Singaporean',
+  house: 'C', race: 'Chinese ' , ptoken: '', error:'', showAlert:false};
   static navigationOptions = {
     title: 'Register',
       headerStyle: {
@@ -120,11 +122,25 @@ class RegisterScreen extends React.Component {
     }
   }
 
+  //this shows/hides the alerts popup
+  showAlert = () => {
+    this.setState({
+      showAlert: true
+    });
+  };
+
+  hideAlert = () => {
+    this.setState({
+      showAlert: false,
+    });
+  };
+
   submit() {
     //var moNumber = parseInt(this.state.mobileNumber);
     //var lanNumber = parseInt(this.state.landlineNumber);
     console.log('register pressed');
     console.log(JSON.stringify(this.state))
+    var res = '';
     fetch('http://206.189.145.2:3000/user/onboard',{
       method: 'POST',
       headers: {
@@ -135,55 +151,68 @@ class RegisterScreen extends React.Component {
         email: this.state.email,
         password: this.state.password,
         fullName: this.state.fullName,
-        // gender: this.state.gender,
-        // dateOfBirth: this.state.DOB,
+        gender: this.state.gender,
+        dateOfBirth: this.state.DOB,
         ic: this.state.ic,
-        // mobileNumber: parseInt(this.state.mobileNumber),
-        // nationality: this.state.nationality,
-        // citizenship: this.state.citizenship,
-        // landlineNumber: parseInt(this.state.landlineNumber),
-        // address: this.state.address,
-        // addressType: this.state.house,
-        // race: this.state.race,
+        mobileNumber: parseInt(this.state.mobileNumber),
+        nationality: this.state.nationality,
+        citizenship: this.state.citizenship,
+        landlineNumber: parseInt(this.state.landlineNumber),
+        address: this.state.address,
+        addressType: this.state.house,
+        race: this.state.race,
         expoPushToken: this.state.ptoken,
     // "email": "averychong6@test.com",
     //"password": "pass1234",
     //"fullName": "AveryChong",
-    "gender": "M",
-    "dateOfBirth": "1994-05-23",
+    // "gender": "M",
+    // "dateOfBirth": "1994-05-23",
     // "ic": "S1234567A",
-    "mobileNumber": parseInt('91234567'),
-    "nationality": "Singaporean",
-    "citizenship": "Singapore",
-    "landlineNumber": parseInt('61234567'),
-    "address": "Singapore",
-    "addressType": "C",
-    "race": "Chinese",
+    // "mobileNumber": parseInt('91234567'),
+    // "nationality": "Singaporean",
+    // "citizenship": "Singapore",
+    // "landlineNumber": parseInt('61234567'),
+    // "address": "Singapore",
+    // "addressType": "C",
+    // "race": "Chinese",
     // expoPushToken: this.state.ptoken,
        
         
       }),
     })
     .then((response) => {
-      //console.log(response)
-      console.log(response.headers.get('x-auth'))
-      if(response.headers.get('x-auth')==null){
-        const errorResponse = response.json();
-        console.log(errorResponse.body);
-        this.setState({ error: 'error'})
+      //store the response as a var
+      res = response
+      //return the response in json() to obtain the error message
+      return response.json()
+    })
+    .then((response) => {
+      if(response.error==null){
+        //if does not exist, pull xauth from stored res var
+        console.log(res)
+        console.log(this.state.email + " logged in")
+        console.log("x-auth")
+        console.log(res.headers.get('x-auth'))
+        //store x-auth in the app cache
+        this.storeData(res.headers.get('x-auth'));
+        console.log("Success")
+        console.log(this.state.email + " logged in")
+        this.props.navigation.navigate('Home');
       }else{
-      this.storeData('auth',response.headers.get('x-auth'));
-      console.log("Success")
-      console.log(this.state.email + " logged in")
-      this.props.navigation.navigate('Home');
+        console.log(response.error)
+        //pass error message to the state, display the alert
+        this.setState({
+          error: response.error,
+          showAlert: true,
+          loading: false
+        })
       }
     })
     .catch((error) => {
-      console.log("error")
-      console.log(error)
       this.setState({
-        error: error,
-        loading: false
+        error: "Network error",
+        loading: false,
+        showAlert: true
       });
     })
   }
@@ -192,7 +221,7 @@ class RegisterScreen extends React.Component {
   render() {
     return (
       <KeyboardAwareScrollView 
-        contentContainerStyle={{ alignItems: 'center', justifyContent: 'center'}}
+        contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
         extraScrollHeight = {200}
         keyboardOpeningTime = {5}
       >
@@ -249,7 +278,7 @@ class RegisterScreen extends React.Component {
         </View> */}
 
 
-        {/* <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>
+        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>
           <FormLabel>Gender</FormLabel>
         <Picker
               note
@@ -375,12 +404,12 @@ class RegisterScreen extends React.Component {
               <Picker.Item label="Condominium/Landed" value="C" />
               <Picker.Item label="Others" value="N" />
 
-            </Picker> */}
-        {/* </View> */}
+            </Picker>
+        </View>
 
         
 
-        <Text style={{
+        {/* <Text style={{
           fontSize: 20,
           fontFamily: Expo.Font.OpenSansLight,
           alignSelf: 'center',
@@ -388,7 +417,7 @@ class RegisterScreen extends React.Component {
           marginTop: 10
         }}>
           {this.state.error}
-        </Text>
+        </Text> */}
         <Button
           title='Register!'
           color='white'
@@ -396,7 +425,22 @@ class RegisterScreen extends React.Component {
           onPress={() => this.submit()}
           containerViewStyle={{marginTop:30,marginBottom:30}}
         />
-
+        <AwesomeAlert
+          show= {this.state.showAlert}
+          title="Registration Error!"
+          message={this.state.error}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          confirmButtonColor="#C00000"
+          confirmText="Close"
+          overlayStyle={{flex:1}}
+          onConfirmPressed={() => {
+            this.hideAlert();
+            ;
+          }}
+        />
       </KeyboardAwareScrollView>
     );
   }

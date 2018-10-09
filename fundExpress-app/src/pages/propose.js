@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, AsyncStorage,} from 'react-native';
 import { Button, Slider, FormInput, FormLabel } from 'react-native-elements';
-
+import AwesomeAlert from 'react-native-awesome-alerts';
 class ProposeScreen extends React.Component {
   static navigationOptions = {
     title: "New Pawn Ticket",
@@ -16,7 +16,8 @@ class ProposeScreen extends React.Component {
       },
   }
 
-  state = {itemID:'', specifiedValue:'', maxValue:'1000'}
+  state = {itemID:'', specifiedValue:'', 
+            maxValue:'', showAlert:false,error:''}
 
   retrieveData = async (item) => {
     try{
@@ -78,9 +79,15 @@ class ProposeScreen extends React.Component {
         console.log("/item/pawn Success");
         console.log("response");
         console.log(response);
-        //console.log(JSON.stringify(response.item));
-        this.storeData('itemObj', JSON.stringify(response));
-        //this.props.navigation.navigate('pawnTicket')
+        if(response.error==null){
+          this.storeData('itemObj', JSON.stringify(response));
+          this.props.navigation.navigate('pawnTicket')
+        }else{
+          this.setState({
+            showAlert: true,
+            error: response.error
+          })
+        }
       })
       .catch((error) => {
         console.log("error")
@@ -121,6 +128,21 @@ class ProposeScreen extends React.Component {
               backgroundColor='#C00000'
               onPress={() => this.go()}
             />
+            <AwesomeAlert
+          show= {this.state.showAlert}
+          title="Pawn Error!"
+          message={this.state.error}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          confirmButtonColor="#C00000"
+          confirmText="Close"
+          onConfirmPressed={() => {
+            this.hideAlert();
+            ;
+          }}
+        />
       </View>
     );
   }
