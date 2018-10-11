@@ -18,6 +18,7 @@ export default class PawnTicket extends React.Component {
     super(props)
 
     this.state = {
+      navigation:props.navigation,
       userId: props.data.userID,
       itemId: props.itemId,
       itemName: props.data.item.name,
@@ -102,7 +103,7 @@ export default class PawnTicket extends React.Component {
       // console.log('year: ' + year)
       return day + " " + month.substring(0, 3) + year;
     }
-    
+
   }
   render(){
     return(
@@ -117,7 +118,7 @@ export default class PawnTicket extends React.Component {
               </Left> */}
                   <Body>
 
-                    
+
                     <View style={{marginBottom: 10}}>
                       <Text style={{fontSize:25}}>{this.state.itemName}</Text>
                       {/* <Text note>Ticket #{this.state.ticketNumber}</Text> */}

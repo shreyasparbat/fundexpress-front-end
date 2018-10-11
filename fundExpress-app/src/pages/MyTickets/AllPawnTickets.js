@@ -26,13 +26,13 @@ class AllPawnTicketsScreen extends React.Component {
       <Container >
       <Tabs>
         <Tab heading={ <TabHeading style={{backgroundColor:'#696969',borderColor:'#ffffff'}} ><Icon name='list' style={{color:'#ffffff'}}/><Text style={{color:'#ffffff'}}> Current</Text></TabHeading>}  >
-          <CurrentPawnTickets />
+          <CurrentPawnTickets navigation={this.props.navigation} />
         </Tab>
         <Tab  heading={ <TabHeading style={{backgroundColor:'#696969',borderColor:'#ffffff'}}><Icon name='add-to-list'  style={{color:'#ffffff'}}/><Text style={{color:'#ffffff'}}> Pending</Text></TabHeading>} activeTabStyle={{borderBottomColor:'#ffffff'}}>
-          <PendingPawnTickets />
+          <PendingPawnTickets  navigation={this.props.navigation}/>
         </Tab>
         <Tab  heading={ <TabHeading style={{backgroundColor:'#696969',borderColor:'#ffffff'}}><Icon name='back-in-time'  style={{color:'#ffffff'}}/><Text style={{color:'#ffffff'}}> Past</Text></TabHeading>} activeTabStyle={{borderBottomColor:'#ffffff'}}>
-          <PastPawnTickets />
+          <PastPawnTickets  navigation={this.props.navigation}/>
         </Tab>
       </Tabs>
 

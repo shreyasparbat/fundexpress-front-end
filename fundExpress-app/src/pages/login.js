@@ -17,7 +17,7 @@ import ProposeScreen from './propose';
 import BuyScreen from './buy';
 import SellScreen from './sell';
 import FAQScreen from './ContactUs/faq'
-import PawnTicket from './pawnticket';
+import PawnTicketScreen from './pawnticket';
 import PawnOptions from './pawnoptions';
 
 //pawn imports
@@ -31,7 +31,17 @@ import ProfileEditScreen from './profileEdit';
 //tickets imports
 import MyTicketsScreen from './MyTickets/MyTickets';
 import AllPawnTicketsScreen from './MyTickets/AllPawnTickets';
+import PawnTicket from '../components/PawnTicket';
+
+import CurrentPawnTickets from './MyTickets/PawnTickets/CurrentPawnTickets';
+import PastPawnTickets from './MyTickets/PawnTickets/PastPawnTickets';
+import PendingPawnTickets from './MyTickets/PawnTickets/PendingPawnTickets';
+
 import AllSellTicketsScreen from './MyTickets/AllSellTickets';
+import SellTicket from '../components/SellTicket';
+
+import PastSellTickets from './MyTickets/SellTickets/PastSellTickets';
+import PendingSellTickets from './MyTickets/SellTickets/PendingSellTickets';
 
 //icon imports
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -156,7 +166,7 @@ class LoginScreen extends React.Component {
           //else pass the error message to be displayed
           console.log(response.error)
           this.onLoginFail(response.error)
-        }          
+        }
       })
       .catch((error) => {
       //for any other errors (likely to be connection failed)
@@ -349,7 +359,14 @@ const RootStack = createStackNavigator({
         "My Tickets": {screen: createStackNavigator({
               main: {screen: MyTicketsScreen},
               AllPawnTickets: {screen: AllPawnTicketsScreen},
-              AllSellTickets: {screen: AllSellTicketsScreen}
+              AllSellTickets: {screen: AllSellTicketsScreen},
+              CurrentPawnTickets: {screen: CurrentPawnTickets},
+              PastPawnTickets: {screen: PastPawnTickets},
+              PendingPawnTickets: {screen: PendingPawnTickets},
+              PastSellTickets: {screen: PastSellTickets},
+              PendingSellTickets: {screen: PendingSellTickets},
+              SellTicket: {screen: SellTicket},
+              PawnTicket: {screen: PawnTicket},
           }),
           navigationOptions: {
             initialRouteName: 'main',
