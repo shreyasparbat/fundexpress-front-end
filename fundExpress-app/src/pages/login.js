@@ -43,6 +43,9 @@ import SellTicket from '../components/SellTicket';
 import PastSellTickets from './MyTickets/SellTickets/PastSellTickets';
 import PendingSellTickets from './MyTickets/SellTickets/PendingSellTickets';
 
+import PayInterestScreen from './MyTickets/PayInterest';
+//import PayResultScreen from './MyTickets/PayResult';
+
 //icon imports
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -344,7 +347,7 @@ const RootStack = createStackNavigator({
             upload: {screen: UploadScreen},
             propose: {screen: ProposeScreen},
             options: {screen: PawnOptions},
-            pawnTicket: {screen: PawnTicket},
+            pawnTicket: {screen: PawnTicketScreen},
           }),
           navigationOptions: {
             gesturesEnabled:false,
@@ -367,6 +370,8 @@ const RootStack = createStackNavigator({
               PendingSellTickets: {screen: PendingSellTickets},
               SellTicket: {screen: SellTicket},
               PawnTicket: {screen: PawnTicket},
+              PayInterest: {screen: PayInterestScreen},
+            //  PayResult: {screen: PayResultScreen},
           }),
           navigationOptions: {
             initialRouteName: 'main',

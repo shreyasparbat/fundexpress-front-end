@@ -55,6 +55,9 @@ export default class SellTicket extends React.Component {
       return day + " " + month.substring(0, 3) + "/" + year;
     }
   }
+  roundTo(number) {
+      return parseFloat(Math.round(number * 100) / 100).toFixed(2);
+  }
   render(){
     // console.log(this.state);
     return(
@@ -87,7 +90,7 @@ export default class SellTicket extends React.Component {
                       {/* //column 2 */}
                       <View style={{flexDirection: 'column'}}>
                         <Text>{this.getDateNicelyFormatted(this.state.dateCreated)}</Text>
-                        <Text>${Math.round(this.state.value)}</Text>
+                        <Text>{this.roundTo(this.state.value)}</Text>
                       </View>
                     </View>
 

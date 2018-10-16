@@ -19,7 +19,7 @@ export default class PawnTicket extends React.Component {
 
     this.state = {
       navigation:props.navigation,
-      userId: props.data.userID,
+      userId: props.data._id,
       itemId: props.itemId,
       itemName: props.data.item.name,
       ticketNumber: props.data.item._id,
@@ -105,6 +105,9 @@ export default class PawnTicket extends React.Component {
     }
 
   }
+  roundTo(number) {
+      return parseFloat(Math.round(number * 100) / 100).toFixed(2);
+  }
   render(){
     return(
       <View>
@@ -117,8 +120,6 @@ export default class PawnTicket extends React.Component {
               />
               </Left> */}
                   <Body>
-
-
                     <View style={{marginBottom: 10}}>
                       <Text style={{fontSize:25}}>{this.state.itemName}</Text>
                       {/* <Text note>Ticket #{this.state.ticketNumber}</Text> */}
@@ -145,9 +146,10 @@ export default class PawnTicket extends React.Component {
 
                       </View>
                       {/* //column 2 */}
+                      {/* //${Math.round(this.state.offeredValue)} */}
                       <View style={{flexDirection: 'column'}}>
-                        <Text>${Math.round(this.state.offeredValue)}</Text>
-                        <Text>${Math.round(this.state.interestPayable)}</Text>
+                        <Text>{this.roundTo(this.state.offeredValue)}</Text>
+                        <Text>{this.roundTo(this.state.interestPayable)}</Text>
                       </View>
                     </View>
 
@@ -161,6 +163,15 @@ export default class PawnTicket extends React.Component {
                       {/* //Value Button */}
                       <Button style={styles.buttonStyle}>
                         <Text style={{fontSize: 16, color: '#ffffff', }}>Value</Text>
+                      </Button>
+                      {/* //Pay interest Button */}
+                      <Button style={styles.buttonStyle} onPress={() => this.props.navigation.navigate('PayInterest',
+                      {
+                        amountPaid: this.state.interestPayable,
+                        pawnTicketID: this.state.ticketNumber,
+                      }
+                      )}>
+                        <Text style={{fontSize: 16, color: '#ffffff', }}>Pay Interest</Text>
                       </Button>
                     </CardItem>
                   </Body>
