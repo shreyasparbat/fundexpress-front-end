@@ -37,7 +37,14 @@ export default class UploadScreen extends React.Component {
 
   componentWillMount(){
     this.retrieveData().then((token) => {
-      this.setState({auth:token})
+      this.setState({
+        auth:token,
+        showAlert: true,
+        alertTitle: 'Tutorial',
+        alertMessage: 'Take an image of the front of your item!',
+        showProgress: false,
+        showConfirmButton: true,
+      })
     }).catch((error) => {
       console.log("error retrieving token")
       console.log(error)
@@ -69,6 +76,13 @@ export default class UploadScreen extends React.Component {
   // }
 
   takePicture = () => {
+    this.setState({
+      showAlert: true,
+      alertTitle: "Uploading Image",
+      alertMessage: "This will take a few seconds",
+      showProgress: true,
+      showConfirmButton: false,
+    })
     this.camera.takePictureAsync({
       quality: 0.1,
       base64: true,
@@ -76,7 +90,6 @@ export default class UploadScreen extends React.Component {
     }).then(photo => {
       this.setState({ 
         photo: photo,
-        showAlert: true
       });
       //console.log(photo);
       image = photo.base64;
@@ -179,7 +192,7 @@ export default class UploadScreen extends React.Component {
           style={{ flex: 1 }}
           type={Camera.Constants.Type.back}
           ref={cam => this.camera = cam}>
-          <View style={{ flex: 0.4, bottom: -10, position: 'absolute', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', left: 0, right: 0 }}>
+          <View style={{ flex: 0.4, bottom: -3, position: 'absolute', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', left: 0, right: 0 }}>
           <TouchableOpacity
             onPress= {() => this.takePicture()}
             style={{ alignSelf: 'center' }}
@@ -190,9 +203,15 @@ export default class UploadScreen extends React.Component {
         </Camera>
         <AwesomeAlert
           show= {this.state.showAlert}
-          title="Uploading Image"
-          message={"This will take a few seconds"}
-          showProgress={true}
+          title= {this.state.alertTitle}
+          message={this.state.alertMessage}
+          showProgress={this.state.showProgress}
+          showConfirmButton={this.state.showConfirmButton}
+          confirmButtonColor="#C00000"
+          confirmText="Ok!"
+          onConfirmPressed={() => {
+            this.setState({showAlert:false});
+          }}
         />
      {/* ) */}
     </View>

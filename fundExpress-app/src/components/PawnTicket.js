@@ -24,7 +24,7 @@ export default class PawnTicket extends React.Component {
       ticketNumber: props.data.item._id,
       dateCreated: new Date(props.data.dateCreated),
       expiryDate: new Date(props.data.expiryDate),
-      interestPayable: props.data.interestPayable,
+      interestPayable: props.data.indicativeTotalInterestPayable,
       offeredValue: props.data.item.pawnOfferedValue,
       specifiedValue: props.data.specifiedValue,
       approvalStatus: props.data.approved

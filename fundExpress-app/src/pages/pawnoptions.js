@@ -120,8 +120,8 @@ class PawnOptions extends React.Component {
          justifyContent:'center',
          alignItems:'center'
          }}>
-          <Text> Pawn Value: ${Math.round(this.state.pov)}</Text>
-          <Text> Sell Value: ${Math.round(this.state.sov)}</Text>
+          <Text> Pawn Value: ${(Math.round(this.state.pov)-1)}</Text>
+          <Text> Sell Value: ${(Math.round(this.state.sov)-1)}</Text>
         </View>
         
         <View 

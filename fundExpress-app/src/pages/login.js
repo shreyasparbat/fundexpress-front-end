@@ -4,6 +4,7 @@ import { Input } from '../components/input';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Button } from 'react-native-elements';
 import RegisterScreen from './register';
+// import RegisterScreen from './giftedReg';
 import UploadScreen from './uploadimage';
 import camera from './camera';
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -99,7 +100,9 @@ class LoginScreen extends React.Component {
   //This method renders the button, will render a spinner if loading = true
   renderButton() {
     if (this.state.loading) {
-      return <ActivityIndicator />;
+      return <ActivityIndicator
+      style={{marginTop:30}}
+      />;
     }
 
     return (
@@ -117,7 +120,21 @@ class LoginScreen extends React.Component {
   //this is the login API call
   onButtonPress() {
     //log info for debuggging purposes
-    console.log('login pressed')
+    if(this.state.email==''){
+      this.setState({
+        error: "Username Required",
+        loading: false,
+        showAlert: true
+      })
+    }else{
+      if(this.state.password==''){
+        this.setState({
+          error: "Password Required",
+          loading: false,
+          showAlert: true
+        })
+      }else{
+        console.log('login pressed')
     console.log('email: ' + this.state.email)
     console.log('password: ' + this.state.password)
     this.setState({ error: '', loading: true });
@@ -162,14 +179,34 @@ class LoginScreen extends React.Component {
       //for any other errors (likely to be connection failed)
       this.onLoginFail("Network error")
       })
+      }
+      
+    }
+    
   }
 
   onLoginFail(error) {
-    this.setState({
-      error: error,
-      loading: false,
-      showAlert: true
-    });
+    if(error=='Error: User does not exist'){
+      this.setState({
+        error: "User does not exist",
+        loading: false,
+        showAlert: true
+      });
+    }
+    if(error=='Error: Passwords do not match'){
+      this.setState({
+        error: "Incorrect Password",
+        loading: false,
+        showAlert: true
+      });
+    }
+    if(error=='Error: User already logged in'){
+      this.setState({
+        error: "User already logged in",
+        loading: false,
+        showAlert: true
+      });
+    }
   }
 
   onLoginSuccess() {
@@ -248,7 +285,6 @@ class LoginScreen extends React.Component {
           confirmText="Close"
           onConfirmPressed={() => {
             this.hideAlert();
-            ;
           }}
         />
       </ImageBackground>

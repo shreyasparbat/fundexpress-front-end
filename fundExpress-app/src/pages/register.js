@@ -68,9 +68,9 @@ validateIC = (icNumber) => {
   }
 }
 class RegisterScreen extends React.Component {
-  state = { email: '', password: '', fullName: '', gender: 'M', DOB: '1994-05-23', ic: '', mobileNumber: '91182627' ,
-  landlineNumber: '68993060' ,address: '456 Corporation road', nationality:'Singaporean', citizenship: 'Singaporean',
-  house: 'C', race: 'Chinese ' , ptoken: '', error:'', showAlert:false};
+  state = { email: '', password: '', fullName: '', gender: '', DOB: '', ic: '', mobileNumber: '' ,
+  landlineNumber: '' ,address: '', nationality:'', citizenship: '',
+  house: '', race: '' , ptoken: '', error:'', showAlert:false};
   static navigationOptions = {
     title: 'Register',
       headerStyle: {
@@ -135,6 +135,32 @@ class RegisterScreen extends React.Component {
     });
   };
 
+  validate(){
+    var errorArray = []
+    if(this.state.fullName==''){
+      errorArray.push("Full Name required")
+    }
+    if(this.state.ic==''){
+      errorArray.push("NRIC required")
+    }
+    if(this.state.email==''){
+      errorArray.push("Email required")
+    }
+    if(this.state.password==''){
+      errorArray.push("Password required")
+    }
+    if(errorArray.length==0){
+      this.submit();
+    }else{
+      console.log(errorArray)
+      this.setState({
+        error: errorArray.toString(),
+        showAlert: true
+      })
+    }
+    
+  }
+
   submit() {
     //var moNumber = parseInt(this.state.mobileNumber);
     //var lanNumber = parseInt(this.state.landlineNumber);
@@ -151,31 +177,31 @@ class RegisterScreen extends React.Component {
         email: this.state.email,
         password: this.state.password,
         fullName: this.state.fullName,
-        gender: this.state.gender,
-        dateOfBirth: this.state.DOB,
+        // gender: this.state.gender,
+        // dateOfBirth: this.state.DOB,
         ic: this.state.ic,
-        mobileNumber: parseInt(this.state.mobileNumber),
-        nationality: this.state.nationality,
-        citizenship: this.state.citizenship,
-        landlineNumber: parseInt(this.state.landlineNumber),
-        address: this.state.address,
-        addressType: this.state.house,
-        race: this.state.race,
-        expoPushToken: this.state.ptoken,
+        // mobileNumber: parseInt(this.state.mobileNumber),
+        // nationality: this.state.nationality,
+        // citizenship: this.state.citizenship,
+        // landlineNumber: parseInt(this.state.landlineNumber),
+        // address: this.state.address,
+        // addressType: this.state.house,
+        // race: this.state.race,
+        // expoPushToken: this.state.ptoken,
     // "email": "averychong6@test.com",
     //"password": "pass1234",
     //"fullName": "AveryChong",
-    // "gender": "M",
-    // "dateOfBirth": "1994-05-23",
+    "gender": "M",
+    "dateOfBirth": "1994-05-23",
     // "ic": "S1234567A",
-    // "mobileNumber": parseInt('91234567'),
-    // "nationality": "Singaporean",
-    // "citizenship": "Singapore",
-    // "landlineNumber": parseInt('61234567'),
-    // "address": "Singapore",
-    // "addressType": "C",
-    // "race": "Chinese",
-    // expoPushToken: this.state.ptoken,
+    "mobileNumber": parseInt('91234567'),
+    "nationality": "Singaporean",
+    "citizenship": "Singapore",
+    "landlineNumber": parseInt('61234567'),
+    "address": "Singapore",
+    "addressType": "C",
+    "race": "Chinese",
+     expoPushToken: this.state.ptoken,
        
         
       }),
@@ -194,7 +220,7 @@ class RegisterScreen extends React.Component {
         console.log("x-auth")
         console.log(res.headers.get('x-auth'))
         //store x-auth in the app cache
-        this.storeData(res.headers.get('x-auth'));
+        this.storeData('auth', res.headers.get('x-auth'));
         console.log("Success")
         console.log(this.state.email + " logged in")
         this.props.navigation.navigate('Home');
@@ -220,23 +246,27 @@ class RegisterScreen extends React.Component {
 
   render() {
     return (
-      <KeyboardAwareScrollView 
-        contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
-        extraScrollHeight = {200}
-        keyboardOpeningTime = {5}
-      >
+      // <KeyboardAwareScrollView 
+      //   contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
+      //   extraScrollHeight = {200}
+      //   keyboardOpeningTime = {5}
+      // >
+      <View style={{flex:1}}>
 
 
-        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
-          <FormLabel>Full Name</FormLabel>
+        <View style={{height:85,marginTop:0, backgroundColor: 'white'}} >
+          <FormLabel
+            containerStyle={{flexDirection:"row",marginLeft:0}}
+          >Full Name</FormLabel>
           <FormInput 
             onChangeText={fullName => this.setState({ fullName })} 
             value={this.state.fullName} 
             placeholder='Full Name'
+            // containerStyle={{flexDirection:"row", marginLeft:5}}
           />
         </View>
 
-        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:0,marginLeft: 15, backgroundColor: 'white'}} >
+        <View style={{height:85,marginTop:5, backgroundColor: 'white'}} >
           <FormLabel>NRIC</FormLabel>
           <FormInput
             autoCapitalize='none' 
@@ -246,7 +276,7 @@ class RegisterScreen extends React.Component {
           />
         </View>
 
-        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:0,marginLeft: 15, backgroundColor: 'white'}} >
+        <View style={{height:85,marginTop:5, backgroundColor: 'white'}} >
           <FormLabel>Email</FormLabel>
           <FormInput 
             autoCapitalize='none' 
@@ -256,7 +286,7 @@ class RegisterScreen extends React.Component {
           />
         </View>
 
-        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+        <View style={{height:85,marginTop:5, backgroundColor: 'white'}} >
           <FormLabel>Password</FormLabel>
           <FormInput 
             autoCapitalize='none' 
@@ -278,7 +308,7 @@ class RegisterScreen extends React.Component {
         </View> */}
 
 
-        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>
+        {/* <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>
           <FormLabel>Gender</FormLabel>
         <Picker
               note
@@ -404,8 +434,8 @@ class RegisterScreen extends React.Component {
               <Picker.Item label="Condominium/Landed" value="C" />
               <Picker.Item label="Others" value="N" />
 
-            </Picker>
-        </View>
+            </Picker> */}
+        {/* </View> */}
 
         
 
@@ -422,7 +452,7 @@ class RegisterScreen extends React.Component {
           title='Register!'
           color='white'
           backgroundColor='#C00000'
-          onPress={() => this.submit()}
+          onPress={() => this.validate()}
           containerViewStyle={{marginTop:30,marginBottom:30}}
         />
         <AwesomeAlert
@@ -441,7 +471,8 @@ class RegisterScreen extends React.Component {
             ;
           }}
         />
-      </KeyboardAwareScrollView>
+      {/* </KeyboardAwareScrollView> */}
+      </View>
     );
   }
 }

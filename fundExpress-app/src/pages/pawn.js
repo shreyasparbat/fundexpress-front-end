@@ -65,6 +65,32 @@ class PawnScreen extends Component {
   }
 }
 
+validate(){
+  var errorArray = []
+  if(this.state.material==''){
+    errorArray.push("Item Material required")
+  }
+  if(this.state.purity==''){
+    errorArray.push("Item Purity required")
+  }
+  if(this.state.weight==''){
+    errorArray.push("Item Weight required")
+  }
+  if(this.state.DOP==''){
+    errorArray.push("Date of Purchase required")
+  }
+  if(errorArray.length==0){
+    this.submit();
+  }else{
+    console.log(errorArray)
+    this.setState({
+      error: errorArray.toString(),
+      showAlert: true
+    })
+  }
+  
+}
+
  componentWillMount(){
   this.retrieveData('photo').then((photo) => {
     this.setState({
@@ -343,7 +369,7 @@ class PawnScreen extends Component {
           title="Submit"
           color="white"
           backgroundColor="#C00000"
-          onPress={() => this.submit()}
+          onPress={() => this.validate()}
           //onPress={() => this.props.navigation.navigate("ticket")}
           //onPress={() => console.log(this.state)}
           containerViewStyle={{marginTop:30,marginBottom:30}}

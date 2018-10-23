@@ -17,7 +17,7 @@ class ProposeScreen extends React.Component {
   }
 
   state = {itemID:'', specifiedValue:'', 
-            maxValue:'', showAlert:false,error:''}
+            maxValue:0, showAlert:false,error:''}
 
   retrieveData = async (item) => {
     try{
@@ -39,8 +39,19 @@ class ProposeScreen extends React.Component {
     }
   }
 
+  validate(){
+    if(this.state.specifiedValue>this.state.maxValue){
+      this.setState({
+        error: "Requested value cannot be more that the offered value!",
+        showAlert: true
+      })
+    }else{
+      this.go();
+    }
+  }
+
   go(){
-    this.storeData('specifiedValue', this.state.specifiedValue)
+    this.storeData('specifiedValue', (this.state.specifiedValue).toString())
   }
 
   componentWillMount(){
@@ -52,7 +63,8 @@ class ProposeScreen extends React.Component {
     })
     this.retrieveData('pov').then((value) => {
       this.setState({
-        specifiedValue: ((Math.round(value))-1).toString()
+        maxValue: ((Math.round(value))-1),
+        specifiedValue: ((Math.round(value))-1)
       })
       console.log(this.state.maxValue)
     })
@@ -100,33 +112,21 @@ class ProposeScreen extends React.Component {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>How much do you wish to pawn your item for?</Text>
-        <View style={{flex: 0.5,height:70,borderBottomColor:"black",marginTop:50,marginLeft: 15, backgroundColor: 'white'}} >
-          <FormLabel>Value</FormLabel>
-          <FormInput 
-            onChangeText={specifiedValue => this.setState({ specifiedValue })} 
-            value={this.state.specifiedValue} 
-            placeholder='value here'
-          />
+        <Text>Value: {this.state.specifiedValue}</Text>
+        <View style={{flex: 0.5, alignItems: 'stretch', justifyContent: 'center', width: 350}}>
+          <Slider
+            value={parseInt(this.state.maxValue)}
+            maximumValue={parseInt(this.state.maxValue)}
+            step = {1}
+            onValueChange={(specifiedValue => this.setState({specifiedValue}))}/>   
         </View>
-        {/* <Text>${this.state.specifiedValue}</Text> */}
-        {/* <Slider 
-          //value={parseFloat(this.state.maxValue)}
-          maximumValue={parseInt(this.state.maxValue)}
-          step={1}
-          value={50}
-          minimumValue={0}
-          //maximumValue={100}
-          maximumTrackTintColor="#C00000"
-          minimumTrackTintColor="#C00000"
-          //onValueChange={specifiedValue=>this.setState({specifiedValue})}
-        /> */}
         <Button
               title='Pawn Item!'
               color='white'
               borderRadius= {3}
               containerViewStyle={{height: 50, width: 120,}}
               backgroundColor='#C00000'
-              onPress={() => this.go()}
+              onPress={() => this.validate()}
             />
             <AwesomeAlert
           show= {this.state.showAlert}

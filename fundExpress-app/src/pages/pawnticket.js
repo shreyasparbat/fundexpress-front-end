@@ -72,6 +72,9 @@ class PawnTicket extends React.Component {
       })
     })
     this.retrieveData('specifiedValue').then((sValue) => {
+      this.setState({
+        specifiedValue: sValue
+      })
       this.pawn(sValue);
     })
     // console.log(this.state.item)
@@ -106,10 +109,11 @@ class PawnTicket extends React.Component {
         <Text>Brand: {this.state.item.item.brand}</Text>
         <Text>Date Purchased: {this.state.item.item.dateOfPurchase.slice(0,-14)}</Text>
         <Text>Pawn Offered Value: ${Math.round(this.state.item.item.pawnOfferedValue)}</Text>
-        <Text>Sell Offered Value: ${Math.round(this.state.item.item.sellOfferedValue)}</Text>
+        {/* <Text>Sell Offered Value: ${Math.round(this.state.item.item.sellOfferedValue)}</Text> */}
         <Text>Additional Comments: {this.state.item.item.otherComments}</Text>
         <Text>Expiry Date: {this.state.item.expiryDate.slice(0,-14)}</Text>
-        <Text>Interest Payable: {Math.round(this.state.item.interestPayable)}</Text>
+        <Text>Value Loaned: ${this.state.specifiedValue}</Text>
+        <Text>Interest Payable: ${Math.round(this.state.item.indicativeTotalInterestPayable)}</Text>
         <Text>Ticket Pending Approval.</Text>
         <Text>Please go down to your nearest FundExpress to submit your item!</Text>
         
