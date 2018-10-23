@@ -1,14 +1,14 @@
 import React from 'react';
 import {View, Text, AsyncStorage, ActivityIndicator} from 'react-native';
 import { Button, Card } from 'react-native-elements';
-class PawnTicket extends React.Component {
+class PawnTicketScreen extends React.Component {
   static navigationOptions = {
     title: "New Pawn Ticket",
     gesturesEnabled: false,
     header: null,
     tabBarVisible: false,
       headerStyle: {
-        backgroundColor: "#C00000", 
+        backgroundColor: "#C00000",
       },
       headerTintColor: "#ffffff",
       headerTitleStyle: {
@@ -116,9 +116,9 @@ class PawnTicket extends React.Component {
         <Text>Interest Payable: ${Math.round(this.state.item.indicativeTotalInterestPayable)}</Text>
         <Text>Ticket Pending Approval.</Text>
         <Text>Please go down to your nearest FundExpress to submit your item!</Text>
-        
+
       </Card>
-        
+
         <Button
               title='Return to Home'
               color='white'
@@ -133,4 +133,4 @@ class PawnTicket extends React.Component {
   }
 }
 
-export default PawnTicket;
+export default PawnTicketScreen;

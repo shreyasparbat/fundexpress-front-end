@@ -1,17 +1,10 @@
 //this was historyCurrent
 import React from 'react';
 import { Image, Text, Linking, ListView, View, TouchableOpacity, FlatList, AsyncStorage, ScrollView} from 'react-native';
-import axios from 'axios';
 import { Container,  Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body } from 'native-base';
 import PawnTicket from '../../../components/PawnTicket';
 
 class PendingPawnTickets extends React.Component {
-  //state has an empty array initially. it will hold pawn tickets
-  //each of the pawnTickets has the following attributes
-  //userId, itemId, ticketNumber, dateCreated, expiryDate, interestPayable, offeredValue, specifiedValue, approvalStatus
-  //each of the sellTickets has the following attributes
-  //userId, itemId, ticketNumber, dateCreated, offeredValue, approvalStatus
-
 
   //header
   static navigationOptions = {
@@ -26,7 +19,13 @@ class PendingPawnTickets extends React.Component {
     },
   };
 
-  state = { data: [] };
+  constructor(props){
+    super(props)
+    this.state={
+      data:[],
+      navigation:props.navigation,
+    }
+  }
 
   retrieveData = async () => {
     try{
@@ -73,10 +72,11 @@ class PendingPawnTickets extends React.Component {
 
   renderTickets(){
     return this.state.data.map(ticket =>
-    <PawnTicket 
-      key={ticket._id} 
-      data={ticket}
-    />
+      <PawnTicket
+        key={ticket._id}
+        data={ticket}
+        navigation={this.state.navigation}
+      />
     );
   }
 

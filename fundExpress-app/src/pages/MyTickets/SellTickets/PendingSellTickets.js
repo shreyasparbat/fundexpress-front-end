@@ -5,7 +5,7 @@ import { Container,  Content, Card, CardItem, Thumbnail, Button, Icon, Left, Bod
 import SellTicket from '../../../components/SellTicket';
 import SGListView from 'react-native-sglistview';
 import Ticket from '../../../components/Ticket';
-class CurrentSellTickets extends React.Component {
+class PendingSellTickets extends React.Component {
   //header
   static navigationOptions = {
     title: 'Currently Sold Items',
@@ -66,8 +66,8 @@ class CurrentSellTickets extends React.Component {
 
   renderTickets(){
     return this.state.data.map(ticket =>
-    <SellTicket 
-      key={ticket._id} 
+    <SellTicket
+      key={ticket._id}
       data={ticket}
     />
     );
@@ -86,4 +86,4 @@ class CurrentSellTickets extends React.Component {
     }
 }
 
-export default CurrentSellTickets;
+export default PendingSellTickets;

@@ -5,13 +5,6 @@ import { Container,  Content, Card, CardItem, Thumbnail, Button, Icon, Left, Bod
 import PawnTicket from '../../../components/PawnTicket';
 
 class CurrentPawnTickets extends React.Component {
-  //state has an empty array initially. it will hold pawn tickets
-  //each of the pawnTickets has the following attributes
-  //userId, itemId, ticketNumber, dateCreated, expiryDate, interestPayable, offeredValue, specifiedValue, approvalStatus
-  //each of the sellTickets has the following attributes
-  //userId, itemId, ticketNumber, dateCreated, offeredValue, approvalStatus
-
-
   //header
   static navigationOptions = {
     title: 'Currently Pawned Items',
@@ -25,7 +18,14 @@ class CurrentPawnTickets extends React.Component {
     },
   };
 
-  state = { data: [] };
+  //state = { data: [] };
+  constructor(props){
+    super(props)
+    this.state={
+      data:[],
+      navigation:props.navigation,
+    }
+  }
 
   retrieveData = async () => {
     try{
@@ -72,9 +72,10 @@ class CurrentPawnTickets extends React.Component {
 
   renderTickets(){
     return this.state.data.map(ticket =>
-    <PawnTicket 
-      key={ticket._id} 
+    <PawnTicket
+      key={ticket._id}
       data={ticket}
+      navigation={this.state.navigation}
     />
     );
   }
@@ -93,15 +94,3 @@ class CurrentPawnTickets extends React.Component {
 }
 
 export default CurrentPawnTickets;
-
-
-
-/*
-componentDidMount() {
-  axios.post('http://206.189.145.2:3000/history', {
-    x-auth
-  })
-  .then(res => )
-  .catch
-};
-*/

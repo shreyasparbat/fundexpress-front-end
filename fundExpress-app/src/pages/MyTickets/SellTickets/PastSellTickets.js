@@ -4,7 +4,7 @@ import { Image, Text, Linking, ListView, View, TouchableOpacity, FlatList, Async
 import { Container,  Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body } from 'native-base';
 import SellTicket from '../../../components/SellTicket';
 
-class CurrentSellTickets extends React.Component {
+class PastSellTickets extends React.Component {
   //header
   static navigationOptions = {
     title: 'Currently Sold Items',
@@ -65,8 +65,8 @@ class CurrentSellTickets extends React.Component {
 
   renderTickets(){
     return this.state.data.map(ticket =>
-    <SellTicket 
-      key={ticket._id} 
+    <SellTicket
+      key={ticket._id}
       data={ticket}
     />
     );
@@ -85,5 +85,4 @@ class CurrentSellTickets extends React.Component {
     }
 }
 
-export default CurrentSellTickets;
-
+export default PastSellTickets;
