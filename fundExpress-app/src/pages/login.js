@@ -46,6 +46,8 @@ import PendingSellTickets from './MyTickets/SellTickets/PendingSellTickets';
 
 import PayInterestScreen from './MyTickets/PayInterest';
 //import PayResultScreen from './MyTickets/PayResult';
+import pTicket from './pTicket';
+import sTicket from './sTicket';
 
 //icon imports
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -363,7 +365,7 @@ const RootStack = createStackNavigator({
             initialRouteName: 'main',
             tabBarIcon: ({ focused, tintColor }) => {
               return <Ionicons name={'md-contact'} size={25}
-              color={'white'} />;
+              color={tintColor} />;
             },
             swipeEnabled: false,
             gesturesEnabled: false,
@@ -391,7 +393,7 @@ const RootStack = createStackNavigator({
             initialRouteName: 'main',
             tabBarIcon: ({ focused, tintColor }) => {
               return <Ionicons name={'md-home'} size={25}
-              color={'white'} />;
+              color={tintColor} />;
             },
           }
         },
@@ -407,13 +409,15 @@ const RootStack = createStackNavigator({
               SellTicket: {screen: SellTicket},
               PawnTicket: {screen: PawnTicket},
               PayInterest: {screen: PayInterestScreen},
+              pTicket: {screen: pTicket},
+              sTicket: {screen: sTicket}
             //  PayResult: {screen: PayResultScreen},
           }),
           navigationOptions: {
             initialRouteName: 'main',
             tabBarIcon: ({ focused, tintColor }) => {
               return <Ionicons name={'md-document'} size={25}
-              color={'white'} />;
+              color={tintColor} />;
             },
           }
       },
@@ -425,34 +429,34 @@ const RootStack = createStackNavigator({
           initialRouteName: 'main',
           tabBarIcon: ({ focused, tintColor }) => {
             return <Ionicons name={'md-call'} size={25}
-            color={'white'} />;
+            color={tintColor}/>;
           },
         },
       }
     },
     {
       initialRouteName: 'Home',
-      activeTintColor: 'white',
-      inactiveTintColor: 'white',
-      barStyle: { backgroundColor: '#C00000' },
+      activeTintColor: '#C00000',
+      inactiveTintColor: '#d3d1cd',
+      barStyle: { backgroundColor: 'white' },
       tabBarOptions: {
-        activeTintColor: 'white',
-        inactiveTintColor: 'white',
+        activeTintColor: '#C00000',
+        inactiveTintColor: '#d3d1cd',
         fontWeight: 'bold',
         style: {
-          backgroundColor: '#C00000',
+          backgroundColor: 'white',
         }
       }
     }
   ),
   navigationOptions: {
     headerStyle: {
-        backgroundColor: '#C00000',
+        backgroundColor: 'white',
       },
-      headerTintColor: '#ffffff',
+      headerTintColor: 'black',
       headerTitleStyle: {
         fontWeight: 'bold',
-        color: '#ffffff'
+        color: 'black'
       },
   header:null,
   gesturesEnabled: false,

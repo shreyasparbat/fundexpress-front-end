@@ -55,8 +55,7 @@ class ProfileEditScreen extends React.Component {
       .then((response) => {
         console.log("profile retrieved")
         console.log(response)
-        console.log(response.body)
-        //console.log(response)
+        // console.log(response.body)
         this.setState({
           fullName: response.fullName,
           address: response.address,
@@ -74,7 +73,7 @@ class ProfileEditScreen extends React.Component {
         //console.log("state fullName: " + this.state.fullName)
       })
       .catch((errorResponse) => {
-        console.log("error with profile/me ")
+        console.log("error with profile retrieval")
         console.log(errorResponse)
       })
     }).catch((error) => {
@@ -153,7 +152,7 @@ class ProfileEditScreen extends React.Component {
           />
         </View> */}
 
-        {/* <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
+        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
         <Picker
               note
               mode="dropdown"
@@ -170,9 +169,9 @@ class ProfileEditScreen extends React.Component {
               <Picker.Item label="Female" value="F" />
 
             </Picker>
-        </View> */}
+        </View>
 
-        {/* <View style={{width:300,height:50,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15}}>
+        <View style={{width:300,height:50,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15}}>
       <DatePicker
             defaultDate={this.state.DOB}
             minimumDate={new Date(1900, 1, 1)}
@@ -187,24 +186,24 @@ class ProfileEditScreen extends React.Component {
             placeHolderTextStyle={{ color: "black" }}
             onDateChange={DOB => this.setState({ DOB })}
             />
-        </View> */}
+        </View>
 
-        {/* <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
+        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
           <Input
             value={this.state.ic}
             onChangeText={ic => this.setState({ ic })}
             placeholder="NRIC"
           />
-        </View> */}
+        </View>
 
-        {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Password</FormLabel>
           <FormInput 
             onChangeText={password => this.setState({ password })} 
             value={this.state.password} 
             placeholder='Password'
           />
-        </View>  */}
+        </View> 
 
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Mobile Number</FormLabel>
@@ -233,23 +232,23 @@ class ProfileEditScreen extends React.Component {
           />
         </View>
 
-        {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Citizenship</FormLabel>
           <FormInput 
             onChangeText={citizenship => this.setState({ citizenship })} 
             value={this.state.citizenship} 
             placeholder='Citizenship'
           />
-        </View> */}
+        </View>
 
-        {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Nationality</FormLabel>
           <FormInput 
             onChangeText={nationality => this.setState({ nationality })} 
             value={this.state.nationality} 
             placeholder='Nationality'
           />
-        </View> */}
+        </View>
 
 
         <Button

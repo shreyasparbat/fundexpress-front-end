@@ -84,7 +84,7 @@ export default class ContactUsForm extends Component {
               <View style={{paddingTop:5}}>
                 <Button
                   title='Submit'
-                  backgroundColor='#696969'
+                  backgroundColor='#C00000'
                   onPress={() => Linking.openURL(
                     'mailto:fundexpressfyp@gmail.com?subject='+this.state.subject+'&body=Name: ' + this.state.name + '\r\n Contact Number: ' + this.state.contactNumber + '\r\n Reply to: ' + this.state.email +'\r\n \r\n'+ this.state.enquiry
                   )}

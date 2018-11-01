@@ -6,16 +6,16 @@ import { Header } from 'native-base';
 
 class ProfileScreen extends React.Component {
   state = { fullName: '', gender: '', DOB: '', age: '' , ic: '', mobileNumber: '' ,
-  landlineNumber: '' ,address: '', citizenship: '', nationality: '', email: '' };
+  landlineNumber: '' ,address: '', citizenship: '', nationality: '', email: '', status:true };
   static navigationOptions = {
-    title: 'Profile',
+    title: 'Me',
       headerStyle: {
-        backgroundColor: '#C00000',
+        backgroundColor: 'white',
       },
-      headerTintColor: '#ffffff',
+      headerTintColor: 'black',
       headerTitleStyle: {
         fontWeight: 'bold',
-        color: '#ffffff'
+        color: 'black'
       },
       tabBarIcon: ({ focused, tintColor }) => {
         return <Ionicons name={'md-contact'} size={25}
@@ -45,9 +45,8 @@ class ProfileScreen extends React.Component {
       })
       .then((response) => {
         console.log("profile retrieved")
-        //console.log(response)
+        console.log(response)
         //console.log(response.body)
-        //console.log(response)
         this.setState({
           fullName: response.fullName,
           address: response.address,
@@ -59,11 +58,12 @@ class ProfileScreen extends React.Component {
           landlineNumber: response.landlineNumber,
           mobileNumber: response.mobileNumber,
           nationality: response.nationality,
+          status: response.registrationCompleted
         });
         //console.log("state fullName: " + this.state.fullName)
       })
       .catch((errorResponse) => {
-        console.log("error with profile/edit ")
+        console.log("error with profile/me ")
         console.log(errorResponse)
       })
     }).catch((error) => {
@@ -123,42 +123,73 @@ class ProfileScreen extends React.Component {
 
 
   render() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
-        {/* <Avatar
-          xlarge
-          rounded
-          icon={{name: 'airplay'}}
-          activeOpacity={0.7}
-        />  */}
-        <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 10, marginBottom: 10}}>
-          <Text>Full Name: {this.state.fullName}</Text>
-          <Text>NRIC: {this.state.ic}</Text>
-          <Text>Email: {this.state.email}</Text>
-          <Text>Date of Birth: {this.state.DOB}</Text>
-          <Text>Landline Number: {this.state.landlineNumber}</Text>
-          <Text>Mobile Number: {this.state.mobileNumber}</Text>
-          <Text>Address: {this.state.address}</Text>
-        </View>
-
-        <View style={{width: 300}}>
-          <Button
-            title='Edit'
-            color='white'
-            backgroundColor='#C00000'
-            onPress={() => this.props.navigation.navigate('edit')}
-          />
-        <View style={{width:300,marginTop:15}}>
-          <Button
-              title='Log Out'
+    console.log("status: " + this.state.status)
+    if(this.state.status!=true){
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
+          {/* <Avatar
+            xlarge
+            rounded
+            icon={{name: 'airplay'}}
+            activeOpacity={0.7}
+          />  */}
+          {/* <View style={{justifyContent: '', alignItems: 'center', marginTop: 10, marginBottom: 10}}>
+            <Text>Full Name: {this.state.fullName}</Text>
+            <Text>Email: {this.state.email}</Text>
+          </View> */}
+  
+          <View style={{width: 300}}>
+            <Button
+              title='Edit Profile'
               color='white'
               backgroundColor='#C00000'
-              onPress={() => this.logOut()}
+              onPress={() => this.props.navigation.navigate('edit')}
             />
+          <View style={{width:300,marginTop:15}}>
+            <Button
+                title='Log Out'
+                color='white'
+                backgroundColor='#C00000'
+                onPress={() => this.logOut()}
+              />
+          </View>
+          </View>
         </View>
+      );
+    }else{
+      return(
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
+          {/* <Avatar
+            xlarge
+            rounded
+            icon={{name: 'airplay'}}
+            activeOpacity={0.7}
+          />  */}
+          {/* <View style={{justifyContent: '', alignItems: 'center', marginTop: 10, marginBottom: 10}}>
+            <Text>Full Name: {this.state.fullName}</Text>
+            <Text>Email: {this.state.email}</Text>
+          </View> */}
+  
+          <View style={{width: 300}}>
+            <Button
+              title='Complete Profile'
+              color='white'
+              backgroundColor='#C00000'
+              onPress={() => this.props.navigation.navigate('edit')}
+            />
+          <View style={{width:300,marginTop:15}}>
+            <Button
+                title='Log Out'
+                color='white'
+                backgroundColor='#C00000'
+                onPress={() => this.logOut()}
+              />
+          </View>
+          </View>
         </View>
-      </View>
-    );
+      );
+    }
+    
   }
 }
 

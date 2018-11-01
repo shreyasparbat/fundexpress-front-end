@@ -1,7 +1,7 @@
 import { Container,  Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body } from 'native-base';
 import React from 'react';
 import ProgressBar from './ProgressBar';
-import { Image, Text, Linking, ListView, View, TouchableOpacity, FlatList, Platform } from 'react-native';
+import { ActivityIndicator, Image, Text, Linking, ListView, View, TouchableOpacity, FlatList, Platform } from 'react-native';
 
 const styles = {
   buttonStyle: {
@@ -17,10 +17,11 @@ export default class SellTicket extends React.Component {
     super(props)
 
     this.state = {
+      navigation:props.navigation,
       userId: props.data.userID,
-      itemId: props.data.itemId,
+      itemId: props.data.item._id,
       itemName: props.data.item.name,
-      ticketNumber: props.data.item._id,
+      ticketId: props.data.item._id,
       dateCreated: new Date(props.data.dateCreated),
       value: props.data.value,
       approvalStatus: props.data.approved
@@ -58,21 +59,31 @@ export default class SellTicket extends React.Component {
   roundTo(number) {
       return parseFloat(Math.round(number * 100) / 100).toFixed(2);
   }
+
+  generateURI(itemID){
+    var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
+    uri = uri.concat(itemID)
+    uri = uri.concat('_front.jpg')
+    console.log('uri: ' + uri)
+    console.log('itemID: ' + this.state.ticketNumber)
+    return uri
+  }
+
   render(){
     // console.log(this.state);
     return(
       <View>
             <Card style={{flex: 0}}>
-              <CardItem>
-              {/* <Left>
-              <Image
-                source={require('../images/feplaceholder.png')}
-                style={{ resizeMode: 'contain', width: 100 , height: 100}}
-              />
-              </Left> */}
-                  <Body>
+              <CardItem style={{flexDirection:'column'}} button onPress={()=> this.props.navigation.navigate('sTicket', {'itemID':this.state.itemId, 'ticketID':this.state.ticketId})}>
+                  <View style={{flexDirection:'row'}}>
+                    <View style={{justifyContent:'center', alignItems:'center',flex:0.3}}>
+                      <Image
+                        source={{uri: this.generateURI(this.state.itemId)}}
+                        loadingIndicatorSource={<ActivityIndicator />}
+                        style={{ resizeMode: 'contain', width: 90 , height: 90}}
+                      />
+                    </View>
 
-                    {/* // */}
                     <View style={{marginBottom: 10}}>
                       <Text style={{fontSize:25}}>{this.state.itemName}</Text>
                       {/* <Text note>Ticket #{this.state.ticketNumber}</Text> */}
@@ -103,7 +114,7 @@ export default class SellTicket extends React.Component {
                       </Button>
                     </CardItem>
                     </View>
-                  </Body>
+                  </View>
 
               </CardItem>
 

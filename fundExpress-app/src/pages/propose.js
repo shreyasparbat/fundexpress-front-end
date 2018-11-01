@@ -112,7 +112,7 @@ class ProposeScreen extends React.Component {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>How much do you wish to pawn your item for?</Text>
-        <Text>Value: {this.state.specifiedValue}</Text>
+        <Text style={{fontSize:35, fontWeight:'bold'}}>Loan Value:$ {this.state.specifiedValue}</Text>
         <View style={{flex: 0.5, alignItems: 'stretch', justifyContent: 'center', width: 350}}>
           <Slider
             value={parseInt(this.state.maxValue)}

@@ -70,7 +70,7 @@ validateIC = (icNumber) => {
 class RegisterScreen extends React.Component {
   state = { email: '', password: '', fullName: '', gender: '', DOB: '', ic: '', mobileNumber: '' ,
   landlineNumber: '' ,address: '', nationality:'', citizenship: '',
-  house: '', race: '' , ptoken: '', error:'', showAlert:false};
+  house: '', race: '' , ptoken: '', error:'', showAlert:false, showAlert2:false};
   static navigationOptions = {
     title: 'Register',
       headerStyle: {
@@ -140,9 +140,9 @@ class RegisterScreen extends React.Component {
     if(this.state.fullName==''){
       errorArray.push("Full Name required")
     }
-    if(this.state.ic==''){
-      errorArray.push("NRIC required")
-    }
+    // if(this.state.ic==''){
+    //   errorArray.push("NRIC required")
+    // }
     if(this.state.email==''){
       errorArray.push("Email required")
     }
@@ -167,7 +167,7 @@ class RegisterScreen extends React.Component {
     console.log('register pressed');
     console.log(JSON.stringify(this.state))
     var res = '';
-    fetch('http://206.189.145.2:3000/user/onboard',{
+    fetch('http://206.189.145.2:3000/user/registerTrial',{
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -179,7 +179,7 @@ class RegisterScreen extends React.Component {
         fullName: this.state.fullName,
         // gender: this.state.gender,
         // dateOfBirth: this.state.DOB,
-        ic: this.state.ic,
+        // ic: this.state.ic,
         // mobileNumber: parseInt(this.state.mobileNumber),
         // nationality: this.state.nationality,
         // citizenship: this.state.citizenship,
@@ -191,16 +191,16 @@ class RegisterScreen extends React.Component {
     // "email": "averychong6@test.com",
     //"password": "pass1234",
     //"fullName": "AveryChong",
-    "gender": "M",
-    "dateOfBirth": "1994-05-23",
+    // "gender": "M",
+    // "dateOfBirth": "1994-05-23",
     // "ic": "S1234567A",
-    "mobileNumber": parseInt('91234567'),
-    "nationality": "Singaporean",
-    "citizenship": "Singapore",
-    "landlineNumber": parseInt('61234567'),
-    "address": "Singapore",
-    "addressType": "C",
-    "race": "Chinese",
+    // "mobileNumber": parseInt('91234567'),
+    // "nationality": "Singaporean",
+    // "citizenship": "Singapore",
+    // "landlineNumber": parseInt('61234567'),
+    // "address": "Singapore",
+    // "addressType": "C",
+    // "race": "Chinese",
      expoPushToken: this.state.ptoken,
        
         
@@ -223,18 +223,21 @@ class RegisterScreen extends React.Component {
         this.storeData('auth', res.headers.get('x-auth'));
         console.log("Success")
         console.log(this.state.email + " logged in")
-        this.props.navigation.navigate('Home');
+        this.setState({
+          showAlert2: true,
+          loading: false
+        })
       }else{
         console.log(response.error)
         //pass error message to the state, display the alert
         this.setState({
-          error: response.error,
-          showAlert: true,
+          showAlert2: true,
           loading: false
         })
       }
     })
     .catch((error) => {
+      console.log(error)
       this.setState({
         error: "Network error",
         loading: false,
@@ -266,7 +269,7 @@ class RegisterScreen extends React.Component {
           />
         </View>
 
-        <View style={{height:85,marginTop:5, backgroundColor: 'white'}} >
+        {/* <View style={{height:85,marginTop:5, backgroundColor: 'white'}} >
           <FormLabel>NRIC</FormLabel>
           <FormInput
             autoCapitalize='none' 
@@ -274,7 +277,7 @@ class RegisterScreen extends React.Component {
             value={this.state.ic} 
             placeholder='NRIC'
           />
-        </View>
+        </View> */}
 
         <View style={{height:85,marginTop:5, backgroundColor: 'white'}} >
           <FormLabel>Email</FormLabel>
@@ -470,7 +473,22 @@ class RegisterScreen extends React.Component {
             this.hideAlert();
             ;
           }}
-        />
+        /><AwesomeAlert
+        show= {this.state.showAlert2}
+        title="Success!"
+        message={"You can use the app to evaluate your items, however, to pawn an item, you will need to complete your profile by going to the profile page"}
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={false}
+        showCancelButton={false}
+        showConfirmButton={true}
+        confirmButtonColor="#C00000"
+        confirmText="Ok"
+        overlayStyle={{flex:1}}
+        onConfirmPressed={() => {
+          this.props.navigation.navigate('Home');
+          ;
+        }}
+      />
       {/* </KeyboardAwareScrollView> */}
       </View>
     );

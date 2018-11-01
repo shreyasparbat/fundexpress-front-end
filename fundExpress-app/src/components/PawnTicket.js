@@ -1,7 +1,7 @@
 import { Container,  Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body } from 'native-base';
 import React from 'react';
 import ProgressBar from './ProgressBar';
-import { Image, Text, Linking, ListView, View, TouchableOpacity, FlatList,Platform } from 'react-native';
+import { ActivityIndicator, Image, Text, Linking, ListView, View, TouchableOpacity, FlatList,Platform } from 'react-native';
 
 const styles = {
   buttonStyle: {
@@ -19,10 +19,10 @@ export default class PawnTicket extends React.Component {
 
     this.state = {
       navigation:props.navigation,
-      userId: props.data._id,
-      itemId: props.itemId,
+      ticketId: props.data._id,
+      userId: props.userID,
       itemName: props.data.item.name,
-      ticketNumber: props.data.item._id,
+      itemId: props.data.item._id,
       dateCreated: new Date(props.data.dateCreated),
       expiryDate: new Date(props.data.expiryDate),
       interestPayable: props.data.indicativeTotalInterestPayable,
@@ -108,18 +108,30 @@ export default class PawnTicket extends React.Component {
   roundTo(number) {
       return parseFloat(Math.round(number * 100) / 100).toFixed(2);
   }
+
+  generateURI(itemID){
+    var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
+    uri = uri.concat(itemID)
+    uri = uri.concat('_front.jpg')
+    console.log('uri: ' + uri)
+    console.log('itemID: ' + this.state.ticketNumber)
+    return uri
+  }
   render(){
     return(
       <View>
             <Card style={{flex: 0}}>
-              <CardItem>
-              {/* <Left>
-              <Image
-                source={require('../images/feplaceholder.png')}
-                style={{ resizeMode: 'contain', width: 90 , height: 90}}
-              />
-              </Left> */}
-                  <Body>
+              <CardItem style={{flexDirection:'column'}} button onPress={()=> this.props.navigation.navigate('pTicket', {'itemID':this.state.itemId, 'ticketID':this.state.ticketId})}> 
+              <View style={{flexDirection:'row'}}>
+                <View style={{justifyContent:'center', alignItems:'center',flex:0.3}}>
+                  <Image
+                    source={{uri: this.generateURI(this.state.itemId)}}
+                    loadingIndicatorSource={<ActivityIndicator />}
+                    style={{ resizeMode: 'contain', width: 90 , height: 90}}
+                  />
+                </View>
+              
+                  <View style={{flex:0.7, marginLeft:10}}>
                     <View style={{marginBottom: 10}}>
                       <Text style={{fontSize:25}}>{this.state.itemName}</Text>
                       {/* <Text note>Ticket #{this.state.ticketNumber}</Text> */}
@@ -152,9 +164,10 @@ export default class PawnTicket extends React.Component {
                         <Text>{this.roundTo(this.state.interestPayable)}</Text>
                       </View>
                     </View>
-
-                    {/* //Buttons container */}
-                    <CardItem style={{justifyContent: 'center'}}>
+                  </View>
+              </View>
+              {/* //Buttons container */}
+              <CardItem style={{justifyContent: 'center'}}>
                       {/* //Renew Now Button */}
                       <Button style={styles.buttonStyle} onPress={() => this.props.navigation.navigate('renew')}>
                         <Text style={{fontSize: 16, color: '#ffffff', }}>Renew Now</Text>
@@ -174,7 +187,6 @@ export default class PawnTicket extends React.Component {
                         <Text style={{fontSize: 16, color: '#ffffff', }}>Pay Interest</Text>
                       </Button>
                     </CardItem>
-                  </Body>
 
               </CardItem>
 

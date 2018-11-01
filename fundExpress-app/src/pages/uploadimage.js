@@ -40,8 +40,8 @@ export default class UploadScreen extends React.Component {
       this.setState({
         auth:token,
         showAlert: true,
-        alertTitle: 'Tutorial',
-        alertMessage: 'Take an image of the front of your item!',
+        // alertTitle: 'Tutorial',
+        alertMessage: 'Take an image of the front of your item',
         showProgress: false,
         showConfirmButton: true,
       })
@@ -79,7 +79,7 @@ export default class UploadScreen extends React.Component {
     this.setState({
       showAlert: true,
       alertTitle: "Uploading Image",
-      alertMessage: "This will take a few seconds",
+      alertMessage: "This may take a few seconds",
       showProgress: true,
       showConfirmButton: false,
     })

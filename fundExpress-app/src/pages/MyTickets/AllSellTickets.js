@@ -8,6 +8,7 @@ import { Container, Header, Tab, Tabs, TabHeading } from 'native-base';
 class AllSellTicketsScreen extends React.Component {
   static navigationOptions = {
     title: 'Sell Tickets',
+    header:null,
       headerStyle: {
         backgroundColor: '#C00000',
       },
@@ -24,16 +25,16 @@ class AllSellTicketsScreen extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Tabs>
-          <Tab  heading={ <TabHeading style={{backgroundColor:'#696969',borderColor:'#ffffff'}}><Icon name='add-to-list'  style={{color:'#ffffff'}}/><Text style={{color:'#ffffff'}}> Pending</Text></TabHeading>} activeTabStyle={{borderBottomColor:'#ffffff'}}>
-            <PendingSellTickets />
+      <View style={{flex:1,backgroundColor:'white'}}>
+        <Tabs style={{marginTop:25}} tabBarUnderlineStyle={{backgroundColor:'#C00000'}} >
+          <Tab  heading={ <TabHeading style={{backgroundColor:'white',borderColor:'white'}}><Icon name='add-to-list'  style={{color:'black'}}/><Text style={{color:'black'}}> Pending</Text></TabHeading>} activeTabStyle={{borderBottomColor:'#ffffff'}}>
+            <PendingSellTickets navigation={this.props.navigation} />
           </Tab>
-          <Tab  heading={ <TabHeading style={{backgroundColor:'#696969',borderColor:'#ffffff'}}><Icon name='back-in-time'  style={{color:'#ffffff'}}/><Text style={{color:'#ffffff'}}> Past</Text></TabHeading>} activeTabStyle={{borderBottomColor:'#ffffff'}}>
-            <PastSellTickets />
+          <Tab  heading={ <TabHeading style={{backgroundColor:'white',borderColor:'white'}}><Icon name='back-in-time'  style={{color:'black'}}/><Text style={{color:'black'}}> Past</Text></TabHeading>} activeTabStyle={{borderBottomColor:'#ffffff'}}>
+            <PastSellTickets navigation={this.props.navigation} />
           </Tab>
         </Tabs>
-      </Container>
+      </View>
 
     );
   }

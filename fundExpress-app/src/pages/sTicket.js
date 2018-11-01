@@ -1,10 +1,9 @@
 import React from 'react';
 import {View, Text, AsyncStorage, ActivityIndicator, Image} from 'react-native';
 import { Button, Card } from 'react-native-elements';
-import AwesomeAlert from 'react-native-awesome-alerts';
-class PawnTicketScreen extends React.Component {
+class sTicket extends React.Component {
   static navigationOptions = {
-    title: "New Pawn Ticket",
+    title: "Sell Ticket",
     gesturesEnabled: false,
     header: null,
     tabBarVisible: false,
@@ -18,7 +17,19 @@ class PawnTicketScreen extends React.Component {
       },
   }
 
-  state = {item:'', itemID: '', isLoading:true, showAlert:true}
+  state = {itemID:this.props.navigation.getParam('itemID',''), ticketID: this.props.navigation.getParam('ticketID',''), isLoading:false,
+            name:'',
+            type:'',
+            condition:'',
+            material:'',
+            weight:'',
+            purity:'',
+            brand:'',
+            datePurchased:'',
+            comments:'',
+            sellValue:'',
+            dateSold:''
+}
 
   retrieveData = async (item) => {
     try{
@@ -30,9 +41,9 @@ class PawnTicketScreen extends React.Component {
     }
   }
 
-  pawn(sValue){
+  retrieveTicket(ticketID){
     this.retrieveData('auth').then((auth) => {
-      fetch('http://206.189.145.2:3000/item/pawn',{
+      fetch('http://206.189.145.2:3000/tickets/getSellTicket',{
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -40,20 +51,30 @@ class PawnTicketScreen extends React.Component {
           'x-auth': auth,
         },
         body: JSON.stringify({
-          itemID: this.state.itemID,
-          specifiedValue: sValue
+          ticketID: ticketID,
         }),
       })
       .then((response) => {
         return response.json()
       })
       .then((response) => {
-        console.log("/item/pawn Success");
+        console.log("pawn ticket retrieved");
         console.log("response");
         console.log(response);
+        console.log(response.item.name)
+        console.log(response.dateCreated)
         this.setState({
-          item:response,
-          isLoading:false
+            name: response.item.name,
+            type:response.item.type,
+            condition:response.item.condition,
+            material:response.item.material,
+            weight:response.item.weight,
+            purity:response.item.purity,
+            brand:response.item.brand,
+            datePurchased:response.item.dateOfPurchase.slice(0,-14),
+            comments:response.item.otherComments,
+            sellValue:response.sellOfferedValue,
+            dateSold:response.dateCreated.slice(0,-14),
         })
         //console.log(JSON.stringify(response.item));
         //this.storeData('itemObj', JSON.stringify(response));
@@ -83,27 +104,7 @@ class PawnTicketScreen extends React.Component {
   }
 
   componentWillMount() {
-    this.retrieveData('itemID').then((ID) => {
-      this.setState({
-        itemID: ID
-      })
-    })
-    this.retrieveData('specifiedValue').then((sValue) => {
-      this.setState({
-        specifiedValue: sValue
-      })
-      this.pawn(sValue);
-    })
-    // console.log(this.state.item)
-  }
-
-  componentWillUnmount(){
-    AsyncStorage.multiRemove([
-      'itemID',
-      'pov',
-      'sov',
-      'photo',
-    ])
+    this.retrieveTicket(this.state.ticketID)
   }
 
   render() {
@@ -120,12 +121,12 @@ class PawnTicketScreen extends React.Component {
       <View style={{borderColor:'grey',borderWidth:1}}>
         <View style={{justifyContent:'center', flexDirection:'row', borderBottomWidth:1, borderColor:'grey'}}>
           <Image
-                source={{uri: this.generateURIFront(this.state.item.item._id)}}
+                source={{uri: this.generateURIFront(this.state.itemID)}}
                 loadingIndicatorSource={<ActivityIndicator />}
                 style={{ resizeMode: 'center', width: 150 , height: 150}}
           />
           <Image
-                source={{uri: this.generateURIBack(this.state.item.item._id)}}
+                source={{uri: this.generateURIBack(this.state.itemID)}}
                 loadingIndicatorSource={<ActivityIndicator />}
                 style={{ resizeMode: 'center', width: 150 , height: 150}}
           />
@@ -133,69 +134,47 @@ class PawnTicketScreen extends React.Component {
         
       </View>
       <View style={{flexDirection:'column'}}>
-          <Text>Name: {this.state.item.item.name}</Text>
-          <Text>Type: {this.state.item.item.type}</Text>
-          <Text>Condition: {this.state.item.item.condition}</Text>
-          <Text>Material: {this.state.item.item.material}</Text>
-          <Text>Weight: {this.state.item.item.weight}g</Text>
-          <Text>Purity: {this.state.item.item.purity}</Text>
-          <Text>Brand: {this.state.item.item.brand}</Text>
-          <Text>Date Purchased: {this.state.item.item.dateOfPurchase.slice(0,-14)}</Text>
-          <Text>Additional Comments: {this.state.item.item.otherComments}</Text>
+          <Text>Name: {this.state.name}</Text>
+          <Text>Type: {this.state.type}</Text>
+          <Text>Condition: {this.state.condition}</Text>
+          <Text>Material: {this.state.material}</Text>
+          <Text>Weight: {this.state.weight}g</Text>
+          <Text>Purity: {this.state.purity}</Text>
+          <Text>Brand: {this.state.brand}</Text>
+          <Text>Date Purchased: {this.state.datePurchased}</Text>
+          <Text>Additional Comments: {this.state.comments}</Text>
         </View>
       <View style={{borderColor:'grey', borderWidth:1 ,borderLeftWidth:0, borderRightWidth:0}}>
-        <Text>Value Loaned: ${this.state.specifiedValue}</Text>
+        <Text>Sell Value: ${this.state.valueLoaned}</Text>
       </View>
       <View style={{flexDirection:'row'}}>
         <View style={{flexDirection:'column'}}>
-          <Text>Date Pawned: </Text>
-          <Text>{this.state.datePawned}</Text>
+          <Text>Date Sold: </Text>
+          <Text>{this.state.dateSold}</Text>
         </View>
         <View style={{borderColor:'grey', borderLeftWidth:0.5, borderRightWidth:0.5, flexDirection:'column'}}>
           <Text>Pawn Offered Value: </Text>
-          <Text>${Math.round(this.state.item.item.pawnOfferedValue)}</Text>
-        </View>
-        <View style={{flexDirection:'column'}}>
-          <Text>Expiry Date: </Text> 
-          <Text>{this.state.item.expiryDate.slice(0,-14)}</Text> 
+          <Text>${this.state.sellValue}</Text>
         </View>
         </View>
          
-      </View>
-      <View style={{borderColor:'grey', borderWidth:1 , borderTopWidth:0}}>
-        <Text>Interest Payable: ${Math.round(this.state.item.indicativeTotalInterestPayable)}</Text>  
-      </View> 
+      </View>       
       </Card>
       </View>
+      <View>
         <Button
-              title='Return to Home'
+              title='Back'
               color='white'
               borderRadius= {3}
               containerViewStyle={{height: 50, width: 200, marginTop: 15}}
               backgroundColor='#C00000'
-              onPress={() => this.props.navigation.navigate("main")}
+              onPress={() => this.props.navigation.goBack(null)}
             />
-      <AwesomeAlert
-        show= {this.state.showAlert}
-        title="Ticket Pending Approval"
-        message={"Please go down to your nearest FundExpress to submit your item!"}
-        closeOnTouchOutside={false}
-        closeOnHardwareBackPress={false}
-        showCancelButton={false}
-        showConfirmButton={true}
-        confirmButtonColor="#C00000"
-        confirmText="Ok"
-        overlayStyle={{flex:1}}
-        onConfirmPressed={() => {
-          this.setState({
-            showAlert:false
-          })
-        }}
-      />
       </View>
+    </View>
     );
       }
   }
 }
 
-export default PawnTicketScreen;
+export default sTicket;

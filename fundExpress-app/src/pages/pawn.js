@@ -216,7 +216,7 @@ validate(){
 
           {/* display taken image of item */}
         <Image
-            style={{height: 200, width: 200, marginTop: 50}}
+            style={{height: 200, width: 200, marginTop: 50, resizeMode: 'contain'}}
             source={{ uri: this.state.image}}
           />
 
