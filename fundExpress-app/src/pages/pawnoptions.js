@@ -9,7 +9,9 @@ class PawnOptions extends React.Component {
     sov:'',
     image: '',
     auth: '',
-    showAlert: false 
+    showAlert: false,
+    showAlert2: false, 
+    status:true,
   };
 
   static navigationOptions = {
@@ -54,8 +56,47 @@ class PawnOptions extends React.Component {
     }
   }
 
+  checkReg(){
+    this.retrieveData().then((token) => {
+      fetch('http://206.189.145.2:3000/profile/me', {
+      method: 'POST',
+      headers: new Headers({
+        // Accept: 'application/json',
+        // 'Content-Type': 'application/json',
+        'x-auth' : token,
+      }),
+      // body: JSON.stringify({
+      //   auth : token
+      // })
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          return Promise.reject(response.json())
+        }
+      })
+      .then((response) => {
+        console.log("profile retrieved")
+        console.log(response)
+        //console.log(response.body)
+        this.setState({
+          status: response.registrationCompleted
+        });
+        //console.log("state fullName: " + this.state.fullName)
+      })
+      .catch((errorResponse) => {
+        console.log("error with profile/me ")
+        console.log(errorResponse)
+      })
+    }).catch((error) => {
+      console.log("error retrieving  profile data")
+      console.log(error)
+    });
+  }
 //load the image URI, Pawn offered value and Sell offered value
   componentWillMount() {
+    this.checkReg();
       this.retrieveData('pov').then((pov) => {
         this.setState({
           pov: pov
@@ -107,6 +148,26 @@ class PawnOptions extends React.Component {
   // })
   // }
 
+  checkPawn(){
+    if(this.state.status==true){
+      this.props.navigation.navigate('propose');
+    }else{
+      this.setState({
+        showAlert2:true
+      })
+    }
+  }
+
+  checkSell(){
+    if(this.state.status==true){
+      this.props.navigation.navigate('sell');
+    }else{
+      this.setState({
+        showAlert2:true
+      })
+    }
+  }
+
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -133,7 +194,7 @@ class PawnOptions extends React.Component {
               borderRadius= {3}
               containerViewStyle={{height: 100, width: 80,}}
               backgroundColor='#C00000'
-              onPress={() => this.props.navigation.navigate('propose')}
+              onPress={() => this.checkPawn()}
             />
           <Button
               title='Sell'
@@ -141,7 +202,7 @@ class PawnOptions extends React.Component {
               borderRadius= {3}
               containerViewStyle={{height: 100, width: 80,}}
               backgroundColor='#C00000'
-              onPress={() => this.props.navigation.navigate('sellTicket')}
+              onPress={() => this.checkSell()}
             />
             <Button
               title='Reject'
@@ -173,6 +234,22 @@ class PawnOptions extends React.Component {
           }}
           onConfirmPressed={() => {
             this.hideAlert();
+            ;
+          }}
+        />
+        <AwesomeAlert
+          show= {this.state.showAlert2}
+          //showProgress={false}
+          title="Registration Incomplete"
+          message="Before you can pawn or sell an item, you have to register fully. Please proceed to the profile page to complete your registration"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showConfirmButton={true}
+          confirmText="Take me there!"
+          confirmButtonColor="#DD6B55"
+          onConfirmPressed={() => {
+            this.hideAlert();
+            this.props.navigation.navigate('Profile');
             ;
           }}
         />

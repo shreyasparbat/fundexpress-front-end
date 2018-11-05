@@ -14,7 +14,9 @@ export default class UploadScreen extends React.Component {
   state = {
     cameraPermission: null,
     rollPermission: null,
-    photo: '',
+    front: '',
+    back:'',
+    second:false,
     type: this.props.navigation.getParam('type' , null),
     auth: '',
     showAlert: false
@@ -83,21 +85,50 @@ export default class UploadScreen extends React.Component {
       showProgress: true,
       showConfirmButton: false,
     })
-    this.camera.takePictureAsync({
-      quality: 0.1,
-      base64: true,
-      exif: false
-    }).then(photo => {
-      this.setState({ 
-        photo: photo,
-      });
-      //console.log(photo);
-      image = photo.base64;
-      //MediaLibrary.createAssetAsync(photo.uri);
-      //this.props.navigation.navigate('pawn', { uri : photo.uri })
-      this.submit(photo);
-
-    })
+    if(this.state.second==false){
+      console.log('if second==false, current second: ' + this.state.second)
+      this.camera.takePictureAsync({
+        quality: 0.1,
+        base64: true,
+        exif: false
+      }).then(front => {
+        this.setState({ 
+          front: front,
+          second: true,
+        });
+        this.storeData('front',this.state.front.uri)
+        console.log('front taken: ' + this.state.front)
+        //console.log(photo);
+        // image = photo.base64;
+        //MediaLibrary.createAssetAsync(photo.uri);
+        //this.props.navigation.navigate('pawn', { uri : photo.uri })
+        this.setState({
+          showAlert: true,
+          alertTitle: 'Front Image Uploaded!',
+          alertMessage: 'Now take an image of the back of your item',
+          showProgress: false,
+          showConfirmButton: true,
+        })
+      })
+    }else{
+      console.log('if second==true, current second: ' + this.state.second)
+      this.camera.takePictureAsync({
+        quality: 0.1,
+        base64: true,
+        exif: false
+      }).then(back => {
+        this.setState({ 
+          back: back,
+        });
+        console.log("Back taken: " + this.state.back)
+        this.storeData('back', this.state.back.uri)
+        //console.log(photo);
+        // image = photo.base64;
+        //MediaLibrary.createAssetAsync(photo.uri);
+        //this.props.navigation.navigate('pawn', { uri : photo.uri })
+      })
+      this.submit(this.state.front, this.state.back);
+    }
   }
 
   retrieveData = async () => {
@@ -126,7 +157,7 @@ export default class UploadScreen extends React.Component {
     this.props.navigation.navigate('pawn', {'type': this.state.type})
   }
 
-  submit= (photo) => {
+  submit= (front, back) => {
     console.log('uploading photo');
     const type = this.state.type;
     const auth = this.state.auth;
@@ -134,12 +165,12 @@ export default class UploadScreen extends React.Component {
     console.log(type);
     const formData = new FormData();
       formData.append('front', {
-        uri: photo.uri, // your file path string
+        uri: front.uri, // your file path string
         type: 'image/jpg',
         name: 'front.jpg'
       });
       formData.append('back', {
-        uri: photo.uri, // your file path string
+        uri: back.uri, // your file path string
         type: 'image/jpg',
         name: 'back.jpg'
       });
@@ -169,7 +200,10 @@ export default class UploadScreen extends React.Component {
       //console.log(response);
       console.log(response.itemID);
       this.storeData('itemID',response.itemID);
-      this.storeData('photo',this.state.photo.uri);
+      console.log("front URI: " + this.state.front.uri)
+      console.log('back URI: ' + this.state.back.uri)
+      
+      
       this.go(response.itemID);
     })
     .catch((error) => {

@@ -19,7 +19,13 @@ class PendingSellTickets extends React.Component {
     },
   };
 
-  state = { data: [] };
+  constructor(props){
+    super(props)
+    this.state={
+      data:[],
+      navigation:props.navigation,
+    }
+  }
 
   retrieveData = async () => {
     try{
@@ -69,6 +75,7 @@ class PendingSellTickets extends React.Component {
     <SellTicket
       key={ticket._id}
       data={ticket}
+      navigation={this.state.navigation}
     />
     );
   }

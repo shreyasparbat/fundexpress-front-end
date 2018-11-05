@@ -51,7 +51,7 @@ class ProfileScreen extends React.Component {
           fullName: response.fullName,
           address: response.address,
           citizenship: response.citizenship,
-          DOB: response.dateOfBirth.slice(0,10),
+          // DOB: response.dateOfBirth.slice(0,10),
           email: response.email,
           gender: response.gender,
           ic: response.ic,
@@ -102,7 +102,8 @@ class ProfileScreen extends React.Component {
             'itemID',
             'pov',
             'sov',
-            'photo',
+            'front',
+            'back',
           ])
           this.props.navigation.navigate('login');
         } else {
@@ -124,7 +125,7 @@ class ProfileScreen extends React.Component {
 
   render() {
     console.log("status: " + this.state.status)
-    if(this.state.status!=true){
+    if(this.state.status==true){
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
           {/* <Avatar

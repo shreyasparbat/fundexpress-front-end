@@ -12,13 +12,13 @@ class ProfileEditScreen extends React.Component {
       fullName: '',
       gender: '',
       DOB: '',
-      age: '',
       ic: '',
       mobileNumber: '',
       landlineNumber: '',
       address: '',
       citizenship: '',
-      nationality: '',
+      race: '',
+      house:'',
   };
   static navigationOptions = {
     title: 'Edit Profile',
@@ -66,9 +66,9 @@ class ProfileEditScreen extends React.Component {
           ic: response.ic,
           landlineNumber: response.landlineNumber.toString(),
           mobileNumber: response.mobileNumber.toString(),
-          nationality: response.nationality,
+          house: response.addressType,
           password: response.password,
-          age: response.age,
+          race: response.race,
         });
         //console.log("state fullName: " + this.state.fullName)
       })
@@ -110,7 +110,8 @@ class ProfileEditScreen extends React.Component {
           landlineNumber: parseInt(this.state.landlineNumber),
           address: this.state.address,
           citizenship: this.state.citizenship,
-          nationality: this.state.nationality,
+          addressType: this.state.house,
+          race: this.state.race
         }),
       })
       .then((response) => {
@@ -152,7 +153,8 @@ class ProfileEditScreen extends React.Component {
           />
         </View> */}
 
-        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
+        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>
+          <FormLabel>Gender</FormLabel>
         <Picker
               note
               mode="dropdown"
@@ -160,20 +162,22 @@ class ProfileEditScreen extends React.Component {
               placeholder='Gender'
               placeholderStyle={{ color: "#c7c7cd" }}
               iosIcon={<Icon name="ios-arrow-down-outline" />}
-              style={{ width: 325 }}
-              textStyle = {{color : 'black' }}
+              style={{ height: 40, width: 390}}
+              textStyle = {{ color: 'black' }}
               selectedValue={this.state.gender}
               onValueChange={gender => this.setState({gender})}
             >
+              <Picker.Item label="Gender" value="" />
               <Picker.Item label="Male" value="M" />
               <Picker.Item label="Female" value="F" />
 
             </Picker>
         </View>
 
-        <View style={{width:300,height:50,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15}}>
+        <View style={{height: 70, width: 390,borderBottomColor:"grey",borderBottomWidth:1,marginTop:0, backgroundColor:'white'}}>
+          <FormLabel>Date of Birth</FormLabel>
       <DatePicker
-            defaultDate={this.state.DOB}
+            defaultDate={new Date()}
             minimumDate={new Date(1900, 1, 1)}
             maximumDate={new Date(2018, 12, 31)}
             locale={"SGP"}
@@ -181,24 +185,27 @@ class ProfileEditScreen extends React.Component {
             modalTransparent={false}
             animationType={"fade"}
             androidMode={"default"}
-            placeHolderText= {this.state.DOB}
+            placeHolderText="Date of Birth"
             textStyle={{ color: "black" }}
-            placeHolderTextStyle={{ color: "black" }}
+            placeHolderTextStyle={{ color: "#c7c7cd" }}
+            selectedValue={new Date(2018, 12, 31)}
             onDateChange={DOB => this.setState({ DOB })}
             />
         </View>
 
-        <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
-          <Input
-            value={this.state.ic}
-            onChangeText={ic => this.setState({ ic })}
-            placeholder="NRIC"
+         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+          <FormLabel>NRIC</FormLabel>
+          <FormInput 
+            onChangeText={ic => this.setState({ ic })} 
+            value={this.state.ic} 
+            placeholder='NRIC'
           />
         </View>
 
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Password</FormLabel>
           <FormInput 
+          autoCapitalize='none'
             onChangeText={password => this.setState({ password })} 
             value={this.state.password} 
             placeholder='Password'
@@ -232,6 +239,28 @@ class ProfileEditScreen extends React.Component {
           />
         </View>
 
+        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:0, backgroundColor:'white'}}>
+        <FormLabel>Housing Type</FormLabel>
+        <Picker
+              note
+              mode="dropdown"
+              iosHeader="Housing Type"
+              placeholder='Housing Type'
+              placeholderStyle={{ color: "#c7c7cd" }}
+              iosIcon={<Icon name="ios-arrow-down-outline" />}
+              style={{ height: 40, width: 390}}
+              textStyle = {{ color: 'black' }}
+              selectedValue={this.state.house}
+              onValueChange={house => this.setState({house})}
+            >
+              <Picker.Item label="Housing Type" value="" />
+              <Picker.Item label="HDB" value="H" />
+              <Picker.Item label="Condominium/Landed" value="C" />
+              <Picker.Item label="Others" value="N" />
+
+            </Picker>
+        </View>
+
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Citizenship</FormLabel>
           <FormInput 
@@ -241,13 +270,28 @@ class ProfileEditScreen extends React.Component {
           />
         </View>
 
-        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
-          <FormLabel>Nationality</FormLabel>
-          <FormInput 
-            onChangeText={nationality => this.setState({ nationality })} 
-            value={this.state.nationality} 
-            placeholder='Nationality'
-          />
+        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:0, backgroundColor:'white'}}>
+          <FormLabel>Race</FormLabel>
+        <Picker
+              note
+              mode="dropdown"
+              iosHeader="Race"
+              placeholder='Race'
+              placeholderStyle={{ color: "#c7c7cd" }}
+              iosIcon={<Icon name="ios-arrow-down-outline" />}
+              style={{ height: 40, width: 390}}
+              textStyle = {{ color: 'black' }}
+              selectedValue={this.state.race}
+              onValueChange={race => this.setState({race})}
+            >
+              <Picker.Item label="Race" value="" />
+              <Picker.Item label="Chinese" value="Chinese" />
+              <Picker.Item label="Malay" value="Malay" />
+              <Picker.Item label="Indian" value="Indian" />
+              <Picker.Item label="Eurasian" value="Eurasian" />
+              <Picker.Item label="Others" value="Others" />
+
+            </Picker>
         </View>
 
 

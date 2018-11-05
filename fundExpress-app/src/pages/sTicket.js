@@ -28,7 +28,8 @@ class sTicket extends React.Component {
             datePurchased:'',
             comments:'',
             sellValue:'',
-            dateSold:''
+            dateSold:'',
+            pawnOfferedValue:''
 }
 
   retrieveData = async (item) => {
@@ -58,7 +59,7 @@ class sTicket extends React.Component {
         return response.json()
       })
       .then((response) => {
-        console.log("pawn ticket retrieved");
+        console.log("sell ticket retrieved");
         console.log("response");
         console.log(response);
         console.log(response.item.name)
@@ -73,8 +74,9 @@ class sTicket extends React.Component {
             brand:response.item.brand,
             datePurchased:response.item.dateOfPurchase.slice(0,-14),
             comments:response.item.otherComments,
-            sellValue:response.sellOfferedValue,
+            sellValue:Math.round(response.item.sellOfferedValue),
             dateSold:response.dateCreated.slice(0,-14),
+            pawnOfferedValue:Math.round(response.item.pawnOfferedValue)
         })
         //console.log(JSON.stringify(response.item));
         //this.storeData('itemObj', JSON.stringify(response));
@@ -104,6 +106,7 @@ class sTicket extends React.Component {
   }
 
   componentWillMount() {
+    console.log("ticketID: " + this.state.ticketID)
     this.retrieveTicket(this.state.ticketID)
   }
 
@@ -145,16 +148,16 @@ class sTicket extends React.Component {
           <Text>Additional Comments: {this.state.comments}</Text>
         </View>
       <View style={{borderColor:'grey', borderWidth:1 ,borderLeftWidth:0, borderRightWidth:0}}>
-        <Text>Sell Value: ${this.state.valueLoaned}</Text>
+        <Text>Sell Value: ${this.state.sellValue}</Text>
       </View>
       <View style={{flexDirection:'row'}}>
         <View style={{flexDirection:'column'}}>
           <Text>Date Sold: </Text>
           <Text>{this.state.dateSold}</Text>
         </View>
-        <View style={{borderColor:'grey', borderLeftWidth:0.5, borderRightWidth:0.5, flexDirection:'column'}}>
+        <View style={{borderColor:'grey', borderLeftWidth:0.5, flexDirection:'column'}}>
           <Text>Pawn Offered Value: </Text>
-          <Text>${this.state.sellValue}</Text>
+          <Text>${this.state.pawnOfferedValue}</Text>
         </View>
         </View>
          

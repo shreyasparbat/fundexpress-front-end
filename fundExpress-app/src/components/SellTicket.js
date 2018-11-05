@@ -21,7 +21,7 @@ export default class SellTicket extends React.Component {
       userId: props.data.userID,
       itemId: props.data.item._id,
       itemName: props.data.item.name,
-      ticketId: props.data.item._id,
+      ticketId: props.data._id,
       dateCreated: new Date(props.data.dateCreated),
       value: props.data.value,
       approvalStatus: props.data.approved
@@ -80,17 +80,15 @@ export default class SellTicket extends React.Component {
                       <Image
                         source={{uri: this.generateURI(this.state.itemId)}}
                         loadingIndicatorSource={<ActivityIndicator />}
-                        style={{ resizeMode: 'contain', width: 90 , height: 90}}
+                        style={{ resizeMode: 'contain', width: 90 , height: 90, marginRight: 25, marginTop:25}}
                       />
                     </View>
 
-                    <View style={{marginBottom: 10}}>
-                      <Text style={{fontSize:25}}>{this.state.itemName}</Text>
-                      {/* <Text note>Ticket #{this.state.ticketNumber}</Text> */}
-                    </View>
-
-
-                    {/* //pawn amount and interestPayable */}
+                    <View style={{flex:0.7, marginBottom: 10}}>
+                      <View style={{marginBottom:10}}>
+                        <Text style={{fontSize:25}}>{this.state.itemName}</Text>
+                      </View>
+                      {/* //pawn amount and interestPayable */}
                     <View style={{flexDirection: 'row', padding: 5}}>
                       {/* //column 1 */}
                       <View style={{flexDirection: 'column', backgroundColor: '#d3d3d3'}}>
@@ -104,18 +102,17 @@ export default class SellTicket extends React.Component {
                         <Text>{this.roundTo(this.state.value)}</Text>
                       </View>
                     </View>
-
-                    {/* //Buttons container */}
-                    <View style={{alignSelf: 'center'}}>
-                    <CardItem>
+                      {/* <Text note>Ticket #{this.state.ticketNumber}</Text> */}
+                    </View>
+                    
+                  </View>
+                {/* //Buttons container */}
+                    <CardItem style={{justifyContent: 'center'}}>
                       {/* //Value Button */}
                       <Button style={styles.buttonStyle}>
                         <Text style={{fontSize: 16, color: '#ffffff', }}>Value</Text>
                       </Button>
                     </CardItem>
-                    </View>
-                  </View>
-
               </CardItem>
 
 

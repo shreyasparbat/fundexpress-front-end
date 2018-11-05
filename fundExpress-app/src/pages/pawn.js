@@ -20,7 +20,8 @@ class PawnScreen extends Component {
     otherComments: '',
     auth: '',
     error:'',
-    image:'',
+    imageFront:'dummy',
+    imageBack:'dummy',
     showAlert: false
   }
   static navigationOptions = {
@@ -92,9 +93,14 @@ validate(){
 }
 
  componentWillMount(){
-  this.retrieveData('photo').then((photo) => {
+  this.retrieveData('front').then((front) => {
     this.setState({
-      image: photo
+      imageFront: front,
+    })
+  })
+  this.retrieveData('back').then((back) => {
+    this.setState({
+      imageBack: back,
     })
   })
   this.retrieveData('auth').then((token) => {
@@ -204,22 +210,17 @@ validate(){
         keyboardOpeningTime = {10}
       >
         {/* <Text style={{marginBottom: 10, marginTop: 30, flexDirection: "row"}}> First Upload Item Image </Text> */}
-        <View style={{flexDirection: "row"}}>
-          {/* <Avatar
-            large
-            rounded
-            icon={{name: "camera-alt", color: 'white'}}
-            containerStyle={{marginLeft: 15, backgroundColor:'#C00000'}}
-            onPress={() => this.props.navigation.navigate('upload', {'type': this.state.type})}
-            //source={{ uri: this.props.navigation.getParam('uri' , '') }}
-          /> */}
-
+        <View style={{flexDirection: "row", justifyContent:'center', alignItems:'center'}}>
           {/* display taken image of item */}
         <Image
-            style={{height: 200, width: 200, marginTop: 50, resizeMode: 'contain'}}
-            source={{ uri: this.state.image}}
+            style={{height: 200, width: 165, marginTop: 25, resizeMode: 'contain'}}
+            source={{ uri: this.state.imageFront}}
           />
 
+          <Image
+            style={{height: 200, width: 165, marginTop: 25, resizeMode: 'contain'}}
+            source={{ uri: this.state.imageBack}}
+          />
         </View>
 
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:30,marginLeft: 15, backgroundColor: 'white'}} >
@@ -355,7 +356,7 @@ validate(){
             />
         </View>
 
-        {/* <Text style={{
+        <Text style={{
           fontSize: 20,
           fontFamily: Expo.Font.OpenSansLight,
           alignSelf: 'center',
@@ -363,8 +364,7 @@ validate(){
           marginTop: 10
         }}>
           {this.state.error}
-        </Text> */}
-          
+        </Text>
         <Button
           title="Submit"
           color="white"
@@ -374,7 +374,7 @@ validate(){
           //onPress={() => console.log(this.state)}
           containerViewStyle={{marginTop:30,marginBottom:30}}
         />
-        <AwesomeAlert
+        {/* <AwesomeAlert
           show= {this.state.showAlert}
           title="Pawn Error!"
           message={this.state.error}
@@ -390,7 +390,7 @@ validate(){
             });
             ;
           }}
-        />
+        /> */}
     </KeyboardAwareScrollView>
     );
   }

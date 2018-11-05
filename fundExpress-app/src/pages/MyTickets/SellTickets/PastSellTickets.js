@@ -18,7 +18,13 @@ class PastSellTickets extends React.Component {
     },
   };
 
-  state = { data: [] };
+  constructor(props){
+    super(props)
+    this.state={
+      data:[],
+      navigation:props.navigation,
+    }
+  }
 
   retrieveData = async () => {
     try{
@@ -49,7 +55,7 @@ class PastSellTickets extends React.Component {
       console.log("response" + response);
       this.setState({
         data: response.approvedSellTickets,
-        loading:false
+        loading:false,
       })
     })
     .catch((error) => {
@@ -68,6 +74,7 @@ class PastSellTickets extends React.Component {
     <SellTicket
       key={ticket._id}
       data={ticket}
+      navigation={this.state.navigation}
     />
     );
   }

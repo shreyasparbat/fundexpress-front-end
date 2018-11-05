@@ -377,7 +377,7 @@ const RootStack = createStackNavigator({
             main:{screen: HomeScreen},
             pawn:{screen: PawnScreen},
             buy: {screen: BuyScreen},
-            sellTicket: {screen: SellScreen},
+            sell: {screen: SellScreen},
             select: {screen: selectPawn},
             renew: {screen: RenewScreen},
             redeem: {screen: RedeemScreen},

@@ -19,7 +19,20 @@ class SellScreen extends React.Component {
       },
   }
 
-  state = {item: '', isLoading:true, showAlert:true}
+  state = {isLoading:true, showAlert:true,
+          name:'',
+          _id:'',
+          type:'',
+          condition:'',
+          material:'',
+          weight:'',
+          purity:'',
+          brand:'',
+          comments:'',
+          valueSold:'',
+          dateSold:'',
+          pawnOfferedValue:''
+          }
 
   sell(auth){
     this.retrieveData('itemID').then((ID) => {
@@ -47,7 +60,18 @@ class SellScreen extends React.Component {
       // console.log(JSON.stringify(response.item));
       // this.storeData('itemObj', JSON.stringify(response.item)); 
       this.setState({
-        item: response.item
+        name:response.name,
+          _id:response.item._id,
+          type:response.item.type,
+          condition:response.item.condition,
+          material:response.item.material,
+          weight:response.item.weight,
+          purity:response.item.purity,
+          brand:response.item.brand,
+          comments:response.item.otherComments,
+          valueSold:Math.round(response.item.sellOfferedValue),
+          dateSold:response.item.dateOfPurchase.slice(0,-14),
+          pawnOfferedValue:Math.round(response.item.pawnOfferedValue)
       })
     }
       // console.log('pov');
@@ -110,12 +134,12 @@ class SellScreen extends React.Component {
       <View style={{borderColor:'grey',borderWidth:1}}>
         <View style={{justifyContent:'center', flexDirection:'row', borderBottomWidth:1, borderColor:'grey'}}>
           <Image
-                source={{uri: this.generateURIFront(this.state.item.item._id)}}
+                source={{uri: this.generateURIFront(this.state._id)}}
                 loadingIndicatorSource={<ActivityIndicator />}
                 style={{ resizeMode: 'center', width: 150 , height: 150}}
           />
           <Image
-                source={{uri: this.generateURIBack(this.state.item.item._id)}}
+                source={{uri: this.generateURIBack(this.state._id)}}
                 loadingIndicatorSource={<ActivityIndicator />}
                 style={{ resizeMode: 'center', width: 150 , height: 150}}
           />
@@ -123,27 +147,27 @@ class SellScreen extends React.Component {
         
       </View>
       <View style={{flexDirection:'column'}}>
-          <Text>Name: {this.state.item.name}</Text>
-          <Text>Type: {this.state.item.type}</Text>
-          <Text>Condition: {this.state.item.condition}</Text>
-          <Text>Material: {this.state.item.material}</Text>
-          <Text>Weight: {this.state.item.weight}g</Text>
-          <Text>Purity: {this.state.item.purity}</Text>
-          <Text>Brand: {this.state.item.brand}</Text>
-          {/* <Text>Date Purchased: {this.state.item.item.dateOfPurchase.slice(0,-14)}</Text> */}
-          <Text>Additional Comments: {this.state.item.otherComments}</Text>
+          <Text>Name: {this.state.name}</Text>
+          <Text>Type: {this.state.type}</Text>
+          <Text>Condition: {this.state.condition}</Text>
+          <Text>Material: {this.state.material}</Text>
+          <Text>Weight: {this.state.weight}g</Text>
+          <Text>Purity: {this.state.purity}</Text>
+          <Text>Brand: {this.state.brand}</Text>
+          <Text>Date Purchased: {this.state.dateOfPurchase}</Text>
+          <Text>Additional Comments: {this.state.otherComments}</Text>
         </View>
       <View style={{borderColor:'grey', borderWidth:1 ,borderLeftWidth:0, borderRightWidth:0}}>
-        <Text>Value Sold: ${Math.round(this.state.item.sellOfferedValue)}</Text>
+        <Text>Value Sold: ${Math.round(this.state.valueSold)}</Text>
       </View>
       <View style={{flexDirection:'row'}}>
         <View style={{flexDirection:'column'}}>
           <Text>Date Sold: </Text>
-          <Text>{this.state.datePawned}</Text>
+          <Text>{this.state.dateSold}</Text>
         </View>
-        <View style={{borderColor:'grey', borderLeftWidth:0.5, borderRightWidth:0.5, flexDirection:'column'}}>
+        <View style={{borderColor:'grey', borderLeftWidth:0.5,flexDirection:'column'}}>
           <Text>Pawn Offered Value: </Text>
-          <Text>${Math.round(this.state.item.pawnOfferedValue)}</Text>
+          <Text>${Math.round(this.state.pawnOfferedValue)}</Text>
         </View>
         </View>
       </View>
