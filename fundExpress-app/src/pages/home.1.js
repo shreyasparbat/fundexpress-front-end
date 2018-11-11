@@ -1,7 +1,8 @@
 import React from 'react';
 import { AsyncStorage, Text, View, Image, TouchableOpacity, Platform, BackHandler } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Card } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
+import url from '../configs/config';
 //import { getGoldSilverPrice } from '../utils/priceScrapper';
 //import { Container,  Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body } from 'native-base';
 
@@ -16,12 +17,50 @@ class HomeScreen extends React.Component {
       },
   };
 
+  state ={ gold: '', silver: '', platinum: ''}
+
+  retrievePrices(){
+    this.setState({
+      gold:'',
+      silver:'',
+      platinum:''
+    })
+    // console.log("retrieve prices")
+    fetch(url.url + 'home/getPrices', {
+      method: 'GET',
+      // headers: '',
+      // body: '',
+      // //   auth : token
+      // // })
+    })
+      .then((response) => {
+        return response.json()
+      })
+      .then((res) => {
+        this.setState({
+          gold: Math.round(res.gold),
+          silver: Math.round(res.silver),
+          platinum: Math.round(res.platinum)
+        })
+      })
+      .catch((errorResponse) => {
+        // console.log("error with getPrices")
+        // console.log(errorResponse)
+      })
+    }
+
   handleBackButton(){
     return true;
   }
 
   componentWillMount(){
+    
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    
+  }
+
+  componentDidMount(){
+    this.retrievePrices();
   }
 
   componentWillUnmount(){
@@ -45,93 +84,146 @@ class HomeScreen extends React.Component {
           }}
           >Welcome </Text>
         </View> */}
-        <Card
-        containerStyle={{flex: 0.12, marginBottom: 10, marginTop: 5, backgroundColor: '#ededed'}}
-        title= 'Gold & Silver Prices'
-      />
-      <View style={{flex: 0.4, marginTop: 10, alignSelf: 'center', }}>
-        <View style={{ flexDirection: 'row',marginLeft: 58 }}>
-        <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('select')}
-            activeOpacity= {0.8}
-            style={styles.buttonStyle}
-          >
+        <View
+        style={{flex: 0.12, marginBottom: 10, marginTop: 15, height:20, justifyContent:'center', alignItems:'center'}}
+        >
+        <View style={{flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
+        <View style={{flexDirection:'row',}}>
+          <Text style={{color:"#C5B358", fontWeight:'bold'}}>
+            Gold 
+          </Text>
+          <Text>
+            :SGD 
+          </Text>
+          <Text style={{fontWeight:'bold', marginLeft:3}}>
+            {this.state.gold}
+          </Text>
+          <Text>
+            /g
+          </Text>
+
+          <Text style={{marginLeft:8, color:"#C0C0C0", fontWeight:'bold'}}>
+            Silver 
+          </Text>
+          <Text>
+            :SGD 
+          </Text>
+          <Text style={{fontWeight:'bold', marginLeft:3}}>
+            {this.state.silver}
+          </Text>
+          <Text>
+            /g
+          </Text>
+
+          
+
+          <Ionicons name={'md-sync'} size={20} style={{marginLeft:12}}
+              color={'black'} onPress={() => this.retrievePrices()}/>
+
+          
+        </View>
+        <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+        <Text style={{marginLeft:8, color:"#e5e4e2", fontWeight:'bold'}}>
+            Platinum
+          </Text>
+          <Text>
+            :SGD 
+          </Text>
+          <Text style={{fontWeight:'bold', marginLeft:3}}>
+            {this.state.platinum}
+          </Text>
+          <Text>
+            /g
+          </Text>
+        </View>
+        
+        </View>
+        
+        
+        </View>
+      <View style={{flex: 0.4, marginTop: 30, alignSelf: 'center', }}>
+        <View style={{ flexDirection: 'row', justifyContent:"center" }}>
+
+            <View style={{flexDirection:'column', justifyContent:'center'}}>
+            <Icon
+              raised
+              name='md-add-circle'
+              type='ionicon'
+              color='#C00000'
+              containerStyle={{justifyContent:'center', alignItems:"center"}}
+              size={35}
+              onPress={() => this.props.navigation.navigate('select')}
+              />
             <Text style={styles.textStyle}>
               Pawn/Sell
             </Text>
-            <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-add-circle'} size={50}
-              color={'#C00000'} />
             </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('renew')}
-            activeOpacity= {0.8}
-            style={styles.buttonStyle}
-          >
+            
+            <View style={{flexDirection:'column', justifyContent:'center'}}>
+            <Icon
+              raised
+              name='md-refresh-circle'
+              type='ionicon'
+              color='#C00000'
+              containerStyle={{justifyContent:'center', alignItems:"center"}}
+              size={35}
+              onPress={() => this.props.navigation.navigate('renew')}
+              />
             <Text style={styles.textStyle}>
               Renew
             </Text>
-            <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-refresh-circle'} size={50}
-              color={'#C00000'} />
             </View>
-          </TouchableOpacity>
 
-        {/* <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('sell')}
-            activeOpacity= {0.8}
-            style={styles.buttonStyle}
-          >
-            <Text style={styles.textStyle}>
-              My Tickets
-            </Text>
-            <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-document'} size={50}
-              color={'#C00000'} />
-            </View>
-        </TouchableOpacity> */}
-        </View>
-        <View style={{ flexDirection: 'row', marginTop: 7}}>
-        <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('buy')}
-            activeOpacity= {0.8}
-            style={styles.buttonStyle}
-          >
+            <View style={{flexDirection:'column', justifyContent:'center'}}>
+            <Icon
+              raised
+              name='md-cart'
+              type='ionicon'
+              color='#C00000'
+              containerStyle={{justifyContent:'center', alignItems:"center"}}
+              size={35}
+              onPress={() => this.props.navigation.navigate('buy')}
+              />
             <Text style={styles.textStyle}>
               Buy
             </Text>
-            <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-cart'} size={50}
-              color={'#C00000'} />
             </View>
-        </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('redeem')}
-            activeOpacity= {0.8}
-            style={styles.buttonStyle}
-          >
+
+        </View>
+        <View style={{ flexDirection: 'row', marginTop: 7, justifyContent:'center'}}>
+
+            
+
+            <View style={{flexDirection:'column', justifyContent:'center'}}>
+            <Icon
+              raised
+              name='md-cash'
+              type='ionicon'
+              color='#C00000'
+              containerStyle={{justifyContent:'center', alignItems:"center"}}
+              size={35}
+              onPress={() => this.props.navigation.navigate('redeem')}
+              />
             <Text style={styles.textStyle}>
               Redeem
             </Text>
-            <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-cash'} size={50}
-              color={'#C00000'} />
             </View>
-        </TouchableOpacity>
-        <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('faq')}
-            activeOpacity= {0.8}
-            style={styles.buttonStyle}
-          >
+
+            <View style={{flexDirection:'column', justifyContent:'center'}}>
+            <Icon
+              raised
+              name='md-help-circle'
+              type='ionicon'
+              color='#C00000'
+              containerStyle={{justifyContent:'center', alignItems:"center"}}
+              size={35}
+              onPress={() => this.props.navigation.navigate('faq')}
+              />
             <Text style={styles.textStyle}>
               FAQ
             </Text>
-            <View style={{alignSelf: 'center'}}>
-              <Ionicons name={'md-help-circle'} size={50}
-              color={'#C00000'} />
             </View>
-        </TouchableOpacity>
+
        </View>
       </View>
       
@@ -144,18 +236,18 @@ const styles = {
   textStyle: {
     alignSelf: 'center',
     color: 'black',
-    fontSize: 18,
+    fontSize: 11,
     fontWeight: 'bold',
-    paddingTop: 10,
-    paddingBottom: 10,
+    // paddingTop: 10,
+    // paddingBottom: 10,
     //fontFamily: 'sans'
   },
   buttonStyle: {
       width: 105,
       height: 105,
       alignSelf: 'center',
-      backgroundColor: '#ededed',
-      borderRadius: 2,
+      backgroundColor: '#e8e8e8',
+      borderRadius: 60,
       borderWidth: 1,
       borderColor: 'transparent',
       marginLeft: 6,

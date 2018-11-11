@@ -6,6 +6,7 @@ import { Picker, Icon, DatePicker } from 'native-base';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { Permissions, Notifications } from 'expo';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import url from '../configs/config';
 
 validateIC = (icNumber) => {
   //if the ic is valid, then return string
@@ -52,14 +53,14 @@ validateIC = (icNumber) => {
   If the IC starts with S or T: 0=J, 1=Z, 2=I, 3=H, 4=G, 5=F, 6=E, 7=D, 8=C, 9=B, 10=A
   */
   if (figOne == 'T' || figOne == 'G') {
-      console.log(figTwo == foreignArray[numbers])
+      // console.log(figTwo == foreignArray[numbers])
       if ((figTwo == foreignArray[numbers])==true){
         return icNumber
       } else {
         return 'SS'
       }
   } else {
-      console.log(figTwo == localArray[numbers])
+      // console.log(figTwo == localArray[numbers])
       if ((figTwo == localArray[numbers])==true){
         return icNumber
       } else {
@@ -164,10 +165,10 @@ class RegisterScreen extends React.Component {
   submit() {
     //var moNumber = parseInt(this.state.mobileNumber);
     //var lanNumber = parseInt(this.state.landlineNumber);
-    console.log('register pressed');
-    console.log(JSON.stringify(this.state))
+    // console.log('register pressed');
+    // console.log(JSON.stringify(this.state))
     var res = '';
-    fetch('http://206.189.145.2:3000/user/registerTrial',{
+    fetch(url.url + 'user/registerTrial',{
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -215,20 +216,20 @@ class RegisterScreen extends React.Component {
     .then((response) => {
       if(response.error==null){
         //if does not exist, pull xauth from stored res var
-        console.log(res)
-        console.log(this.state.email + " logged in")
-        console.log("x-auth")
-        console.log(res.headers.get('x-auth'))
+        // console.log(res)
+        // console.log(this.state.email + " logged in")
+        // console.log("x-auth")
+        // console.log(res.headers.get('x-auth'))
         //store x-auth in the app cache
         this.storeData('auth', res.headers.get('x-auth'));
-        console.log("Success")
-        console.log(this.state.email + " logged in")
+        // console.log("Success")
+        // console.log(this.state.email + " logged in")
         this.setState({
           showAlert2: true,
           loading: false
         })
       }else{
-        console.log(response.error)
+        // console.log(response.error)
         //pass error message to the state, display the alert
         this.setState({
           showAlert2: true,
@@ -237,7 +238,7 @@ class RegisterScreen extends React.Component {
       }
     })
     .catch((error) => {
-      console.log(error)
+      // console.log(error)
       this.setState({
         error: "Network error",
         loading: false,

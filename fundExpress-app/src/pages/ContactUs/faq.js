@@ -111,12 +111,12 @@ export default class AccordionExample extends Component {
   static navigationOptions = {
     title: "FAQ",
       headerStyle: {
-        backgroundColor: "#C00000",
+        backgroundColor: "white",
       },
-      headerTintColor: "#ffffff",
+      headerTintColor: "black",
       headerTitleStyle: {
         fontWeight: "bold",
-        color: "#ffffff"
+        color: "black"
       },
   }
   render() {

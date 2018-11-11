@@ -11,12 +11,12 @@ class AllPawnTicketsScreen extends React.Component {
     title: 'Pawn Tickets',
     header:null,
       headerStyle: {
-        backgroundColor: '#C00000',
+        backgroundColor: 'white',
       },
-      headerTintColor: '#ffffff',
+      headerTintColor: 'black',
       headerTitleStyle: {
         fontWeight: 'bold',
-        color: '#ffffff'
+        color: 'black'
       },
   };
 

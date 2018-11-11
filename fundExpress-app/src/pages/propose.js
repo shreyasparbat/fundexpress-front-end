@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, AsyncStorage,} from 'react-native';
 import { Button, Slider, FormInput, FormLabel } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import url from '../configs/config';
 class ProposeScreen extends React.Component {
   static navigationOptions = {
     title: "New Pawn Ticket",
@@ -22,20 +23,20 @@ class ProposeScreen extends React.Component {
   retrieveData = async (item) => {
     try{
       const value = await AsyncStorage.getItem(item);
-      console.log("succssfully retrieved " + item + ': ' + value)
+      // console.log("succssfully retrieved " + item + ': ' + value)
       return value;
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
   storeData = async (key,item) => {
     try{
       await AsyncStorage.setItem(key, item);
-      console.log(key + " stored successfully");
+      // console.log(key + " stored successfully");
       this.props.navigation.navigate('pawnTicket')
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
@@ -59,20 +60,20 @@ class ProposeScreen extends React.Component {
       this.setState({
         itemID: ID
       })
-      console.log(this.state.itemID)
+      // console.log(this.state.itemID)
     })
     this.retrieveData('pov').then((value) => {
       this.setState({
         maxValue: ((Math.round(value))-1),
         specifiedValue: ((Math.round(value))-1)
       })
-      console.log(this.state.maxValue)
+      // console.log(this.state.maxValue)
     })
   }
 
   pawn(){
     this.retrieveData('auth').then((auth) => {
-      fetch('http://206.189.145.2:3000/item/pawn',{
+      fetch(url.url + 'item/pawn',{
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -88,9 +89,9 @@ class ProposeScreen extends React.Component {
         return response.json()
       })
       .then((response) => {
-        console.log("/item/pawn Success");
-        console.log("response");
-        console.log(response);
+        // console.log("/item/pawn Success");
+        // console.log("response");
+        // console.log(response);
         if(response.error==null){
           this.storeData('itemObj', JSON.stringify(response));
           this.props.navigation.navigate('pawnTicket')
@@ -102,8 +103,8 @@ class ProposeScreen extends React.Component {
         }
       })
       .catch((error) => {
-        console.log("error")
-        console.log(error)
+        // console.log("error")
+        // console.log(error)
       })
     })
   }
@@ -112,7 +113,13 @@ class ProposeScreen extends React.Component {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>How much do you wish to pawn your item for?</Text>
-        <Text style={{fontSize:35, fontWeight:'bold'}}>Loan Value:$ {this.state.specifiedValue}</Text>
+        <View>
+        <Text style={{fontSize:25,}}>Loan Value:</Text>
+        <Text style={{fontSize:35, fontWeight:'bold'}}>
+        $ {this.state.specifiedValue}
+        </Text>
+        </View>
+        
         <View style={{flex: 0.5, alignItems: 'stretch', justifyContent: 'center', width: 350}}>
           <Slider
             value={parseInt(this.state.maxValue)}

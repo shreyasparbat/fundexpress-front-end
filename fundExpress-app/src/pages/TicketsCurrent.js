@@ -6,6 +6,7 @@ import ProgressBar from '../components/ProgressBar';
 import axios from 'axios';
 import { Container,  Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body } from 'native-base';
 import Moment from 'moment'; //for date
+import url from '../configs/config';
 
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
@@ -143,8 +144,8 @@ class TicketsCurrentScreen extends React.Component {
   retrieveData = async (item) => {
     try {
       const value = await AsyncStorage.getItem(item);
-      console.log("token retrieved")
-      console.log(value);
+      // console.log("token retrieved")
+      // console.log(value);
       return value;
     } catch (error){
       throw error
@@ -158,7 +159,7 @@ class TicketsCurrentScreen extends React.Component {
       });
 
       this.retrieveData('auth').then((auth) => {
-        fetch('http://206.189.145.2:3000/tickets/',{
+        fetch(url.url + 'tickets/',{
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -171,9 +172,9 @@ class TicketsCurrentScreen extends React.Component {
           return response.json()
         })
         .then((response) => {
-          console.log("/item/pawn Success");
-          console.log("response");
-          console.log(response);
+          // console.log("/item/pawn Success");
+          // console.log("response");
+          // console.log(response);
           //this.props.navigation.navigate('propose')
         })
         .catch((error) => {

@@ -10,12 +10,12 @@ class AllSellTicketsScreen extends React.Component {
     title: 'Sell Tickets',
     header:null,
       headerStyle: {
-        backgroundColor: '#C00000',
+        backgroundColor: 'white',
       },
-      headerTintColor: '#ffffff',
+      headerTintColor: 'black',
       headerTitleStyle: {
         fontWeight: 'bold',
-        color: '#ffffff'
+        color: 'black'
       },
       tabBarIcon: ({ focused, tintColor }) => {
         return <Ionicons name={'md-time'} size={25}

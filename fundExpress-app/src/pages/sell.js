@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, AsyncStorage, ActivityIndicator, Image} from 'react-native';
 import { Button, Card } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import url from '../configs/config';
 
 class SellScreen extends React.Component {
   static navigationOptions = {
@@ -36,7 +37,7 @@ class SellScreen extends React.Component {
 
   sell(auth){
     this.retrieveData('itemID').then((ID) => {
-    fetch('http://206.189.145.2:3000/item/sell',{
+    fetch(url.url + 'item/sell',{
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -51,9 +52,9 @@ class SellScreen extends React.Component {
       return response.json()
     })
     .then((response) => {
-      console.log("/item/sell Success");
-      console.log("response");
-      console.log(response.item);
+      // console.log("/item/sell Success");
+      // console.log("response");
+      // console.log(response.item);
       if(response.item==null){
         this.navigation.navigate(options);
       }else{
@@ -78,8 +79,8 @@ class SellScreen extends React.Component {
       // console.log(response.item.pawnOfferedValue);
     })
     .catch((error) => {
-      console.log("error")
-      console.log(error)
+      // console.log("error")
+      // console.log(error)
     })
   })
   }
@@ -87,26 +88,26 @@ class SellScreen extends React.Component {
   generateURIFront(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_front.jpg')
-    console.log('uri: ' + uri)
+    uri = uri.concat('_front.png')
+    // console.log('uri: ' + uri)
     return uri
   }
 
   generateURIBack(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_back.jpg')
-    console.log('uri: ' + uri)
+    uri = uri.concat('_back.png')
+    // console.log('uri: ' + uri)
     return uri
   }
 
   retrieveData = async (item) => {
     try{
       const value = await AsyncStorage.getItem(item);
-      console.log("successfully retrieved: " + value)
+      // console.log("successfully retrieved: " + value)
       return value;
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 

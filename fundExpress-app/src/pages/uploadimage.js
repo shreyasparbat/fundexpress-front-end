@@ -3,12 +3,15 @@ import { ActivityIndicator, AsyncStorage, StyleSheet, Text, View, TouchableOpaci
 import { Camera, Permissions, MediaLibrary } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import url from '../configs/config';
 export default class UploadScreen extends React.Component {
   static navigationOptions = {
       headerStyle: {
         backgroundColor: "#C00000",
+        // backgroundColor:'white'
       },
       headerTintColor: "#ffffff",
+      // headerTintColor:'black'
   }
 
   state = {
@@ -19,7 +22,10 @@ export default class UploadScreen extends React.Component {
     second:false,
     type: this.props.navigation.getParam('type' , null),
     auth: '',
-    showAlert: false
+    showAlert: false,
+    brand:'',
+    weight:'',
+    purity:'',
   }
 
   componentDidMount() {
@@ -38,6 +44,7 @@ export default class UploadScreen extends React.Component {
   }
 
   componentWillMount(){
+    // console.log('type:' + this.props.navigation.getParam('type', null))
     this.retrieveData().then((token) => {
       this.setState({
         auth:token,
@@ -48,8 +55,8 @@ export default class UploadScreen extends React.Component {
         showConfirmButton: true,
       })
     }).catch((error) => {
-      console.log("error retrieving token")
-      console.log(error)
+      // console.log("error retrieving token")
+      // console.log(error)
     })
   }
 
@@ -86,7 +93,7 @@ export default class UploadScreen extends React.Component {
       showConfirmButton: false,
     })
     if(this.state.second==false){
-      console.log('if second==false, current second: ' + this.state.second)
+      // console.log('if second==false, current second: ' + this.state.second)
       this.camera.takePictureAsync({
         quality: 0.1,
         base64: true,
@@ -97,7 +104,7 @@ export default class UploadScreen extends React.Component {
           second: true,
         });
         this.storeData('front',this.state.front.uri)
-        console.log('front taken: ' + this.state.front)
+        // console.log('front taken: ' + this.state.front)
         //console.log(photo);
         // image = photo.base64;
         //MediaLibrary.createAssetAsync(photo.uri);
@@ -111,7 +118,7 @@ export default class UploadScreen extends React.Component {
         })
       })
     }else{
-      console.log('if second==true, current second: ' + this.state.second)
+      // console.log('if second==true, current second: ' + this.state.second)
       this.camera.takePictureAsync({
         quality: 0.1,
         base64: true,
@@ -120,21 +127,21 @@ export default class UploadScreen extends React.Component {
         this.setState({ 
           back: back,
         });
-        console.log("Back taken: " + this.state.back)
+        // console.log("Back taken: " + this.state.back)
         this.storeData('back', this.state.back.uri)
+        this.submit(this.state.front, this.state.back);
         //console.log(photo);
         // image = photo.base64;
         //MediaLibrary.createAssetAsync(photo.uri);
         //this.props.navigation.navigate('pawn', { uri : photo.uri })
-      })
-      this.submit(this.state.front, this.state.back);
+      })    
     }
   }
 
   retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('auth');
-      console.log("token retrieved " + value);
+      // console.log("token retrieved " + value);
       return value;
     } catch (error){
       throw error
@@ -144,39 +151,39 @@ export default class UploadScreen extends React.Component {
   storeData = async (key,item) => {
     try{
       await AsyncStorage.setItem(key, item);
-      console.log(key + " stored successfully");
+      // console.log(key + " stored successfully");
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
   go = (ID) => {
-    console.log(ID);
+    // console.log(ID);
     this.setState({ showAlert: false})
     //this.props.navigation.navigate('pawn', {itemID: ID});
-    this.props.navigation.navigate('pawn', {'type': this.state.type})
+    this.props.navigation.navigate('pawn', {'type': this.state.type, 'weight': this.state.weight, 'purity':this.state.purity, 'brand':this.state.brand})
   }
 
   submit= (front, back) => {
-    console.log('uploading photo');
+    // console.log('uploading photo');
     const type = this.state.type;
     const auth = this.state.auth;
-    console.log(auth);
-    console.log(type);
+    // console.log(auth);
+    // console.log(type);
     const formData = new FormData();
       formData.append('front', {
         uri: front.uri, // your file path string
-        type: 'image/jpg',
-        name: 'front.jpg'
+        type: 'image/png',
+        name: 'front.png'
       });
       formData.append('back', {
         uri: back.uri, // your file path string
-        type: 'image/jpg',
-        name: 'back.jpg'
+        type: 'image/png',
+        name: 'back.png'
       });
     //console.log("form data");
     //console.log(formData);
-    fetch('http://206.189.145.2:3000/item/uploadImage',{
+    fetch(url.url + 'item/uploadImage',{
       method: 'POST',
       headers: {
         'type' : type,
@@ -196,19 +203,24 @@ export default class UploadScreen extends React.Component {
       return response.json()
     })
     .then((response) => {
-      console.log("/item/uploadImage Success");
-      //console.log(response);
-      console.log(response.itemID);
+      // console.log("/item/uploadImage Success");
+      // console.log(response);
+      // console.log(response.itemID);
       this.storeData('itemID',response.itemID);
-      console.log("front URI: " + this.state.front.uri)
-      console.log('back URI: ' + this.state.back.uri)
+      this.setState({
+        brand: response.brand,
+        weight: response.weight,
+        purity: response.purity
+      })
+      // console.log("front URI: " + this.state.front.uri)
+      // console.log('back URI: ' + this.state.back.uri)
       
       
       this.go(response.itemID);
     })
     .catch((error) => {
-      console.log("error")
-      console.log(error)
+      // console.log("error")
+      // console.log(error)
     })
   }
 

@@ -1,23 +1,84 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, Text, TouchableOpacity, Image, AsyncStorage } from 'react-native';
 import AllPawnTicketsScreen from './AllPawnTickets';
 import AllSellTicketsScreen from './AllSellTickets';
 import { Container, Header, Tab, Tabs, TabHeading} from 'native-base';
 import { createStackNavigator } from 'react-navigation';
+import AwesomeAlert from 'react-native-awesome-alerts';
+import { Icon } from 'react-native-elements';
+import url from '../../configs/config';
 
 class MyTicketsScreen extends React.Component {
+  state={showAlert:false}
+
   static navigationOptions = {
     title: "My Tickets",
       headerStyle: {
-        backgroundColor: "#C00000",
+        backgroundColor: "white",
       },
-      headerTintColor: "#ffffff",
+      headerTintColor: "black",
       headerTitleStyle: {
         fontWeight: "bold",
-        color: "#ffffff"
+        color: "black"
       },
   }
+
+  retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('auth');
+      // console.log("token retrieved")
+      // console.log(value);
+      return value;
+    } catch (error){
+      throw error
+    }
+  }
+
+  checkReg(destination){
+    this.retrieveData().then((token) => {
+      fetch(url.url + 'profile/me', {
+      method: 'POST',
+      headers: new Headers({
+        // Accept: 'application/json',
+        // 'Content-Type': 'application/json',
+        'x-auth' : token,
+      }),
+      // body: JSON.stringify({
+      //   auth : token
+      // })
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          return Promise.reject(response.json())
+        }
+      })
+      .then((response) => {
+        // console.log("profile retrieved")
+        // console.log(response)
+        //console.log(response.body)
+        if(response.registrationCompleted==false){
+          this.setState({
+            showAlert: true
+          });
+        }else{
+          this.props.navigation.navigate(destination)
+        }
+        //console.log("state fullName: " + this.state.fullName)
+      })
+      .catch((errorResponse) => {
+        // console.log("error with profile/me ")
+        // console.log(errorResponse)
+      })
+    }).catch((error) => {
+      // console.log("error retrieving  profile data")
+      // console.log(error)
+    });
+  }
+
+
+
   render() {
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
@@ -29,34 +90,54 @@ class MyTicketsScreen extends React.Component {
         </View>
         <View style={{flex: 0.4, marginTop: 100, alignSelf: 'center'}}>
           <View style={{ flexDirection: 'row', }}>
-          <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('AllPawnTickets')}
-              activeOpacity= {0.8}
-              style={styles.buttonStyle}
-            >
-              <Text style={styles.textStyle}>
-                Pawn Tickets
-              </Text>
-              <View style={{alignSelf: 'center'}}>
-                <Icon name={'ticket'} size={50}
-                color={'#C00000'} />
-              </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('AllSellTickets')}
-              activeOpacity= {0.8}
-              style={styles.buttonStyle}
-            >
-              <Text style={styles.textStyle}>
-                Sell Tickets
-              </Text>
-              <View style={{alignSelf: 'center'}}>
-                <Icon name={'dollar'} size={50}
-                color={'#C00000'} />
-              </View>
-            </TouchableOpacity>
+            <View style={{flexDirection:'column', justifyContent:'center'}}>
+            <Icon
+              raised
+              name='ticket'
+              type='font-awesome'
+              color='#C00000'
+              containerStyle={{justifyContent:'center', alignItems:"center"}}
+              size={35}
+              onPress={() => this.checkReg('AllPawnTickets')}
+              />
+            <Text style={styles.textStyle}>
+              Pawn Tickets
+            </Text>
+            </View>
+            <View style={{flexDirection:'column', justifyContent:'center'}}>
+            <Icon
+              raised
+              name='dollar'
+              type='font-awesome'
+              color='#C00000'
+              containerStyle={{justifyContent:'center', alignItems:"center"}}
+              size={35}
+              onPress={() => this.checkReg('AllSellTickets')}
+              />
+            <Text style={styles.textStyle}>
+              Sell Tickets
+            </Text>
+            </View>
           </View>
         </View>
+        <AwesomeAlert
+          show= {this.state.showAlert}
+          //showProgress={false}
+          title="Registration Incomplete"
+          message="Before you can pawn or sell an item, you have to register fully. Please proceed to the profile page to complete your registration"
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showConfirmButton={true}
+          confirmText="Take me there!"
+          confirmButtonColor="#DD6B55"
+          onConfirmPressed={() => {
+            this.setState({
+              showAlert:false
+            })
+            this.props.navigation.navigate('Profile');
+            ;
+          }}
+        />
       </View>
     );
   }
@@ -74,7 +155,7 @@ const styles = {
   textStyle: {
     alignSelf: 'center',
     color: 'black',
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: 'bold',
     paddingTop: 10,
     paddingBottom: 10

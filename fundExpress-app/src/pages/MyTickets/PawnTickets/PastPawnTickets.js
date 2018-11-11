@@ -3,18 +3,19 @@ import React from 'react';
 import { Image, Text, Linking, ListView, View, TouchableOpacity, FlatList, AsyncStorage, ScrollView } from 'react-native';
 import { Container,  Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body } from 'native-base';
 import PawnTicket from '../../../components/PawnTicket';
+import url from '../../../configs/config';
 
 class PastPawnTickets extends React.Component {
   //header
   static navigationOptions = {
     title: 'Currently Pawned Items',
     headerStyle: {
-      backgroundColor: '#C00000',
+      backgroundColor: 'white',
     },
-    headerTintColor: '#ffffff',
+    headerTintColor: 'black',
     headerTitleStyle: {
       fontWeight: 'bold',
-      color: '#ffffff'
+      color: 'black'
     },
   };
 
@@ -29,16 +30,16 @@ class PastPawnTickets extends React.Component {
   retrieveData = async () => {
     try{
       const value = await AsyncStorage.getItem('auth');
-      console.log('2. auth retrieved: ' + value)
+      // console.log('2. auth retrieved: ' + value)
       return value;
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
   retrieveTickets(){
     this.retrieveData().then((auth) => {
-    fetch('http://206.189.145.2:3000/tickets/',{
+    fetch(url.url + 'tickets/',{
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -51,16 +52,16 @@ class PastPawnTickets extends React.Component {
       return response.json()
     })
     .then((response) => {
-      console.log("/tickets Success");
-      console.log("response" + response);
+      // console.log("/tickets Success");
+      // console.log("response" + response);
       this.setState({
         data: response.expiredPawnTickets,
         loading:false
       })
     })
     .catch((error) => {
-      console.log("error")
-      console.log(error)
+      // console.log("error")
+      // console.log(error)
     })
   })
   }
@@ -80,7 +81,7 @@ class PastPawnTickets extends React.Component {
   }
 
   render(){
-    console.log(this.state);
+    // console.log(this.state);
     if(this.state.loading){
       return <ActivityIndicator />
     }

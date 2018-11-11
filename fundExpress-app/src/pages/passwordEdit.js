@@ -1,14 +1,17 @@
 import React from 'react';
 import { AsyncStorage, View, ScrollView, } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, Avatar, Button } from 'react-native-elements';
+import { Input } from '../components/input';
 import { Picker, Icon, DatePicker } from 'native-base';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import AwesomeAlert from 'react-native-awesome-alerts';
-import url from '../configs/config';
-class ProfileEditScreen extends React.Component {
+import axios from 'axios';
+
+class PasswordEditScreen extends React.Component {
   state = {
       email: '',
-      password: '',
+      currentPassword:'',
+      prevpassword: '',
+      newpassword:'',
+      confirmpassword:'',
       fullName: '',
       gender: '',
       DOB: '',
@@ -19,10 +22,6 @@ class ProfileEditScreen extends React.Component {
       citizenship: '',
       race: '',
       house:'',
-      showAlert:false,
-      alertTitle:'',
-      alertMessage:'',
-      status: true
   };
   static navigationOptions = {
     title: 'Edit Profile',
@@ -57,8 +56,8 @@ class ProfileEditScreen extends React.Component {
         }
       })
       .then((response) => {
-        // console.log("profile retrieved")
-        // console.log(response)
+        console.log("profile retrieved")
+        console.log(response)
         // console.log(response.body)
         this.setState({
           fullName: response.fullName,
@@ -71,19 +70,18 @@ class ProfileEditScreen extends React.Component {
           landlineNumber: response.landlineNumber.toString(),
           mobileNumber: response.mobileNumber.toString(),
           house: response.addressType,
-          password: response.password,
+          currentPassword: response.password,
           race: response.race,
-          status: response.registrationCompleted
         });
         //console.log("state fullName: " + this.state.fullName)
       })
       .catch((errorResponse) => {
-        // console.log("error with profile retrieval")
-        // console.log(errorResponse)
+        console.log("error with profile retrieval")
+        console.log(errorResponse)
       })
     }).catch((error) => {
-      // console.log("error retrieving profile data")
-      // console.log(error)
+      console.log("error retrieving profile data")
+      console.log(error)
     });
   }
 
@@ -97,72 +95,86 @@ class ProfileEditScreen extends React.Component {
     }
   }
 
-  go(){
-    if(this.state.status==true){
-      this.setState({
-        showAlert:true,
-        alertTitle: 'Successfully changed details',
-        alertMessage:''
-    })
-  }else{
-    this.setState({
-      showAlert:true,
-      alertTitle: 'Registration Complete!',
-      alertMessage:'Now you can proceed to pawn & sell your items'
-  })
-  }
-}
-
   submit() {
-    this.retrieveData().then((token) => {
-      fetch(url.url + 'profile/edit',{
-        method: 'POST',
-        headers: new Headers({
-          'x-auth': token,
-          'Content-Type': 'application/json'
-        }),
-        body: JSON.stringify({
-          email: this.state.email,
-          fullName: this.state.fullName,
-          password: this.state.password,
-          gender: this.state.gender,
-          dateOfBirth: this.state.DOB,
-          ic: this.state.ic,
-          mobileNumber: parseInt(this.state.mobileNumber),
-          landlineNumber: parseInt(this.state.landlineNumber),
-          address: this.state.address,
-          addressType: this.state.house,
-          citizenship: this.state.citizenship,
-          race: this.state.race        
-        }),
+    if(this.state.currentPassword!=this.state.prevpassword){
+      this.setState({
+        verifyError: "Incorrect Password"
       })
-      .then((response) => {
-        if(response.ok==true){
-          // console.log("profile changed");
-          this.go();
-        }else{
-          // console.log('profile change unsuccessful')
+    }else{
+      if(this.state.newpassword!=this.state.confirmpassword){
+        this.setState({
+          confirmError: "Passwords do not match!"
+        })
+      }else{
+        this.retrieveData().then((token) => {
+          fetch('http://206.189.145.2:3000/profile/edit',{
+            method: 'POST',
+            headers: new Headers({
+              'x-auth': token,
+            }),
+            body: JSON.stringify({
+              email: this.state.email,
+              password: this.state.newpassword,
+              fullName: this.state.fullName,
+              gender: this.state.gender,
+              dateOfBirth: this.state.DOB,
+              ic: this.state.ic,
+              mobileNumber: parseInt(this.state.mobileNumber),
+              landlineNumber: parseInt(this.state.landlineNumber),
+              address: this.state.address,
+              citizenship: this.state.citizenship,
+              addressType: this.state.house,
+              race: this.state.race
+            }),
+          })
+          .then((response) => {
+            if (response.ok) {
+              return response.json()
+            } else {
+              return Promise.reject(response.json())
+            }
+          })
+          .then((response) => {
+            console.log("profile changed")
+            this.props.navigation.navigate('Profile');
+          })
+          .catch((errorResponse) => {
+            console.log("error with profile/edit ")
+            console.log(errorResponse)
+          })
+          .catch((error) => {
+            console.log("error retrieving profile data")
+            console.log(error)
+          });
         }
-        
-      })
-      .catch((errorResponse) => {
-        // console.log("error with profile/edit ")
-        // console.log(errorResponse)
-      })
-      .catch((error) => {
-        // console.log("error retrieving profile data")
-        // console.log(error)
-      });
+      )
+      }
     }
-  )
-}
+
+    }
+
+
+// verifyPassword(){
+//   if(this.state.currentPassword!=this.state.prevpassword){
+//     this.setState({
+//       verifyError: "Incorrect Password"
+//     })
+//   }
+// }
+
+// confirmPassword(){
+//   if(this.state.newpassword!=this.state.confirmpassword){
+//     this.setState({
+//       confirmError: "Passwords do not match!"
+//     })
+//   }
+// }
 
 
 
   render() {
     return (
-      <View>
-      <KeyboardAwareScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}
+      <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}
        showsVerticalScrollIndicator bounces={false} >
 
 
@@ -174,7 +186,7 @@ class ProfileEditScreen extends React.Component {
           />
         </View> */}
 
-        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>
+        {/* <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>
           <FormLabel>Gender</FormLabel>
         <Picker
               note
@@ -193,9 +205,9 @@ class ProfileEditScreen extends React.Component {
               <Picker.Item label="Female" value="F" />
 
             </Picker>
-        </View>
+        </View> */}
 
-        <View style={{height: 70, width: 390,borderBottomColor:"grey",borderBottomWidth:1,marginTop:0, backgroundColor:'white'}}>
+        {/* <View style={{height: 70, width: 390,borderBottomColor:"grey",borderBottomWidth:1,marginTop:0, backgroundColor:'white'}}>
           <FormLabel>Date of Birth</FormLabel>
       <DatePicker
             defaultDate={new Date()}
@@ -212,55 +224,92 @@ class ProfileEditScreen extends React.Component {
             selectedValue={new Date(2018, 12, 31)}
             onDateChange={DOB => this.setState({ DOB })}
             />
-        </View>
+        </View> */}
 
-         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+         {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>NRIC</FormLabel>
           <FormInput 
             onChangeText={ic => this.setState({ ic })} 
             value={this.state.ic} 
             placeholder='NRIC'
           />
-        </View>
-
-        {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
-          <FormLabel>Password</FormLabel>
+        </View> */}
+        <Text style={{
+          fontSize: 20,
+          fontFamily: Expo.Font.OpenSansLight,
+          alignSelf: 'center',
+          color: 'red',
+          marginTop: 10
+        }}>
+          {this.state.verifyError}
+        </Text>
+        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+          <FormLabel>Previous Password</FormLabel>
           <FormInput 
           autoCapitalize='none'
-            onChangeText={password => this.setState({ password })} 
-            value={this.state.password} 
-            placeholder='Password'
+            onChangeText={prevpassword => this.setState({ prevpassword })} 
+            // value={this.state.password} 
+            placeholder='Previous Password'
           />
-        </View>  */}
-
+        </View> 
+        
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+          <FormLabel>New Password</FormLabel>
+          <FormInput 
+          autoCapitalize='none'
+            onChangeText={newpassword => this.setState({ newpassword })} 
+            // value={this.state.password} 
+            placeholder='New Password'
+          />
+        </View> 
+
+        <Text style={{
+          fontSize: 20,
+          fontFamily: Expo.Font.OpenSansLight,
+          alignSelf: 'center',
+          color: 'red',
+          marginTop: 10
+        }}>
+          {this.state.verifyError}
+        </Text>
+        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+          <FormLabel>Confirm New Password</FormLabel>
+          <FormInput 
+          autoCapitalize='none'
+            onChangeText={confirmpassword => this.setState({ confirmpassword })} 
+            // value={this.state.password} 
+            placeholder='Confirm New Password'
+          />
+        </View> 
+
+        {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Mobile Number</FormLabel>
           <FormInput 
             onChangeText={mobileNumber => this.setState({ mobileNumber })} 
             value={this.state.mobileNumber} 
             placeholder='Mobile Number'
           />
-        </View>
+        </View> */}
 
-        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+        {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Home Phone Number</FormLabel>
           <FormInput 
             onChangeText={landlineNumber => this.setState({ landlineNumber })} 
             value={this.state.landlineNumber} 
             placeholder='Home Phone Number'
           />
-        </View>
+        </View> */}
 
-        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+        {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Address</FormLabel>
           <FormInput 
             onChangeText={address => this.setState({ address })} 
             value={this.state.address} 
             placeholder='Address'
           />
-        </View>
+        </View> */}
 
-        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:0, backgroundColor:'white'}}>
+        {/* <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:0, backgroundColor:'white'}}>
         <FormLabel>Housing Type</FormLabel>
         <Picker
               note
@@ -280,18 +329,18 @@ class ProfileEditScreen extends React.Component {
               <Picker.Item label="Others" value="N" />
 
             </Picker>
-        </View>
+        </View> */}
 
-        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+        {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Citizenship</FormLabel>
           <FormInput 
             onChangeText={citizenship => this.setState({ citizenship })} 
             value={this.state.citizenship} 
             placeholder='Citizenship'
           />
-        </View>
+        </View> */}
 
-        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:0, backgroundColor:'white'}}>
+        {/* <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:0, backgroundColor:'white'}}>
           <FormLabel>Race</FormLabel>
         <Picker
               note
@@ -313,11 +362,11 @@ class ProfileEditScreen extends React.Component {
               <Picker.Item label="Others" value="Others" />
 
             </Picker>
-        </View>
+        </View> */}
 
 
         <Button
-          title='Submit Changes'
+          title='Change Password'
           color='white'
           backgroundColor='#C00000'
           onPress={() => this.submit()}
@@ -326,25 +375,9 @@ class ProfileEditScreen extends React.Component {
           containerViewStyle={{marginTop:30,marginBottom:30}}      
         />
 
-
-      </KeyboardAwareScrollView>
-      <AwesomeAlert
-          show= {this.state.showAlert}
-          title={this.state.alertTitle}
-          message={this.state.alertMessage}
-          closeOnTouchOutside={true}
-          closeOnHardwareBackPress={true}
-          showCancelButton={false}
-          showConfirmButton={true}
-          confirmButtonColor="#C00000"
-          confirmText="Close"
-          onConfirmPressed={() => {
-            this.props.navigation.navigate('main')
-          }}
-        />
-      </View>
+      </ScrollView>
     );
   }
 }
 
-export default ProfileEditScreen;
+export default PasswordEditScreen;

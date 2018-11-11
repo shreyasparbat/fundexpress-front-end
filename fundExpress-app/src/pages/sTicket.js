@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, AsyncStorage, ActivityIndicator, Image} from 'react-native';
 import { Button, Card } from 'react-native-elements';
+import url from '../configs/config';
 class sTicket extends React.Component {
   static navigationOptions = {
     title: "Sell Ticket",
@@ -35,16 +36,16 @@ class sTicket extends React.Component {
   retrieveData = async (item) => {
     try{
       const value = await AsyncStorage.getItem(item);
-      console.log("successfully retrieved: " + value)
+      // console.log("successfully retrieved: " + value)
       return value;
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
   retrieveTicket(ticketID){
     this.retrieveData('auth').then((auth) => {
-      fetch('http://206.189.145.2:3000/tickets/getSellTicket',{
+      fetch(url.url + 'tickets/getSellTicket',{
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -59,11 +60,11 @@ class sTicket extends React.Component {
         return response.json()
       })
       .then((response) => {
-        console.log("sell ticket retrieved");
-        console.log("response");
-        console.log(response);
-        console.log(response.item.name)
-        console.log(response.dateCreated)
+        // console.log("sell ticket retrieved");
+        // console.log("response");
+        // console.log(response);
+        // console.log(response.item.name)
+        // console.log(response.dateCreated)
         this.setState({
             name: response.item.name,
             type:response.item.type,
@@ -83,8 +84,8 @@ class sTicket extends React.Component {
         //this.props.navigation.navigate('pawnTicket')
       })
       .catch((error) => {
-        console.log("error")
-        console.log(error)
+        // console.log("error")
+        // console.log(error)
       })
     })
   }
@@ -92,21 +93,21 @@ class sTicket extends React.Component {
   generateURIFront(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_front.jpg')
-    console.log('uri: ' + uri)
+    uri = uri.concat('_front.png')
+    // console.log('uri: ' + uri)
     return uri
   }
 
   generateURIBack(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_back.jpg')
-    console.log('uri: ' + uri)
+    uri = uri.concat('_back.png')
+    // console.log('uri: ' + uri)
     return uri
   }
 
   componentWillMount() {
-    console.log("ticketID: " + this.state.ticketID)
+    // console.log("ticketID: " + this.state.ticketID)
     this.retrieveTicket(this.state.ticketID)
   }
 

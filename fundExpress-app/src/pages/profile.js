@@ -2,13 +2,14 @@ import React from 'react';
 import {AsyncStorage, View, Text, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Avatar, Button } from 'react-native-elements';
-import { Header } from 'native-base';
+import AwesomeAlert from 'react-native-awesome-alerts';
+import url from '../configs/config';
 
 class ProfileScreen extends React.Component {
   state = { fullName: '', gender: '', DOB: '', age: '' , ic: '', mobileNumber: '' ,
-  landlineNumber: '' ,address: '', citizenship: '', nationality: '', email: '', status:true };
+  landlineNumber: '' ,address: '', citizenship: '', nationality: '', email: '', status: true, showAlert: false };
   static navigationOptions = {
-    title: 'Me',
+    title: 'Profile',
       headerStyle: {
         backgroundColor: 'white',
       },
@@ -25,7 +26,7 @@ class ProfileScreen extends React.Component {
 
   componentWillMount(){
     this.retrieveData().then((token) => {
-      fetch('http://206.189.145.2:3000/profile/me', {
+      fetch(url.url + 'profile/me', {
       method: 'POST',
       headers: new Headers({
         // Accept: 'application/json',
@@ -44,8 +45,8 @@ class ProfileScreen extends React.Component {
         }
       })
       .then((response) => {
-        console.log("profile retrieved")
-        console.log(response)
+        // console.log("profile retrieved")
+        // console.log(response)
         //console.log(response.body)
         this.setState({
           fullName: response.fullName,
@@ -63,20 +64,24 @@ class ProfileScreen extends React.Component {
         //console.log("state fullName: " + this.state.fullName)
       })
       .catch((errorResponse) => {
-        console.log("error with profile/me ")
-        console.log(errorResponse)
+        // console.log("error with profile/me ")
+        // console.log(errorResponse)
       })
     }).catch((error) => {
-      console.log("error retrieving  profile data")
-      console.log(error)
+      // console.log("error retrieving  profile data")
+      // console.log(error)
     });
+    this.setState({
+      showAlert :this.props.navigation.getParam('showAlert',false)
+    })
+    // console.log(this.state.showAlert)
   }
 
   retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('auth');
-      console.log("token retrieved")
-      console.log(value);
+      // console.log("token retrieved")
+      // console.log(value);
       return value;
     } catch (error){
       throw error
@@ -87,7 +92,7 @@ class ProfileScreen extends React.Component {
     // header = new Headers();
     // header.append('x-auth', this.retrieveData());
     this.retrieveData().then((token) =>{
-      fetch('http://206.189.145.2:3000/profile/logout', {
+      fetch(url.url + 'profile/logout', {
       method: 'DELETE',
       headers: new Headers({
         'x-auth' : token,
@@ -95,7 +100,7 @@ class ProfileScreen extends React.Component {
     })
       .then((response) => {
         if (response.ok) {
-          console.log(this.state.email + ' logged out')
+          // console.log(this.state.email + ' logged out')
 //this clears all the FEapp related temp data when logging out
           AsyncStorage.multiRemove([
             'auth',
@@ -111,12 +116,12 @@ class ProfileScreen extends React.Component {
         }
       })
       .catch((errorResponse) => {
-        console.log("error")
-        console.log(errorResponse)
+        // console.log("error")
+        // console.log(errorResponse)
       })
     }).catch((error) => {
-      console.log("error retrieving data")
-      console.log(error)
+      // console.log("error retrieving data")
+      // console.log(error)
     });
 
 
@@ -124,7 +129,7 @@ class ProfileScreen extends React.Component {
 
 
   render() {
-    console.log("status: " + this.state.status)
+    // console.log("status: " + this.state.status)
     if(this.state.status==true){
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
@@ -146,6 +151,15 @@ class ProfileScreen extends React.Component {
               backgroundColor='#C00000'
               onPress={() => this.props.navigation.navigate('edit')}
             />
+          </View>
+          {/* <View style={{width:300,marginTop:15}}>
+            <Button
+                title='Change Password'
+                color='white'
+                backgroundColor='#C00000'
+                onPress={() => this.props.navigation.navigate('password')}
+              />
+          </View> */}
           <View style={{width:300,marginTop:15}}>
             <Button
                 title='Log Out'
@@ -153,7 +167,6 @@ class ProfileScreen extends React.Component {
                 backgroundColor='#C00000'
                 onPress={() => this.logOut()}
               />
-          </View>
           </View>
         </View>
       );
@@ -178,6 +191,15 @@ class ProfileScreen extends React.Component {
               backgroundColor='#C00000'
               onPress={() => this.props.navigation.navigate('edit')}
             />
+            </View>
+            {/* <View style={{width:300,marginTop:15}}>
+            <Button
+                title='Change Password'
+                color='white'
+                backgroundColor='#C00000'
+                onPress={() => this.props.navigation.navigate('password')}
+              />
+          </View> */}
           <View style={{width:300,marginTop:15}}>
             <Button
                 title='Log Out'
@@ -185,7 +207,6 @@ class ProfileScreen extends React.Component {
                 backgroundColor='#C00000'
                 onPress={() => this.logOut()}
               />
-          </View>
           </View>
         </View>
       );

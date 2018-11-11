@@ -5,6 +5,7 @@ import { Avatar , Button, FormLabel, FormInput } from "react-native-elements";
 import { Input } from "../components/input";
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import url from '../configs/config';
 
 class PawnScreen extends Component {
   state = {
@@ -51,7 +52,7 @@ class PawnScreen extends Component {
   retrieveData = async (item) => {
     try {
       const value = await AsyncStorage.getItem(item);
-      console.log(item + " retrieved " + value);
+      // console.log(item + " retrieved " + value);
       return value;
     } catch (error){
       throw error
@@ -62,7 +63,7 @@ class PawnScreen extends Component {
   try{
     await AsyncStorage.setItem(key, item);
   } catch (error) {
-    console.log(error)
+    // console.log(error)
   }
 }
 
@@ -80,10 +81,16 @@ validate(){
   if(this.state.DOP==''){
     errorArray.push("Date of Purchase required")
   }
+  if(this.state.brand==''){
+    errorArray.push("Brand required")
+  }
+  if(isNaN(this.state.weight)==true){
+    errorArray.push("Weight should be a Number eg. 10")
+  }
   if(errorArray.length==0){
     this.submit();
   }else{
-    console.log(errorArray)
+    // console.log(errorArray)
     this.setState({
       error: errorArray.toString(),
       showAlert: true
@@ -106,20 +113,22 @@ validate(){
   this.retrieveData('auth').then((token) => {
     this.setState({auth:token})
   }).catch((error) => {
-    console.log("error retrieving token")
-    console.log(error)
+    // console.log("error retrieving token")
+    // console.log(error)
   });
   select = this.props.navigation.getParam('type','others');
-  if(select=='bar'){
+  if(select=='Gold Bar'){
     this.setState({
       name: "Gold Bar #0000",
       type: "Gold Bar",
       material: "Gold",
       condition: 'NA',
-
+      brand: this.props.navigation.getParam('brand',''),
+      purity: this.props.navigation.getParam('purity', ''),
+      weight: this.props.navigation.getParam('weight', '').toString()
     })
   }else{
-    if(select=='watch'){
+    if(select=='Watch'){
       this.setState({
         name: "Watch",
         type: "Watch",
@@ -128,7 +137,7 @@ validate(){
         purity: "NA"
       })
     }else{
-      if(select=='jewel'){
+      if(select=='Jewel'){
         this.setState({
           type: "Bracelet",
         })  
@@ -143,11 +152,25 @@ validate(){
   
   submit() {
     this.retrieveData('itemID').then((ID) => {
-      console.log('pawn pressed');
-    console.log(this.state.auth);
-    console.log(ID);
+    //   console.log('pawn pressed');
+    // console.log(this.state.auth);
+    // console.log(
+    //   JSON.stringify({
+    //     itemID: ID,
+    //     name: this.state.name,
+    //     type: this.state.type,
+    //     material: this.state.material,
+    //     brand: this.state.brand,
+    //     purity: this.state.purity,
+    //     weight: parseInt(this.state.weight),
+    //     condition: this.state.condition,
+    //     dateOfPurchase: this.state.DOP,
+    //     otherComments: this.state.otherComments,
+
+    //   })
+    // );
     //console.log(JSON.stringify(this.state))
-    fetch('http://206.189.145.2:3000/item/add',{
+    fetch(url.url + 'item/add',{
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -172,13 +195,13 @@ validate(){
       return response.json()
     })
     .then((response) => {
-      console.log("/item/add Success");
-      console.log("response");
-      console.log(response);
-      console.log("itemID:");
-      console.log(response.itemID);
-      console.log('POV');
-      console.log(response.pawnOfferedValue);
+      // console.log("/item/add Success");
+      // console.log("response");
+      // console.log(response);
+      // console.log("itemID:");
+      // console.log(response.itemID);
+      // console.log('POV');
+      // console.log(response.pawnOfferedValue);
       if(response.pawnOfferedValue==null){
           this.setState({
             error: response.error,
@@ -186,25 +209,26 @@ validate(){
           })
       }else{
       this.storeData('pov',response.pawnOfferedValue.toString());
-      console.log('SOV');
-      console.log(response.sellOfferedValue);
+      // console.log('SOV');
+      // console.log(response.sellOfferedValue);
       this.storeData('sov',response.sellOfferedValue.toString());
       this.props.navigation.navigate('options');
       }
     })
     .catch((error) => {
-      console.log("error")
-      console.log(error)
+      // console.log("error")
+      // console.log(error)
     })
     }).catch((error) => {
-      console.log("error retrieving token")
-      console.log(error)
+      // console.log("error retrieving token")
+      // console.log(error)
     });
     
   }
 
   render() {
     return (
+      <View>
       <KeyboardAwareScrollView contentContainerStyle={{ justifyContent: "center", alignItems: "center" }} 
         extraScrollHeight = {150}
         keyboardOpeningTime = {10}
@@ -320,7 +344,7 @@ validate(){
         </View>
 
         <View style={{flex:1,height:70,marginTop:15,marginLeft:15,backgroundColor:'white'}}>
-          <FormLabel>Brand (if applicable)</FormLabel>
+          <FormLabel>Brand</FormLabel>
             <FormInput 
               onChangeText={brand => this.setState({ brand })} 
               value={this.state.brand} 
@@ -356,7 +380,7 @@ validate(){
             />
         </View>
 
-        <Text style={{
+        {/* <Text style={{
           fontSize: 20,
           fontFamily: Expo.Font.OpenSansLight,
           alignSelf: 'center',
@@ -364,7 +388,7 @@ validate(){
           marginTop: 10
         }}>
           {this.state.error}
-        </Text>
+        </Text> */}
         <Button
           title="Submit"
           color="white"
@@ -374,7 +398,9 @@ validate(){
           //onPress={() => console.log(this.state)}
           containerViewStyle={{marginTop:30,marginBottom:30}}
         />
-        {/* <AwesomeAlert
+        
+    </KeyboardAwareScrollView>
+    <AwesomeAlert
           show= {this.state.showAlert}
           title="Pawn Error!"
           message={this.state.error}
@@ -390,8 +416,8 @@ validate(){
             });
             ;
           }}
-        /> */}
-    </KeyboardAwareScrollView>
+        />
+    </View>
     );
   }
 }

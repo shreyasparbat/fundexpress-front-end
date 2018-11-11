@@ -68,13 +68,13 @@ export default class PayInterestScreen extends React.Component{
   }
   _onChange = formData => {
     /* eslint no-console: 0 */
-    console.log(JSON.stringify(formData, null, " "));
+    // console.log(JSON.stringify(formData, null, " "));
     this.setState({formdata: JSON.stringify(formData, null, " ")})
   };
 
   _onFocus = field => {
     /* eslint no-console: 0 */
-    console.log(field);
+    // console.log(field);
   };
   render(){
     return(

@@ -5,17 +5,18 @@ import { Container,  Content, Card, CardItem, Thumbnail, Button, Icon, Left, Bod
 import SellTicket from '../../../components/SellTicket';
 import SGListView from 'react-native-sglistview';
 import Ticket from '../../../components/Ticket';
+import url from '../../../configs/config';
 class PendingSellTickets extends React.Component {
   //header
   static navigationOptions = {
     title: 'Currently Sold Items',
     headerStyle: {
-      backgroundColor: '#C00000',
+      backgroundColor: 'black',
     },
-    headerTintColor: '#ffffff',
+    headerTintColor: 'white',
     headerTitleStyle: {
       fontWeight: 'bold',
-      color: '#ffffff'
+      color: 'white'
     },
   };
 
@@ -30,16 +31,16 @@ class PendingSellTickets extends React.Component {
   retrieveData = async () => {
     try{
       const value = await AsyncStorage.getItem('auth');
-      console.log('2. auth retrieved: ' + value)
+      // console.log('2. auth retrieved: ' + value)
       return value;
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
   retrieveTickets(){
     this.retrieveData().then((auth) => {
-    fetch('http://206.189.145.2:3000/tickets/',{
+    fetch(url.url + 'tickets/',{
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -52,16 +53,16 @@ class PendingSellTickets extends React.Component {
       return response.json()
     })
     .then((response) => {
-      console.log("/tickets Success");
-      console.log("response" + response);
+      // console.log("/tickets Success");
+      // console.log("response" + response);
       this.setState({
         data: response.sellTicketPendingApproval,
         loading:false
       })
     })
     .catch((error) => {
-      console.log("error")
-      console.log(error)
+      // console.log("error")
+      // console.log(error)
     })
   })
   }
@@ -81,7 +82,7 @@ class PendingSellTickets extends React.Component {
   }
 
   render(){
-    console.log(this.state);
+    // console.log(this.state);
     if(this.state.loading){
       return <ActivityIndicator />
     }

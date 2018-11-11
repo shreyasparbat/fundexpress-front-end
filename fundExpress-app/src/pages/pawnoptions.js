@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, AsyncStorage,Image} from 'react-native';
 import { Button, Avatar } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import url from '../configs/config';
 
 class PawnOptions extends React.Component {
   state = {
@@ -43,22 +44,22 @@ class PawnOptions extends React.Component {
       const value = await AsyncStorage.getItem(item);
       return value;
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
   storeData = async (key,item) => {
     try{
       await AsyncStorage.setItem(key, item);
-      console.log(key + " stored successfully");
+      // console.log(key + " stored successfully");
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
   checkReg(){
     this.retrieveData().then((token) => {
-      fetch('http://206.189.145.2:3000/profile/me', {
+      fetch(url.url + 'profile/me', {
       method: 'POST',
       headers: new Headers({
         // Accept: 'application/json',
@@ -77,8 +78,8 @@ class PawnOptions extends React.Component {
         }
       })
       .then((response) => {
-        console.log("profile retrieved")
-        console.log(response)
+        // console.log("profile retrieved")
+        // console.log(response)
         //console.log(response.body)
         this.setState({
           status: response.registrationCompleted
@@ -86,12 +87,12 @@ class PawnOptions extends React.Component {
         //console.log("state fullName: " + this.state.fullName)
       })
       .catch((errorResponse) => {
-        console.log("error with profile/me ")
-        console.log(errorResponse)
+        // console.log("error with profile/me ")
+        // console.log(errorResponse)
       })
     }).catch((error) => {
-      console.log("error retrieving  profile data")
-      console.log(error)
+      // console.log("error retrieving  profile data")
+      // console.log(error)
     });
   }
 //load the image URI, Pawn offered value and Sell offered value
@@ -101,7 +102,7 @@ class PawnOptions extends React.Component {
         this.setState({
           pov: pov
         })
-        console.log(parseInt(pov))
+        // console.log(parseInt(pov))
       })
         this.retrieveData('sov').then((sov) => {
           this.setState({
@@ -179,10 +180,19 @@ class PawnOptions extends React.Component {
          height:150,
          width:300,
          justifyContent:'center',
-         alignItems:'center'
+         alignItems:'center',
+         flexDirection:'row'
          }}>
-          <Text> Pawn Value: ${(Math.round(this.state.pov)-1)}</Text>
-          <Text> Sell Value: ${(Math.round(this.state.sov)-1)}</Text>
+         <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+           <Text style={{fontSize:25, }}> Pawn Value: </Text>
+           <Text style={{fontSize:30,fontWeight:'bold'}}>${(Math.round(this.state.pov)-1)}</Text>
+         </View>
+         <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+           <Text style={{fontSize:25,}}> Sell Value: </Text> 
+           <Text style={{fontSize:30,fontWeight:'bold'}}>${(Math.round(this.state.sov)-1)}</Text> 
+         </View>
+          
+          
         </View>
         
         <View 
@@ -242,7 +252,7 @@ class PawnOptions extends React.Component {
           //showProgress={false}
           title="Registration Incomplete"
           message="Before you can pawn or sell an item, you have to register fully. Please proceed to the profile page to complete your registration"
-          closeOnTouchOutside={true}
+          closeOnTouchOutside={false}
           closeOnHardwareBackPress={false}
           showConfirmButton={true}
           confirmText="Take me there!"

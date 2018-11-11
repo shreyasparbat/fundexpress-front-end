@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, AsyncStorage, ActivityIndicator, Image} from 'react-native';
 import { Button, Card } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import url from '../configs/config';
 class PawnTicketScreen extends React.Component {
   static navigationOptions = {
     title: "New Pawn Ticket",
@@ -23,16 +24,16 @@ class PawnTicketScreen extends React.Component {
   retrieveData = async (item) => {
     try{
       const value = await AsyncStorage.getItem(item);
-      console.log("successfully retrieved: " + value)
+      // console.log("successfully retrieved: " + value)
       return value;
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
   pawn(sValue){
     this.retrieveData('auth').then((auth) => {
-      fetch('http://206.189.145.2:3000/item/pawn',{
+      fetch(url.url + 'item/pawn',{
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -48,9 +49,9 @@ class PawnTicketScreen extends React.Component {
         return response.json()
       })
       .then((response) => {
-        console.log("/item/pawn Success");
-        console.log("response");
-        console.log(response);
+        // console.log("/item/pawn Success");
+        // console.log("response");
+        // console.log(response);
         this.setState({
           item:response,
           isLoading:false
@@ -60,8 +61,8 @@ class PawnTicketScreen extends React.Component {
         //this.props.navigation.navigate('pawnTicket')
       })
       .catch((error) => {
-        console.log("error")
-        console.log(error)
+        // console.log("error")
+        // console.log(error)
       })
     })
   }
@@ -69,16 +70,16 @@ class PawnTicketScreen extends React.Component {
   generateURIFront(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_front.jpg')
-    console.log('uri: ' + uri)
+    uri = uri.concat('_front.png')
+    // console.log('uri: ' + uri)
     return uri
   }
 
   generateURIBack(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_back.jpg')
-    console.log('uri: ' + uri)
+    uri = uri.concat('_back.png')
+    // console.log('uri: ' + uri)
     return uri
   }
 
@@ -147,10 +148,10 @@ class PawnTicketScreen extends React.Component {
         <Text>Value Loaned: ${this.state.specifiedValue}</Text>
       </View>
       <View style={{flexDirection:'row'}}>
-        <View style={{flexDirection:'column'}}>
+        {/* <View style={{flexDirection:'column'}}>
           <Text>Date Pawned: </Text>
           <Text>{this.state.datePawned}</Text>
-        </View>
+        </View> */}
         <View style={{borderColor:'grey', borderLeftWidth:0.5, borderRightWidth:0.5, flexDirection:'column'}}>
           <Text>Pawn Offered Value: </Text>
           <Text>${Math.round(this.state.item.item.pawnOfferedValue)}</Text>

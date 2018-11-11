@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, AsyncStorage, ActivityIndicator, Image} from 'react-native';
 import { Button, Card } from 'react-native-elements';
+import url from '../configs/config';
 class pTicket extends React.Component {
   static navigationOptions = {
     title: "Pawn Ticket",
@@ -37,16 +38,16 @@ class pTicket extends React.Component {
   retrieveData = async (item) => {
     try{
       const value = await AsyncStorage.getItem(item);
-      console.log("successfully retrieved: " + value)
+      // console.log("successfully retrieved: " + value)
       return value;
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
   retrieveTicket(ticketID){
     this.retrieveData('auth').then((auth) => {
-      fetch('http://206.189.145.2:3000/tickets/getPawnTicket',{
+      fetch(url.url + 'tickets/getPawnTicket',{
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -61,11 +62,11 @@ class pTicket extends React.Component {
         return response.json()
       })
       .then((response) => {
-        console.log("pawn ticket retrieved");
-        console.log("response");
-        console.log(response);
-        console.log(response.item.name)
-        console.log(response.dateCreated)
+        // console.log("pawn ticket retrieved");
+        // console.log("response");
+        // console.log(response);
+        // console.log(response.item.name)
+        // console.log(response.dateCreated)
         this.setState({
             name: response.item.name,
             type:response.item.type,
@@ -87,8 +88,8 @@ class pTicket extends React.Component {
         //this.props.navigation.navigate('pawnTicket')
       })
       .catch((error) => {
-        console.log("error")
-        console.log(error)
+        // console.log("error")
+        // console.log(error)
       })
     })
   }
@@ -96,16 +97,16 @@ class pTicket extends React.Component {
   generateURIFront(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_front.jpg')
-    console.log('uri: ' + uri)
+    uri = uri.concat('_front.png')
+    // console.log('uri: ' + uri)
     return uri
   }
 
   generateURIBack(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_back.jpg')
-    console.log('uri: ' + uri)
+    uri = uri.concat('_back.png')
+    // console.log('uri: ' + uri)
     return uri
   }
 
@@ -173,17 +174,14 @@ class pTicket extends React.Component {
         <Text>Interest Payable: ${this.state.interest}</Text>  
       </View> 
         {/* <Text>Sell Offered Value: ${Math.round(this.state.item.item.sellOfferedValue)}</Text> */}
-        <View style={{justifyContent: 'center', flexDirection:'row', marginTop:6}}>
-                      {/* //Renew Now Button */}
+        {/* <View style={{justifyContent: 'center', flexDirection:'row', marginTop:6}}>
                       <Button fontSize={12} borderRadius={3} title='Renew Now' color='white'containerViewStyle={{margin: 3,height:50,width:100}} backgroundColor= '#C00000' justifyContent= 'center' onPress={() => this.props.navigation.navigate('renew')}>
                         <Text style={{fontSize: 16, color: '#ffffff', }}>Renew Now</Text>
                       </Button>
 
-                      {/* //Value Button */}
                       <Button fontSize={12} borderRadius={3} title='Value' color='white' containerViewStyle={{margin: 3,height:50,width:100}} backgroundColor= '#C00000' justifyContent= 'center'>
                         <Text style={{fontSize: 16, color: '#ffffff', }}>Value</Text>
                       </Button>
-                      {/* //Pay interest Button */}
                       <Button fontSize={12} borderRadius={3} title='Pay Interest' color='white' containerViewStyle={{margin: 3,height:50,width:100}} backgroundColor= '#C00000' justifyContent= 'center'onPress={() => this.props.navigation.navigate('PayInterest',
                       {
                         amountPaid: this.state.interestPayable,
@@ -192,7 +190,7 @@ class pTicket extends React.Component {
                       )}>
                         <Text style={{fontSize: 16, color: '#ffffff', }}>Pay Interest</Text>
                       </Button>
-                    </View>       
+                    </View>        */}
       </Card>
       </View>
       <View>

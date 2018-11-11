@@ -4,9 +4,9 @@ import { Input } from '../components/input';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Button } from 'react-native-elements';
 import RegisterScreen from './register';
+import Icon from 'react-native-vector-icons/FontAwesome';
 // import RegisterScreen from './giftedReg';
 import UploadScreen from './uploadimage';
-import camera from './camera';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import url from '../configs/config';
 //Home page imports
@@ -28,6 +28,7 @@ import selectPawn from './selectPawn';
 //profile imports
 import ProfileScreen from './profile';
 import ProfileEditScreen from './profileEdit';
+import PasswordEditScreen from './passwordEdit';
 
 //tickets imports
 import MyTicketsScreen from './MyTickets/MyTickets';
@@ -96,9 +97,9 @@ class LoginScreen extends React.Component {
   storeData = async (auth) => {
     try{
       await AsyncStorage.setItem('auth', auth);
-      console.log('token stored successfully');
+      // console.log('token stored successfully');
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
@@ -108,7 +109,7 @@ class LoginScreen extends React.Component {
       const value = await AsyncStorage.getItem('auth');
       return value;
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
@@ -149,14 +150,14 @@ class LoginScreen extends React.Component {
           showAlert: true
         })
       }else{
-        console.log('login pressed')
-    console.log('email: ' + this.state.email)
-    console.log('password: ' + this.state.password)
+    //     console.log('login pressed')
+    // console.log('email: ' + this.state.email)
+    // console.log('password: ' + this.state.password)
     this.setState({ error: '', loading: true });
 
     var res = ''
 
-   fetch('http://206.189.145.2:3000/user/login', {
+   fetch(url.url + 'user/login', {
       method: 'POST',
       headers:{
         Accept: 'application/json',
@@ -177,16 +178,16 @@ class LoginScreen extends React.Component {
         //check if error message exists
         if(response.error==null){
           //if does not exist, pull xauth from stored res var
-          console.log(res)
-          console.log(this.state.email + " logged in")
-          console.log("x-auth")
-          console.log(res.headers.get('x-auth'))
+          // console.log(res)
+          // console.log(this.state.email + " logged in")
+          // console.log("x-auth")
+          // console.log(res.headers.get('x-auth'))
           //store x-auth in the app cache
           this.storeData(res.headers.get('x-auth'));
           this.onLoginSuccess()
         }else{
           //else pass the error message to be displayed
-          console.log(response.error)
+          // console.log(response.error)
           this.onLoginFail(response.error)
         }
       })
@@ -232,7 +233,7 @@ class LoginScreen extends React.Component {
       loading: false,
       error: '',
      });
-     console.log(this.retrieveData());
+    //  console.log(this.retrieveData());
      this.props.navigation.navigate('Home');
   }
 
@@ -329,7 +330,6 @@ const RootStack = createStackNavigator({
         login: { screen: LoginScreen },
         register: {screen: RegisterScreen},
         upload: {screen: UploadScreen},
-        camera: {screen: camera}
       }),
       navigationOptions: {
         header: null,
@@ -360,6 +360,7 @@ const RootStack = createStackNavigator({
           screen: createStackNavigator({
             main: {screen: ProfileScreen},
             edit: {screen: ProfileEditScreen},
+            password: {screen: PasswordEditScreen},
           }),
           navigationOptions: {
             initialRouteName: 'main',
@@ -416,7 +417,7 @@ const RootStack = createStackNavigator({
           navigationOptions: {
             initialRouteName: 'main',
             tabBarIcon: ({ focused, tintColor }) => {
-              return <Ionicons name={'md-document'} size={25}
+              return <Icon name={'ticket'} size={25}
               color={tintColor} />;
             },
           }

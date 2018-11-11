@@ -112,9 +112,9 @@ export default class PawnTicket extends React.Component {
   generateURI(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_front.jpg')
-    console.log('uri: ' + uri)
-    console.log('itemID: ' + this.state.ticketNumber)
+    uri = uri.concat('_front.png')
+    // console.log('uri: ' + uri)
+    // console.log('itemID: ' + this.state.ticketNumber)
     return uri
   }
   render(){
@@ -167,17 +167,17 @@ export default class PawnTicket extends React.Component {
                   </View>
               </View>
               {/* //Buttons container */}
-              <CardItem style={{justifyContent: 'center'}}>
-                      {/* //Renew Now Button */}
+              {/* <CardItem style={{justifyContent: 'center'}}>
+                      
                       <Button style={styles.buttonStyle} onPress={() => this.props.navigation.navigate('renew')}>
                         <Text style={{fontSize: 16, color: '#ffffff', }}>Renew Now</Text>
                       </Button>
 
-                      {/* //Value Button */}
+                     
                       <Button style={styles.buttonStyle}>
                         <Text style={{fontSize: 16, color: '#ffffff', }}>Value</Text>
                       </Button>
-                      {/* //Pay interest Button */}
+                 
                       <Button style={styles.buttonStyle} onPress={() => this.props.navigation.navigate('PayInterest',
                       {
                         amountPaid: this.state.interestPayable,
@@ -186,7 +186,7 @@ export default class PawnTicket extends React.Component {
                       )}>
                         <Text style={{fontSize: 16, color: '#ffffff', }}>Pay Interest</Text>
                       </Button>
-                    </CardItem>
+                    </CardItem> */}
 
               </CardItem>
 

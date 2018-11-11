@@ -63,9 +63,9 @@ export default class SellTicket extends React.Component {
   generateURI(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_front.jpg')
-    console.log('uri: ' + uri)
-    console.log('itemID: ' + this.state.ticketNumber)
+    uri = uri.concat('_front.png')
+    // console.log('uri: ' + uri)
+    // console.log('itemID: ' + this.state.ticketNumber)
     return uri
   }
 
@@ -107,12 +107,11 @@ export default class SellTicket extends React.Component {
                     
                   </View>
                 {/* //Buttons container */}
-                    <CardItem style={{justifyContent: 'center'}}>
-                      {/* //Value Button */}
+                    {/* <CardItem style={{justifyContent: 'center'}}>
                       <Button style={styles.buttonStyle}>
                         <Text style={{fontSize: 16, color: '#ffffff', }}>Value</Text>
                       </Button>
-                    </CardItem>
+                    </CardItem> */}
               </CardItem>
 
 

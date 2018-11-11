@@ -46,7 +46,7 @@ export default class ContactUsForm extends Component {
           bcc: '', // string or array of email addresses
           subject: this.state.subject,
           body: this.state.enquiry
-      }).catch(console.error)
+      }).catch(error) //console.error
   }
   render(){
       return (
