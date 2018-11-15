@@ -58,7 +58,8 @@ class PawnOptions extends React.Component {
   }
 
   checkReg(){
-    this.retrieveData().then((token) => {
+    // console.log('checking if trial user...')
+    this.retrieveData('auth').then((token) => {
       fetch(url.url + 'profile/me', {
       method: 'POST',
       headers: new Headers({
@@ -79,7 +80,7 @@ class PawnOptions extends React.Component {
       })
       .then((response) => {
         // console.log("profile retrieved")
-        // console.log(response)
+        // console.log(response.registrationCompleted)
         //console.log(response.body)
         this.setState({
           status: response.registrationCompleted
@@ -96,7 +97,7 @@ class PawnOptions extends React.Component {
     });
   }
 //load the image URI, Pawn offered value and Sell offered value
-  componentWillMount() {
+  componentDidMount() {
     this.checkReg();
       this.retrieveData('pov').then((pov) => {
         this.setState({

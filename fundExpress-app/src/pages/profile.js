@@ -128,6 +128,7 @@ class ProfileScreen extends React.Component {
   }
 
 
+
   render() {
     // console.log("status: " + this.state.status)
     if(this.state.status==true){
@@ -152,6 +153,8 @@ class ProfileScreen extends React.Component {
               onPress={() => this.props.navigation.navigate('edit')}
             />
           </View>
+
+        
           {/* <View style={{width:300,marginTop:15}}>
             <Button
                 title='Change Password'

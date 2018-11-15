@@ -52,9 +52,11 @@ class selectPawn extends React.Component {
               <Picker.Item label="Item Type" value="" />
               <Picker.Item label="Gold Bar" value="Gold Bar" />
               <Picker.Item label="Gold Coin" value="Gold Coin" />
+              <Picker.Item label="Silver Bar" value="Silver Bar" />
+              <Picker.Item label="Silver Coin" value="Silver Coin" />
               <Picker.Item label="Watch" value="Watch" />
               <Picker.Item label="Jewellery" value="Jewel" />
-              <Picker.Item label="Others" value="Others" />
+              {/* <Picker.Item label="Others" value="Others" /> */}
 
 
             </Picker>

@@ -110,16 +110,16 @@ class RegisterScreen extends React.Component {
 
     // Get the token that uniquely identifies this device
     let token = await Notifications.getExpoPushTokenAsync();
-    console.log(token);
+    // console.log(token);
     this.setState({ ptoken : token });
   }
 
   storeData = async (key,item) => {
     try{
       await AsyncStorage.setItem(key, item);
-      console.log(key + " stored successfully");
+      // console.log(key + " stored successfully");
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
@@ -153,7 +153,7 @@ class RegisterScreen extends React.Component {
     if(errorArray.length==0){
       this.submit();
     }else{
-      console.log(errorArray)
+      // console.log(errorArray)
       this.setState({
         error: errorArray.toString(),
         showAlert: true
@@ -476,8 +476,8 @@ class RegisterScreen extends React.Component {
           }}
         /><AwesomeAlert
         show= {this.state.showAlert2}
-        title="Success!"
-        message={"You can use the app to evaluate your items, however, to pawn an item, you will need to complete your profile by going to the profile page"}
+        title="Complete your Registration!"
+        message={"You can continue to use the app to evaluate your items, however, to pawn an item, you will need to complete your profile by going to the profile page"}
         closeOnTouchOutside={true}
         closeOnHardwareBackPress={false}
         showCancelButton={false}

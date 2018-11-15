@@ -134,7 +134,7 @@ class MyTicketsScreen extends React.Component {
             this.setState({
               showAlert:false
             })
-            this.props.navigation.navigate('Profile');
+            this.props.navigation.navigate('edit');
             ;
           }}
         />

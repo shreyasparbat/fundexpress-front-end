@@ -22,7 +22,8 @@ class ProfileEditScreen extends React.Component {
       showAlert:false,
       alertTitle:'',
       alertMessage:'',
-      status: true
+      status: true,
+      completed:false,
   };
   static navigationOptions = {
     title: 'Edit Profile',
@@ -37,8 +38,10 @@ class ProfileEditScreen extends React.Component {
   };
 
   componentWillMount(){
+    console.log('retrieving profile')
     this.retrieveData().then((token) => {
-      fetch('http://206.189.145.2:3000/profile/me', {
+      // fetch(url.url + 'profile/me', {
+      fetch(url.url + 'profile/me', {
       method: 'POST',
       headers: new Headers({
         // Accept: 'application/json',
@@ -59,22 +62,31 @@ class ProfileEditScreen extends React.Component {
       .then((response) => {
         // console.log("profile retrieved")
         // console.log(response)
-        // console.log(response.body)
+        // console.log(response.fullName)
         this.setState({
           fullName: response.fullName,
-          address: response.address,
-          citizenship: response.citizenship,
-          DOB: response.dateOfBirth.slice(0,-14),
+          // address: response.address,
+          // citizenship: response.citizenship,
+          // DOB: response.dateOfBirth.slice(0,-14),
           email: response.email,
-          gender: response.gender,
-          ic: response.ic,
-          landlineNumber: response.landlineNumber.toString(),
-          mobileNumber: response.mobileNumber.toString(),
-          house: response.addressType,
+          // gender: response.gender,
+          // ic: response.ic,
+          // landlineNumber: response.landlineNumber.toString(),
+          // mobileNumber: response.mobileNumber.toString(),
+          // house: response.addressType,
           password: response.password,
-          race: response.race,
-          status: response.registrationCompleted
+          // race: response.race,
         });
+        if(response.registrationCompleted==false){
+          this.setState({
+            status: false
+          })
+        }else{
+          this.setState({
+            status: true
+          })
+        }
+        // console.log(this.state.email)
         //console.log("state fullName: " + this.state.fullName)
       })
       .catch((errorResponse) => {
@@ -98,6 +110,7 @@ class ProfileEditScreen extends React.Component {
   }
 
   go(){
+    // console.log("this.go triggered")
     if(this.state.status==true){
       this.setState({
         showAlert:true,
@@ -108,14 +121,17 @@ class ProfileEditScreen extends React.Component {
     this.setState({
       showAlert:true,
       alertTitle: 'Registration Complete!',
-      alertMessage:'Now you can proceed to pawn & sell your items'
+      alertMessage:'Now you can proceed to pawn & sell your items',
   })
   }
 }
 
   submit() {
+    console.log('now at submit')
+    console.log(this.state)
     this.retrieveData().then((token) => {
-      fetch(url.url + 'profile/edit',{
+      // fetch('http://206.189.145.2:3000/profile/edit',{
+        fetch(url.url +'profile/edit', {
         method: 'POST',
         headers: new Headers({
           'x-auth': token,
@@ -133,7 +149,7 @@ class ProfileEditScreen extends React.Component {
           address: this.state.address,
           addressType: this.state.house,
           citizenship: this.state.citizenship,
-          race: this.state.race        
+          race: this.state.race, 
         }),
       })
       .then((response) => {
@@ -141,7 +157,11 @@ class ProfileEditScreen extends React.Component {
           // console.log("profile changed");
           this.go();
         }else{
-          // console.log('profile change unsuccessful')
+          this.setState({
+            showAlert:true,
+            alertTitle: 'Error',
+            alertMessage:''
+        })
         }
         
       })
@@ -159,11 +179,12 @@ class ProfileEditScreen extends React.Component {
 
 
 
+
   render() {
     return (
       <View>
       <KeyboardAwareScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}
-       showsVerticalScrollIndicator bounces={false} >
+       showsVerticalScrollIndicator bounces={false} extraScrollHeight= {50} >
 
 
         {/* <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
