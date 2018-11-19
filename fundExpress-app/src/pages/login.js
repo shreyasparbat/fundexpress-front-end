@@ -46,7 +46,7 @@ import PastSellTickets from './MyTickets/SellTickets/PastSellTickets';
 import PendingSellTickets from './MyTickets/SellTickets/PendingSellTickets';
 
 import PayInterestScreen from './MyTickets/PayInterest';
-//import PayResultScreen from './MyTickets/PayResult';
+import PayResultScreen from './MyTickets/PayResult';
 import pTicket from './pTicket';
 import sTicket from './sTicket';
 
@@ -126,7 +126,7 @@ class LoginScreen extends React.Component {
         <Button
           title='Log in'
           color='white'
-          backgroundColor='#C00000'
+          backgroundColor='#c00000'
           onPress={() => this.onButtonPress()}
         />
       </View>
@@ -150,9 +150,9 @@ class LoginScreen extends React.Component {
           showAlert: true
         })
       }else{
-    //     console.log('login pressed')
-    // console.log('email: ' + this.state.email)
-    // console.log('password: ' + this.state.password)
+         console.log('login pressed')
+     console.log('email: ' + this.state.email)
+     console.log('password: ' + this.state.password)
     this.setState({ error: '', loading: true });
 
     var res = ''
@@ -171,6 +171,7 @@ class LoginScreen extends React.Component {
       .then((response) => {
         //store the response as a var
         res = response
+        console.log("response.ok: " + response.ok)
         //return the response in json() to obtain the error message
         return response.json()
       })
@@ -180,14 +181,14 @@ class LoginScreen extends React.Component {
           //if does not exist, pull xauth from stored res var
           // console.log(res)
           // console.log(this.state.email + " logged in")
-          // console.log("x-auth")
-          // console.log(res.headers.get('x-auth'))
+          console.log("x-auth")
+          console.log(res.headers.get('x-auth'))
           //store x-auth in the app cache
           this.storeData(res.headers.get('x-auth'));
           this.onLoginSuccess()
         }else{
           //else pass the error message to be displayed
-          // console.log(response.error)
+           console.log(response.error)
           this.onLoginFail(response.error)
         }
       })
@@ -196,9 +197,9 @@ class LoginScreen extends React.Component {
       this.onLoginFail("Network error")
       })
       }
-      
+
     }
-    
+
   }
 
   onLoginFail(error) {
@@ -297,7 +298,7 @@ class LoginScreen extends React.Component {
           closeOnHardwareBackPress={false}
           showCancelButton={false}
           showConfirmButton={true}
-          confirmButtonColor="#C00000"
+          confirmButtonColor="#c00000"
           confirmText="Close"
           onConfirmPressed={() => {
             this.hideAlert();
@@ -399,7 +400,7 @@ const RootStack = createStackNavigator({
           }
         },
         "My Tickets": {screen: createStackNavigator({
-              main: {screen: MyTicketsScreen},
+              MyTickets: {screen: MyTicketsScreen},
               AllPawnTickets: {screen: AllPawnTicketsScreen},
               AllSellTickets: {screen: AllSellTicketsScreen},
               CurrentPawnTickets: {screen: CurrentPawnTickets},
@@ -411,8 +412,8 @@ const RootStack = createStackNavigator({
               PawnTicket: {screen: PawnTicket},
               PayInterest: {screen: PayInterestScreen},
               pTicket: {screen: pTicket},
-              sTicket: {screen: sTicket}
-            //  PayResult: {screen: PayResultScreen},
+              sTicket: {screen: sTicket},
+              PayResult: {screen: PayResultScreen},
           }),
           navigationOptions: {
             initialRouteName: 'main',
@@ -437,11 +438,11 @@ const RootStack = createStackNavigator({
     },
     {
       initialRouteName: 'Home',
-      activeTintColor: '#C00000',
-      inactiveTintColor: '#d3d1cd',
+      activeTintColor: '#c00000',
+      inactiveTintColor: '#dddddd',//'#d3d1cd'
       barStyle: { backgroundColor: 'white' },
       tabBarOptions: {
-        activeTintColor: '#C00000',
+        activeTintColor: '#c00000',
         inactiveTintColor: '#d3d1cd',
         fontWeight: 'bold',
         style: {

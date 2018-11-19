@@ -78,7 +78,7 @@ export default class ContactUsForm extends Component {
                     <Input onChangeText={subject => this.setState({ subject })} placeholder='Subject'/>
                   </Item>
 
-                  <Textarea rowSpan={5} bordered onChangeText={enquiry => this.setState({ enquiry })} placeholder="Your enquiry" />
+                  <Textarea bordered onChangeText={enquiry => this.setState({ enquiry })} placeholder="Your enquiry" />
 
               </View>
               <View style={{paddingTop:5}}>

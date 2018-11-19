@@ -25,10 +25,11 @@ export default class PawnTicket extends React.Component {
       itemId: props.data.item._id,
       dateCreated: new Date(props.data.dateCreated),
       expiryDate: new Date(props.data.expiryDate),
-      interestPayable: props.data.indicativeTotalInterestPayable,
+      interestPayable: this.roundTo(props.data.indicativeTotalInterestPayable),
       offeredValue: props.data.item.pawnOfferedValue,
       specifiedValue: props.data.specifiedValue,
-      approvalStatus: props.data.approved
+      approvalStatus: props.data.approved,
+      closed: props.data.closed,
     }
   }
   getTimePassed(dateCreated, expiryDate){
@@ -88,7 +89,7 @@ export default class PawnTicket extends React.Component {
       // console.log('day: ' + day)
       var year = arrayOfDateParts[2]
       // console.log('year: ' + year)
-      return day + " " + month.substring(0, 3) + year;
+      return day + " " + month.substring(0, 3) + " " + year;
     }else{
       // console.log("date: " + date);
       var currentDateString = date.toLocaleDateString("en-US", { day: "numeric", month: "long", year:"numeric" })
@@ -101,7 +102,7 @@ export default class PawnTicket extends React.Component {
       // console.log('day: ' + day)
       var year = arrayOfDateParts[2]
       // console.log('year: ' + year)
-      return day + " " + month.substring(0, 3) + year;
+      return day + " " + month.substring(0, 3) + " "+ year;
     }
 
   }
@@ -117,11 +118,29 @@ export default class PawnTicket extends React.Component {
     // console.log('itemID: ' + this.state.ticketNumber)
     return uri
   }
+  renderPayInterestButton(){
+    console.log("interest payable: " + this.state.interestPayable)
+    console.log("ticket id: " + this.state.ticketId)
+    if (this.state.approvalStatus==true){
+      return(
+        <CardItem style={{justifyContent: 'center'}}>
+          {/* Pay Interest Button */}
+          <Button style={styles.buttonStyle} onPress={() => this.props.navigation.navigate('PayInterest',{
+            amountPaid: this.state.interestPayable,
+            ticketId: this.state.ticketId,
+          })}>
+            <Text style={{fontSize: 16, color: '#ffffff', }}>Pay Interest</Text>
+          </Button>
+        </CardItem>
+      );
+    }
+    return <CardItem/>
+  }
   render(){
     return(
       <View>
             <Card style={{flex: 0}}>
-              <CardItem style={{flexDirection:'column'}} button onPress={()=> this.props.navigation.navigate('pTicket', {'itemID':this.state.itemId, 'ticketID':this.state.ticketId})}> 
+              <CardItem style={{flexDirection:'column'}} button onPress={()=> this.props.navigation.navigate('pTicket', {'itemID':this.state.itemId, 'ticketID':this.state.ticketId})}>
               <View style={{flexDirection:'row'}}>
                 <View style={{justifyContent:'center', alignItems:'center',flex:0.3}}>
                   <Image
@@ -130,7 +149,7 @@ export default class PawnTicket extends React.Component {
                     style={{ resizeMode: 'contain', width: 90 , height: 90}}
                   />
                 </View>
-              
+
                   <View style={{flex:0.7, marginLeft:10}}>
                     <View style={{marginBottom: 10}}>
                       <Text style={{fontSize:25}}>{this.state.itemName}</Text>
@@ -167,17 +186,18 @@ export default class PawnTicket extends React.Component {
                   </View>
               </View>
               {/* //Buttons container */}
+              {this.renderPayInterestButton()}
               {/* <CardItem style={{justifyContent: 'center'}}>
-                      
+
                       <Button style={styles.buttonStyle} onPress={() => this.props.navigation.navigate('renew')}>
                         <Text style={{fontSize: 16, color: '#ffffff', }}>Renew Now</Text>
                       </Button>
 
-                     
+
                       <Button style={styles.buttonStyle}>
                         <Text style={{fontSize: 16, color: '#ffffff', }}>Value</Text>
                       </Button>
-                 
+
                       <Button style={styles.buttonStyle} onPress={() => this.props.navigation.navigate('PayInterest',
                       {
                         amountPaid: this.state.interestPayable,

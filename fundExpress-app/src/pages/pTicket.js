@@ -9,12 +9,12 @@ class pTicket extends React.Component {
     header: null,
     tabBarVisible: false,
       headerStyle: {
-        backgroundColor: "#C00000",
+        backgroundColor: "white",
       },
-      headerTintColor: "#ffffff",
+      headerTintColor: "black",
       headerTitleStyle: {
         fontWeight: "bold",
-        color: "#ffffff"
+        color: "black"
       },
   }
 
@@ -137,8 +137,8 @@ class pTicket extends React.Component {
                 loadingIndicatorSource={<ActivityIndicator />}
                 style={{ resizeMode: 'center', width: 150 , height: 150}}
           />
-     
-        
+
+
       </View>
       <View style={{flexDirection:'column'}}>
           <Text>Name: {this.state.name}</Text>
@@ -164,15 +164,15 @@ class pTicket extends React.Component {
           <Text>${this.state.pawnValue}</Text>
         </View>
         <View style={{flexDirection:'column'}}>
-          <Text>Expiry Date: </Text> 
-          <Text>{this.state.dateExpiry}</Text> 
+          <Text>Expiry Date: </Text>
+          <Text>{this.state.dateExpiry}</Text>
         </View>
         </View>
-         
+
       </View>
       <View style={{borderColor:'grey', borderWidth:1 , borderTopWidth:0}}>
-        <Text>Interest Payable: ${this.state.interest}</Text>  
-      </View> 
+        <Text>Interest Payable: ${this.state.interest}</Text>
+      </View>
         {/* <Text>Sell Offered Value: ${Math.round(this.state.item.item.sellOfferedValue)}</Text> */}
         {/* <View style={{justifyContent: 'center', flexDirection:'row', marginTop:6}}>
                       <Button fontSize={12} borderRadius={3} title='Renew Now' color='white'containerViewStyle={{margin: 3,height:50,width:100}} backgroundColor= '#C00000' justifyContent= 'center' onPress={() => this.props.navigation.navigate('renew')}>

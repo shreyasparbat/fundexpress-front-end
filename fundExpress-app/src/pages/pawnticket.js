@@ -10,12 +10,12 @@ class PawnTicketScreen extends React.Component {
     header: null,
     tabBarVisible: false,
       headerStyle: {
-        backgroundColor: "#C00000",
+        backgroundColor: "white",
       },
-      headerTintColor: "#ffffff",
+      headerTintColor: "black",
       headerTitleStyle: {
         fontWeight: "bold",
-        color: "#ffffff"
+        color: "black"
       },
   }
 
@@ -130,8 +130,8 @@ class PawnTicketScreen extends React.Component {
                 loadingIndicatorSource={<ActivityIndicator />}
                 style={{ resizeMode: 'center', width: 150 , height: 150}}
           />
-     
-        
+
+
       </View>
       <View style={{flexDirection:'column'}}>
           <Text>Name: {this.state.item.item.name}</Text>
@@ -157,15 +157,15 @@ class PawnTicketScreen extends React.Component {
           <Text>${Math.round(this.state.item.item.pawnOfferedValue)}</Text>
         </View>
         <View style={{flexDirection:'column'}}>
-          <Text>Expiry Date: </Text> 
-          <Text>{this.state.item.expiryDate.slice(0,-14)}</Text> 
+          <Text>Expiry Date: </Text>
+          <Text>{this.state.item.expiryDate.slice(0,-14)}</Text>
         </View>
         </View>
-         
+
       </View>
       <View style={{borderColor:'grey', borderWidth:1 , borderTopWidth:0}}>
-        <Text>Interest Payable: ${Math.round(this.state.item.indicativeTotalInterestPayable)}</Text>  
-      </View> 
+        <Text>Interest Payable: ${Math.round(this.state.item.indicativeTotalInterestPayable)}</Text>
+      </View>
       </Card>
       </View>
         <Button

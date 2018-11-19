@@ -63,12 +63,12 @@ class TicketsCurrentScreen extends React.Component {
   static navigationOptions = {
     title: 'Currently Pawned Items',
     headerStyle: {
-      backgroundColor: '#ff0000',
+      backgroundColor: 'white',
     },
-    headerTintColor: '#ffffff',
+    headerTintColor: 'black',
     headerTitleStyle: {
       fontWeight: 'bold',
-      color: '#ffffff'
+      color: 'black'
     },
   };
 

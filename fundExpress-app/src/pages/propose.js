@@ -5,19 +5,19 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import url from '../configs/config';
 class ProposeScreen extends React.Component {
   static navigationOptions = {
-    title: "New Pawn Ticket",
+    title: "New Ticket",
     headerLeft: null,
       headerStyle: {
-        backgroundColor: "#C00000", 
+        backgroundColor: "white",
       },
-      headerTintColor: "#ffffff",
+      headerTintColor: "black",
       headerTitleStyle: {
         fontWeight: "bold",
-        color: "#ffffff"
+        color: "black"
       },
   }
 
-  state = {itemID:'', specifiedValue:'', 
+  state = {itemID:'', specifiedValue:'',
             maxValue:0, showAlert:false,error:''}
 
   retrieveData = async (item) => {
@@ -119,13 +119,13 @@ class ProposeScreen extends React.Component {
         $ {this.state.specifiedValue}
         </Text>
         </View>
-        
+
         <View style={{flex: 0.5, alignItems: 'stretch', justifyContent: 'center', width: 350}}>
           <Slider
             value={parseInt(this.state.maxValue)}
             maximumValue={parseInt(this.state.maxValue)}
             step = {1}
-            onValueChange={(specifiedValue => this.setState({specifiedValue}))}/>   
+            onValueChange={(specifiedValue => this.setState({specifiedValue}))}/>
         </View>
         <Button
               title='Pawn Item!'

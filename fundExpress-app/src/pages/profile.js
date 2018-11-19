@@ -126,35 +126,51 @@ class ProfileScreen extends React.Component {
 
 
   }
-
+  renderEditButton(){
+    if (this.state.status==true){
+      return(
+        <View style={{width: 300}}>
+          <Button
+            title='Edit Profile'
+            color='white'
+            backgroundColor='#C00000'
+            onPress={() => this.props.navigation.navigate('edit')}
+          />
+        </View>
+      );
+    } else {
+      return(
+        <View style={{width: 300}}>
+          <Button
+            title='Complete Profile'
+            color='white'
+            backgroundColor='#C00000'
+            onPress={() => this.props.navigation.navigate('edit')}
+          />
+          </View>
+      );
+    }
+  }
 
 
   render() {
     // console.log("status: " + this.state.status)
-    if(this.state.status==true){
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
-          {/* <Avatar
+           <Avatar
             xlarge
             rounded
             icon={{name: 'airplay'}}
             activeOpacity={0.7}
-          />  */}
-          {/* <View style={{justifyContent: '', alignItems: 'center', marginTop: 10, marginBottom: 10}}>
+          />
+         <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 10, marginBottom: 10}}>
             <Text>Full Name: {this.state.fullName}</Text>
             <Text>Email: {this.state.email}</Text>
-          </View> */}
-  
-          <View style={{width: 300}}>
-            <Button
-              title='Edit Profile'
-              color='white'
-              backgroundColor='#C00000'
-              onPress={() => this.props.navigation.navigate('edit')}
-            />
           </View>
 
-        
+          {this.renderEditButton()}
+
+
           {/* <View style={{width:300,marginTop:15}}>
             <Button
                 title='Change Password'
@@ -173,49 +189,9 @@ class ProfileScreen extends React.Component {
           </View>
         </View>
       );
-    }else{
-      return(
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
-          {/* <Avatar
-            xlarge
-            rounded
-            icon={{name: 'airplay'}}
-            activeOpacity={0.7}
-          />  */}
-          {/* <View style={{justifyContent: '', alignItems: 'center', marginTop: 10, marginBottom: 10}}>
-            <Text>Full Name: {this.state.fullName}</Text>
-            <Text>Email: {this.state.email}</Text>
-          </View> */}
-  
-          <View style={{width: 300}}>
-            <Button
-              title='Complete Profile'
-              color='white'
-              backgroundColor='#C00000'
-              onPress={() => this.props.navigation.navigate('edit')}
-            />
-            </View>
-            {/* <View style={{width:300,marginTop:15}}>
-            <Button
-                title='Change Password'
-                color='white'
-                backgroundColor='#C00000'
-                onPress={() => this.props.navigation.navigate('password')}
-              />
-          </View> */}
-          <View style={{width:300,marginTop:15}}>
-            <Button
-                title='Log Out'
-                color='white'
-                backgroundColor='#C00000'
-                onPress={() => this.logOut()}
-              />
-          </View>
-        </View>
-      );
     }
-    
-  }
+
+
 }
 
 const styles = {

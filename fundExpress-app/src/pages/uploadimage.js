@@ -7,11 +7,9 @@ import url from '../configs/config';
 export default class UploadScreen extends React.Component {
   static navigationOptions = {
       headerStyle: {
-        backgroundColor: "#C00000",
-        // backgroundColor:'white'
+        backgroundColor: "white",
       },
-      headerTintColor: "#ffffff",
-      // headerTintColor:'black'
+       headerTintColor:'black'
   }
 
   state = {
@@ -99,7 +97,7 @@ export default class UploadScreen extends React.Component {
         base64: true,
         exif: false
       }).then(front => {
-        this.setState({ 
+        this.setState({
           front: front,
           second: true,
         });
@@ -124,7 +122,7 @@ export default class UploadScreen extends React.Component {
         base64: true,
         exif: false
       }).then(back => {
-        this.setState({ 
+        this.setState({
           back: back,
         });
         // console.log("Back taken: " + this.state.back)
@@ -134,7 +132,7 @@ export default class UploadScreen extends React.Component {
         // image = photo.base64;
         //MediaLibrary.createAssetAsync(photo.uri);
         //this.props.navigation.navigate('pawn', { uri : photo.uri })
-      })    
+      })
     }
   }
 
@@ -214,8 +212,8 @@ export default class UploadScreen extends React.Component {
       })
       // console.log("front URI: " + this.state.front.uri)
       // console.log('back URI: ' + this.state.back.uri)
-      
-      
+
+
       this.go(response.itemID);
     })
     .catch((error) => {

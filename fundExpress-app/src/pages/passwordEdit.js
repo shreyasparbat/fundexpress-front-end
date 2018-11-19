@@ -26,12 +26,12 @@ class PasswordEditScreen extends React.Component {
   static navigationOptions = {
     title: 'Edit Profile',
       headerStyle: {
-        backgroundColor: '#C00000',
+        backgroundColor: '#FFFFFF',
       },
-      headerTintColor: '#ffffff',
+      headerTintColor: '#000000',
       headerTitleStyle: {
         fontWeight: 'bold',
-        color: '#ffffff'
+        color: '#000000'
       },
   };
 
@@ -228,9 +228,9 @@ class PasswordEditScreen extends React.Component {
 
          {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>NRIC</FormLabel>
-          <FormInput 
-            onChangeText={ic => this.setState({ ic })} 
-            value={this.state.ic} 
+          <FormInput
+            onChangeText={ic => this.setState({ ic })}
+            value={this.state.ic}
             placeholder='NRIC'
           />
         </View> */}
@@ -245,23 +245,23 @@ class PasswordEditScreen extends React.Component {
         </Text>
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Previous Password</FormLabel>
-          <FormInput 
+          <FormInput
           autoCapitalize='none'
-            onChangeText={prevpassword => this.setState({ prevpassword })} 
-            // value={this.state.password} 
+            onChangeText={prevpassword => this.setState({ prevpassword })}
+            // value={this.state.password}
             placeholder='Previous Password'
           />
-        </View> 
-        
+        </View>
+
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>New Password</FormLabel>
-          <FormInput 
+          <FormInput
           autoCapitalize='none'
-            onChangeText={newpassword => this.setState({ newpassword })} 
-            // value={this.state.password} 
+            onChangeText={newpassword => this.setState({ newpassword })}
+            // value={this.state.password}
             placeholder='New Password'
           />
-        </View> 
+        </View>
 
         <Text style={{
           fontSize: 20,
@@ -274,37 +274,37 @@ class PasswordEditScreen extends React.Component {
         </Text>
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Confirm New Password</FormLabel>
-          <FormInput 
+          <FormInput
           autoCapitalize='none'
-            onChangeText={confirmpassword => this.setState({ confirmpassword })} 
-            // value={this.state.password} 
+            onChangeText={confirmpassword => this.setState({ confirmpassword })}
+            // value={this.state.password}
             placeholder='Confirm New Password'
           />
-        </View> 
+        </View>
 
         {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Mobile Number</FormLabel>
-          <FormInput 
-            onChangeText={mobileNumber => this.setState({ mobileNumber })} 
-            value={this.state.mobileNumber} 
+          <FormInput
+            onChangeText={mobileNumber => this.setState({ mobileNumber })}
+            value={this.state.mobileNumber}
             placeholder='Mobile Number'
           />
         </View> */}
 
         {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Home Phone Number</FormLabel>
-          <FormInput 
-            onChangeText={landlineNumber => this.setState({ landlineNumber })} 
-            value={this.state.landlineNumber} 
+          <FormInput
+            onChangeText={landlineNumber => this.setState({ landlineNumber })}
+            value={this.state.landlineNumber}
             placeholder='Home Phone Number'
           />
         </View> */}
 
         {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Address</FormLabel>
-          <FormInput 
-            onChangeText={address => this.setState({ address })} 
-            value={this.state.address} 
+          <FormInput
+            onChangeText={address => this.setState({ address })}
+            value={this.state.address}
             placeholder='Address'
           />
         </View> */}
@@ -333,9 +333,9 @@ class PasswordEditScreen extends React.Component {
 
         {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Citizenship</FormLabel>
-          <FormInput 
-            onChangeText={citizenship => this.setState({ citizenship })} 
-            value={this.state.citizenship} 
+          <FormInput
+            onChangeText={citizenship => this.setState({ citizenship })}
+            value={this.state.citizenship}
             placeholder='Citizenship'
           />
         </View> */}
@@ -372,7 +372,7 @@ class PasswordEditScreen extends React.Component {
           onPress={() => this.submit()}
           //onPress={()=>console.log(JSON.stringify(this.state))}
           //onPress={() => this.props.navigation.navigate('main')}
-          containerViewStyle={{marginTop:30,marginBottom:30}}      
+          containerViewStyle={{marginTop:30,marginBottom:30}}
         />
 
       </ScrollView>

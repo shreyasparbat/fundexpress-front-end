@@ -75,12 +75,12 @@ class RegisterScreen extends React.Component {
   static navigationOptions = {
     title: 'Register',
       headerStyle: {
-        backgroundColor: '#C00000',
+        backgroundColor: 'white',
       },
-      headerTintColor: '#ffffff',
+      headerTintColor: 'black',
       headerTitleStyle: {
         fontWeight: 'bold',
-        color: '#ffffff'
+        color: 'black'
       },
   };
 
@@ -159,7 +159,7 @@ class RegisterScreen extends React.Component {
         showAlert: true
       })
     }
-    
+
   }
 
   submit() {
@@ -203,8 +203,8 @@ class RegisterScreen extends React.Component {
     // "addressType": "C",
     // "race": "Chinese",
      expoPushToken: this.state.ptoken,
-       
-        
+
+
       }),
     })
     .then((response) => {
@@ -250,7 +250,7 @@ class RegisterScreen extends React.Component {
 
   render() {
     return (
-      // <KeyboardAwareScrollView 
+      // <KeyboardAwareScrollView
       //   contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
       //   extraScrollHeight = {200}
       //   keyboardOpeningTime = {5}
@@ -262,9 +262,9 @@ class RegisterScreen extends React.Component {
           <FormLabel
             containerStyle={{flexDirection:"row",marginLeft:0}}
           >Full Name</FormLabel>
-          <FormInput 
-            onChangeText={fullName => this.setState({ fullName })} 
-            value={this.state.fullName} 
+          <FormInput
+            onChangeText={fullName => this.setState({ fullName })}
+            value={this.state.fullName}
             placeholder='Full Name'
             // containerStyle={{flexDirection:"row", marginLeft:5}}
           />
@@ -273,40 +273,40 @@ class RegisterScreen extends React.Component {
         {/* <View style={{height:85,marginTop:5, backgroundColor: 'white'}} >
           <FormLabel>NRIC</FormLabel>
           <FormInput
-            autoCapitalize='none' 
-            onChangeText={ic => this.setState({ ic })} 
-            value={this.state.ic} 
+            autoCapitalize='none'
+            onChangeText={ic => this.setState({ ic })}
+            value={this.state.ic}
             placeholder='NRIC'
           />
         </View> */}
 
         <View style={{height:85,marginTop:5, backgroundColor: 'white'}} >
           <FormLabel>Email</FormLabel>
-          <FormInput 
-            autoCapitalize='none' 
-            onChangeText={email => this.setState({ email })} 
-            value={this.state.email} 
+          <FormInput
+            autoCapitalize='none'
+            onChangeText={email => this.setState({ email })}
+            value={this.state.email}
             placeholder='Email'
           />
         </View>
 
         <View style={{height:85,marginTop:5, backgroundColor: 'white'}} >
           <FormLabel>Password</FormLabel>
-          <FormInput 
-            autoCapitalize='none' 
-            onChangeText={password => this.setState({ password })} 
+          <FormInput
+            autoCapitalize='none'
+            onChangeText={password => this.setState({ password })}
             value={this.state.password}
-            secureTextEntry={true} 
+            secureTextEntry={true}
             placeholder='Password'
           />
         </View>
 
         {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:0,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Confirm Password</FormLabel>
-          <FormInput 
-            //onChangeText={password => this.setState({ password })} 
+          <FormInput
+            //onChangeText={password => this.setState({ password })}
             //value={this.state.email}
-            secureTextEntry={true} 
+            secureTextEntry={true}
             placeholder='Confirm Password'
           />
         </View> */}
@@ -360,16 +360,16 @@ class RegisterScreen extends React.Component {
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:0,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Nationality</FormLabel>
           <FormInput
-            onChangeText={nationality => this.setState({ nationality })} 
-            value={this.state.nationality} 
+            onChangeText={nationality => this.setState({ nationality })}
+            value={this.state.nationality}
             placeholder='Nationality'
           />
         </View>
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:0,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Citizenship</FormLabel>
           <FormInput
-            onChangeText={citizenship => this.setState({ citizenship })} 
-            value={this.state.citizenship} 
+            onChangeText={citizenship => this.setState({ citizenship })}
+            value={this.state.citizenship}
             placeholder='Citizenship'
           />
         </View>
@@ -395,8 +395,8 @@ class RegisterScreen extends React.Component {
       <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Mobile Number</FormLabel>
           <FormInput
-            onChangeText={mobileNumber => this.setState({ mobileNumber })} 
-            value={this.state.mobileNumber} 
+            onChangeText={mobileNumber => this.setState({ mobileNumber })}
+            value={this.state.mobileNumber}
             placeholder='Mobile Number'
           />
         </View>
@@ -404,8 +404,8 @@ class RegisterScreen extends React.Component {
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:0,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Home Phone Number</FormLabel>
           <FormInput
-            onChangeText={landlineNumber => this.setState({ landlineNumber })} 
-            value={this.state.landlineNumber} 
+            onChangeText={landlineNumber => this.setState({ landlineNumber })}
+            value={this.state.landlineNumber}
             placeholder='Home Phone Number'
           />
         </View>
@@ -413,8 +413,8 @@ class RegisterScreen extends React.Component {
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Address</FormLabel>
           <FormInput
-            onChangeText={address => this.setState({ address })} 
-            value={this.state.address} 
+            onChangeText={address => this.setState({ address })}
+            value={this.state.address}
             placeholder='Address'
           />
         </View>
@@ -441,7 +441,7 @@ class RegisterScreen extends React.Component {
             </Picker> */}
         {/* </View> */}
 
-        
+
 
         {/* <Text style={{
           fontSize: 20,

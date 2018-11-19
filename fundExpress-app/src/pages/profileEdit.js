@@ -28,12 +28,12 @@ class ProfileEditScreen extends React.Component {
   static navigationOptions = {
     title: 'Edit Profile',
       headerStyle: {
-        backgroundColor: '#C00000',
+        backgroundColor: 'white',
       },
-      headerTintColor: '#ffffff',
+      headerTintColor: 'black',
       headerTitleStyle: {
         fontWeight: 'bold',
-        color: '#ffffff'
+        color: 'black'
       },
   };
 
@@ -149,7 +149,7 @@ class ProfileEditScreen extends React.Component {
           address: this.state.address,
           addressType: this.state.house,
           citizenship: this.state.citizenship,
-          race: this.state.race, 
+          race: this.state.race,
         }),
       })
       .then((response) => {
@@ -163,7 +163,7 @@ class ProfileEditScreen extends React.Component {
             alertMessage:''
         })
         }
-        
+
       })
       .catch((errorResponse) => {
         // console.log("error with profile/edit ")
@@ -237,46 +237,46 @@ class ProfileEditScreen extends React.Component {
 
          <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>NRIC</FormLabel>
-          <FormInput 
-            onChangeText={ic => this.setState({ ic })} 
-            value={this.state.ic} 
+          <FormInput
+            onChangeText={ic => this.setState({ ic })}
+            value={this.state.ic}
             placeholder='NRIC'
           />
         </View>
 
         {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Password</FormLabel>
-          <FormInput 
+          <FormInput
           autoCapitalize='none'
-            onChangeText={password => this.setState({ password })} 
-            value={this.state.password} 
+            onChangeText={password => this.setState({ password })}
+            value={this.state.password}
             placeholder='Password'
           />
         </View>  */}
 
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Mobile Number</FormLabel>
-          <FormInput 
-            onChangeText={mobileNumber => this.setState({ mobileNumber })} 
-            value={this.state.mobileNumber} 
+          <FormInput
+            onChangeText={mobileNumber => this.setState({ mobileNumber })}
+            value={this.state.mobileNumber}
             placeholder='Mobile Number'
           />
         </View>
 
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Home Phone Number</FormLabel>
-          <FormInput 
-            onChangeText={landlineNumber => this.setState({ landlineNumber })} 
-            value={this.state.landlineNumber} 
+          <FormInput
+            onChangeText={landlineNumber => this.setState({ landlineNumber })}
+            value={this.state.landlineNumber}
             placeholder='Home Phone Number'
           />
         </View>
 
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Address</FormLabel>
-          <FormInput 
-            onChangeText={address => this.setState({ address })} 
-            value={this.state.address} 
+          <FormInput
+            onChangeText={address => this.setState({ address })}
+            value={this.state.address}
             placeholder='Address'
           />
         </View>
@@ -305,9 +305,9 @@ class ProfileEditScreen extends React.Component {
 
         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Citizenship</FormLabel>
-          <FormInput 
-            onChangeText={citizenship => this.setState({ citizenship })} 
-            value={this.state.citizenship} 
+          <FormInput
+            onChangeText={citizenship => this.setState({ citizenship })}
+            value={this.state.citizenship}
             placeholder='Citizenship'
           />
         </View>
@@ -344,7 +344,7 @@ class ProfileEditScreen extends React.Component {
           onPress={() => this.submit()}
           //onPress={()=>console.log(JSON.stringify(this.state))}
           //onPress={() => this.props.navigation.navigate('main')}
-          containerViewStyle={{marginTop:30,marginBottom:30}}      
+          containerViewStyle={{marginTop:30,marginBottom:30}}
         />
 
 

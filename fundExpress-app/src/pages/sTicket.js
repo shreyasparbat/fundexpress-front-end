@@ -9,12 +9,12 @@ class sTicket extends React.Component {
     header: null,
     tabBarVisible: false,
       headerStyle: {
-        backgroundColor: "#C00000",
+        backgroundColor: "white",
       },
-      headerTintColor: "#ffffff",
+      headerTintColor: "black",
       headerTitleStyle: {
         fontWeight: "bold",
-        color: "#ffffff"
+        color: "black"
       },
   }
 
@@ -134,8 +134,8 @@ class sTicket extends React.Component {
                 loadingIndicatorSource={<ActivityIndicator />}
                 style={{ resizeMode: 'center', width: 150 , height: 150}}
           />
-     
-        
+
+
       </View>
       <View style={{flexDirection:'column'}}>
           <Text>Name: {this.state.name}</Text>
@@ -161,8 +161,8 @@ class sTicket extends React.Component {
           <Text>${this.state.pawnOfferedValue}</Text>
         </View>
         </View>
-         
-      </View>       
+
+      </View>
       </Card>
       </View>
       <View>

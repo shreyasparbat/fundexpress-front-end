@@ -17,7 +17,7 @@ class PawnScreen extends Component {
     purity: "",
     brand: "",
     DOP: "",
-    ID: '', 
+    ID: '',
     otherComments: '',
     auth: '',
     error:'',
@@ -28,12 +28,12 @@ class PawnScreen extends Component {
   static navigationOptions = {
     title: "Pawn New Item",
       headerStyle: {
-        backgroundColor: "#C00000",
+        backgroundColor: "#FFFFFF",
       },
-      headerTintColor: "#ffffff",
+      headerTintColor: "#000000",
       headerTitleStyle: {
         fontWeight: "bold",
-        color: "#ffffff"
+        color: "#000000"
       },
       // headerLeft: {
       //   onPress: this.goBack()
@@ -96,7 +96,7 @@ validate(){
       showAlert: true
     })
   }
-  
+
 }
 
  componentWillMount(){
@@ -140,7 +140,7 @@ validate(){
       if(select=='Jewel'){
         this.setState({
           type: "Bracelet",
-        })  
+        })
       }else{
       this.setState({
         type: "Others"
@@ -149,7 +149,7 @@ validate(){
   }
   }
 }
-  
+
   submit() {
     this.retrieveData('itemID').then((ID) => {
     //   console.log('pawn pressed');
@@ -223,13 +223,13 @@ validate(){
       // console.log("error retrieving token")
       // console.log(error)
     });
-    
+
   }
 
   render() {
     return (
       <View>
-      <KeyboardAwareScrollView contentContainerStyle={{ justifyContent: "center", alignItems: "center" }} 
+      <KeyboardAwareScrollView contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
         extraScrollHeight = {150}
         keyboardOpeningTime = {10}
       >
@@ -308,12 +308,12 @@ validate(){
 
             </Picker>
           </View>
-      
+
       <View style={{flex:1,height:70,marginTop:15, marginLeft:15,backgroundColor:'white'}}>
         <FormLabel>Weight in Grams (if applicable)</FormLabel>
-          <FormInput 
-            onChangeText={weight => this.setState({ weight })} 
-            value={this.state.weight} 
+          <FormInput
+            onChangeText={weight => this.setState({ weight })}
+            value={this.state.weight}
             placeholder='Item Weight'
           />
       </View>
@@ -345,9 +345,9 @@ validate(){
 
         <View style={{flex:1,height:70,marginTop:15,marginLeft:15,backgroundColor:'white'}}>
           <FormLabel>Brand</FormLabel>
-            <FormInput 
-              onChangeText={brand => this.setState({ brand })} 
-              value={this.state.brand} 
+            <FormInput
+              onChangeText={brand => this.setState({ brand })}
+              value={this.state.brand}
               placeholder='Item Brand'
             />
       </View>
@@ -373,8 +373,8 @@ validate(){
 
         <View style={{flex:1,height:70,marginTop:15,marginLeft:15,backgroundColor:'white'}}>
             <FormLabel>Additional Comments</FormLabel>
-            <FormInput 
-              onChangeText={otherComments => this.setState({ otherComments })}  
+            <FormInput
+              onChangeText={otherComments => this.setState({ otherComments })}
               placeholder='Input any additional comments here'
               value={this.state.otherComments}
             />
@@ -398,7 +398,7 @@ validate(){
           //onPress={() => console.log(this.state)}
           containerViewStyle={{marginTop:30,marginBottom:30}}
         />
-        
+
     </KeyboardAwareScrollView>
     <AwesomeAlert
           show= {this.state.showAlert}

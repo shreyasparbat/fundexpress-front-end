@@ -11,12 +11,12 @@ class SellScreen extends React.Component {
     header: null,
     tabBarVisible: false,
       headerStyle: {
-        backgroundColor: "#C00000", 
+        backgroundColor: "white",
       },
-      headerTintColor: "#ffffff",
+      headerTintColor: "black",
       headerTitleStyle: {
         fontWeight: "bold",
-        color: "#ffffff"
+        color: "black"
       },
   }
 
@@ -59,7 +59,7 @@ class SellScreen extends React.Component {
         this.navigation.navigate(options);
       }else{
       // console.log(JSON.stringify(response.item));
-      // this.storeData('itemObj', JSON.stringify(response.item)); 
+      // this.storeData('itemObj', JSON.stringify(response.item));
       this.setState({
         name:response.name,
           _id:response.item._id,
@@ -144,8 +144,8 @@ class SellScreen extends React.Component {
                 loadingIndicatorSource={<ActivityIndicator />}
                 style={{ resizeMode: 'center', width: 150 , height: 150}}
           />
-     
-        
+
+
       </View>
       <View style={{flexDirection:'column'}}>
           <Text>Name: {this.state.name}</Text>
@@ -200,7 +200,7 @@ class SellScreen extends React.Component {
         }}
       />
       </View>
-    );  
+    );
   }
 }
 

@@ -11,19 +11,19 @@ class PawnOptions extends React.Component {
     image: '',
     auth: '',
     showAlert: false,
-    showAlert2: false, 
+    showAlert2: false,
     status:true,
   };
 
   static navigationOptions = {
-    title: "Pawn New Item",
+    title: "Pawn/Sell New Item",
       headerStyle: {
-        backgroundColor: "#C00000",
+        backgroundColor: "white",
       },
-      headerTintColor: "#ffffff",
+      headerTintColor: "black",
       headerTitleStyle: {
         fontWeight: "bold",
-        color: "#ffffff"
+        color: "black"
       },
   }
 
@@ -138,7 +138,7 @@ class PawnOptions extends React.Component {
   //     console.log("/item/sell Success");
   //     console.log("response");
   //     console.log(JSON.stringify(response.item));
-  //     this.storeData('itemObj', JSON.stringify(response.item)); 
+  //     this.storeData('itemObj', JSON.stringify(response.item));
   //     // console.log('pov');
   //     // console.log(response.item.pawnOfferedValue);
   //     this.props.navigation.navigate('sellTicket')
@@ -173,8 +173,8 @@ class PawnOptions extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        
-      
+
+
       {/* Card for the POV and SOV */}
         <View style={{backgroundColor:'white',
          borderRadius:3, marginTop:30,
@@ -189,15 +189,15 @@ class PawnOptions extends React.Component {
            <Text style={{fontSize:30,fontWeight:'bold'}}>${(Math.round(this.state.pov)-1)}</Text>
          </View>
          <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-           <Text style={{fontSize:25,}}> Sell Value: </Text> 
-           <Text style={{fontSize:30,fontWeight:'bold'}}>${(Math.round(this.state.sov)-1)}</Text> 
+           <Text style={{fontSize:25,}}> Sell Value: </Text>
+           <Text style={{fontSize:30,fontWeight:'bold'}}>${(Math.round(this.state.sov)-1)}</Text>
          </View>
-          
-          
+
+
         </View>
-        
-        <View 
-          style={{ justifyContent: 'center', alignItems: 'center', 
+
+        <View
+          style={{ justifyContent: 'center', alignItems: 'center',
           marginTop: 35, flexDirection: 'row' }}>
           <Button
               title='Pawn'

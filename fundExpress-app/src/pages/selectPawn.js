@@ -9,12 +9,12 @@ class selectPawn extends React.Component {
     static navigationOptions = {
     title: "Pawn Item",
       headerStyle: {
-        backgroundColor: "#C00000",
+        backgroundColor: "white",
       },
-      headerTintColor: "#ffffff",
+      headerTintColor: "black",
       headerTitleStyle: {
         fontWeight: "bold",
-        color: "#ffffff"
+        color: "black"
       },
   }
 
@@ -70,18 +70,18 @@ class selectPawn extends React.Component {
         />
         </View>
         {/* <View style={{ flexDirection: 'row', }}>
-        <TouchableOpacity 
+        <TouchableOpacity
             onPress={() => this.props.navigation.navigate('upload', { type: 'Gold Bar' })}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
               Gold Bar
             </Text>
         </TouchableOpacity>
-        <TouchableOpacity 
+        <TouchableOpacity
             onPress={() => this.props.navigation.navigate('upload', { type: 'Watch' })}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
@@ -91,18 +91,18 @@ class selectPawn extends React.Component {
 
         </View>
         <View style={{ flexDirection: 'row', marginTop: 7}}>
-        <TouchableOpacity 
+        <TouchableOpacity
             onPress={() => this.props.navigation.navigate('upload', {type: 'Jewel'})}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>
               Jewellery
             </Text>
         </TouchableOpacity>
-        <TouchableOpacity 
+        <TouchableOpacity
             onPress={() => this.props.navigation.navigate('upload', {type: 'Others'})}
-            activeOpacity= {0.8}  
+            activeOpacity= {0.8}
             style={styles.buttonStyle}
           >
             <Text style={styles.textStyle}>

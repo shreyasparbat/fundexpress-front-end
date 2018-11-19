@@ -9,9 +9,9 @@ import { Container, Header, Tab, Tabs, TabHeading} from 'native-base';
 class AllPawnTicketsScreen extends React.Component {
   static navigationOptions = {
     title: 'Pawn Tickets',
-    header:null,
+    //header:null,
       headerStyle: {
-        backgroundColor: 'white',
+        backgroundColor: '#ffffff',
       },
       headerTintColor: 'black',
       headerTitleStyle: {
@@ -23,14 +23,14 @@ class AllPawnTicketsScreen extends React.Component {
   render() {
     return (
       <View style={{flex:1,backgroundColor:'white'}} >
-      <Tabs style={{marginTop:25}} tabBarUnderlineStyle={{backgroundColor:'#C00000'}} >
-        <Tab heading={ <TabHeading style={{backgroundColor:'white',borderColor:'white'}} ><Icon name='list' style={{color:'black'}}/><Text style={{color:'black'}}> Current</Text></TabHeading>}  >
-          <CurrentPawnTickets navigation={this.props.navigation} />
-        </Tab>
+      <Tabs tabBarUnderlineStyle={{backgroundColor:'#C00000'}} >
         <Tab  heading={ <TabHeading style={{backgroundColor:'white',borderColor:'white'}}><Icon name='add-to-list'  style={{color:'black'}}/><Text style={{color:'black'}}> Pending</Text></TabHeading>} activeTabStyle={{borderBottomColor:'#ffffff'}}>
           <PendingPawnTickets  navigation={this.props.navigation}/>
         </Tab>
-        <Tab  heading={ <TabHeading style={{backgroundColor:'white',borderColor:'white'}}><Icon name='back-in-time'  style={{color:'black'}}/><Text style={{color:'black'}}> Past</Text></TabHeading>} activeTabStyle={{borderBottomColor:'#ffffff'}}>
+        <Tab heading={ <TabHeading style={{backgroundColor:'white',borderColor:'white'}} ><Icon name='list' style={{color:'black'}}/><Text style={{color:'black'}}> Approved</Text></TabHeading>}  >
+          <CurrentPawnTickets navigation={this.props.navigation} />
+        </Tab>
+        <Tab  heading={ <TabHeading style={{backgroundColor:'white',borderColor:'white'}}><Icon name='back-in-time'  style={{color:'black'}}/><Text style={{color:'black'}}> Expired</Text></TabHeading>} activeTabStyle={{borderBottomColor:'#ffffff'}}>
           <PastPawnTickets  navigation={this.props.navigation}/>
         </Tab>
       </Tabs>
