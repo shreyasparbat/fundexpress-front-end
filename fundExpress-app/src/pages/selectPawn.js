@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import { FormLabel, Button } from 'react-native-elements';
 import { Picker, Icon } from 'native-base';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import PawnScreen from './pawn';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
@@ -34,32 +35,31 @@ class selectPawn extends React.Component {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor:'white' }}>
         {/* <Text style={{fontSize: 15, fontWeight:'bold'}}>What will you be Pawning today?</Text> */}
-        <View style={{flex: 0.4, marginTop: 25, alignSelf: 'center'}}>
-        <View style={{flex: 1 ,marginTop:15, backgroundColor:'white'}}>
-          <FormLabel>What will you be Pawning today?</FormLabel>
-        <Picker
-              note
-              mode="dropdown"
-              iosHeader="Select item type"
-              placeholder='Item Type'
-              placeholderStyle={{ color: "#c7c7cd" }}
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              style={{ height: 40, width: 390}}
-              textStyle = {{ color: 'black' }}
-              selectedValue={this.state.type}
-              onValueChange={type => this.setState({type})}
-            >
-              <Picker.Item label="Item Type" value="" />
-              <Picker.Item label="Gold Bar" value="Gold Bar" />
-              <Picker.Item label="Gold Coin" value="Gold Coin" />
-              <Picker.Item label="Silver Bar" value="Silver Bar" />
-              <Picker.Item label="Silver Coin" value="Silver Coin" />
-              <Picker.Item label="Watch" value="Watch" />
-              <Picker.Item label="Jewellery" value="Jewel" />
-              {/* <Picker.Item label="Others" value="Others" /> */}
-
-
+          <FormLabel labelStyle={{fontSize:15}}>What will you be Pawning today?</FormLabel>
+          <View>
+            <Picker
+                note
+                mode="dropdown"
+                iosHeader="Select item type"
+                placeholder='Item Type'
+                placeholderStyle={{ color: "#c7c7cd" }}
+                iosIcon={<Icon type='FontAwesome' name="angle-down" />}
+                // style={{height: 40, maxWidth: '100%', width: '110%'}}
+                textStyle = {{ color: 'black' }}
+                selectedValue={this.state.type}
+                onValueChange={type => this.setState({type})}
+              >
+                <Picker.Item label="Item Type" value="" />
+                <Picker.Item label="Gold Bar" value="Gold Bar" />
+                <Picker.Item label="Gold Coin" value="Gold Coin" />
+                <Picker.Item label="Silver Bar" value="Silver Bar" />
+                <Picker.Item label="Silver Coin" value="Silver Coin" />
+                <Picker.Item label="Watch" value="Watch" />
+                <Picker.Item label="Jewellery" value="Jewel" />
+                {/* <Picker.Item label="Others" value="Others" /> */}
             </Picker>
+          </View>
+
 
             <Button
           title='Upload Image'
@@ -68,7 +68,6 @@ class selectPawn extends React.Component {
           onPress={() => this.go()}
           containerViewStyle={{marginTop:30,marginBottom:30}}
         />
-        </View>
         {/* <View style={{ flexDirection: 'row', }}>
         <TouchableOpacity
             onPress={() => this.props.navigation.navigate('upload', { type: 'Gold Bar' })}
@@ -110,7 +109,6 @@ class selectPawn extends React.Component {
             </Text>
         </TouchableOpacity>
        </View> */}
-      </View>
       <AwesomeAlert
           show= {this.state.showAlert}
           title="Pawn Error!"

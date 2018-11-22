@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, AsyncStorage, ActivityIndicator, Image} from 'react-native';
+import {View, Text, AsyncStorage, ActivityIndicator, Image, ScrollView} from 'react-native';
 import { Button, Card } from 'react-native-elements';
 import url from '../configs/config';
 class sTicket extends React.Component {
@@ -119,11 +119,8 @@ class sTicket extends React.Component {
       // console.log(this.state.item.item)
     return (
       <View style={{flex:1, alignItems: 'center' }}>
-      <View style={{flex:1, justifyContent:'center'}}>
-      <Card  image={require('../images/felogo.png')} imageProps={{resizeMode:'contain'}} imageStyle={{height:50, justifyContent:'center', marginTop:10}} containerStyle={{flex:1, marginTop: 23}}>
-      <Text>Description of Pledge</Text>
-      <View style={{borderColor:'grey',borderWidth:1}}>
-        <View style={{justifyContent:'center', flexDirection:'row', borderBottomWidth:1, borderColor:'grey'}}>
+      <Text style={{fontWeight:'bold', fontSize:40, marginTop:'10%'}}>{this.state.name}</Text>
+      <View style={{justifyContent:'center', flexDirection:'row', marginTop:'2%'}}>
           <Image
                 source={{uri: this.generateURIFront(this.state.itemID)}}
                 loadingIndicatorSource={<ActivityIndicator />}
@@ -134,38 +131,38 @@ class sTicket extends React.Component {
                 loadingIndicatorSource={<ActivityIndicator />}
                 style={{ resizeMode: 'center', width: 150 , height: 150}}
           />
+        </View>
+        <Card containerStyle={{maxWidth:'90%',width:'90%'}}>
+        <View style={{flexDirection:'row'}}>
+            <View style={{flexDirection:'column', flex:0.5}}>
+              <Text style={{fontWeight:'bold', fontSize:20}}>Sell Value: </Text>
+              <Text style={{fontSize:15}}>${this.state.sellValue}</Text>
+            </View>
 
+            <View style={{flexDirection:'column', flex:0.5}}>
+              <Text style={{fontWeight:'bold', fontSize:20}}>Date Sold: </Text>
+              <Text style={{fontSize:15}}>{new Date(this.state.dateSold).toLocaleDateString('en-GB')}</Text>
+            </View>
 
-      </View>
-      <View style={{flexDirection:'column'}}>
-          <Text>Name: {this.state.name}</Text>
-          <Text>Type: {this.state.type}</Text>
-          <Text>Condition: {this.state.condition}</Text>
-          <Text>Material: {this.state.material}</Text>
-          <Text>Weight: {this.state.weight}g</Text>
-          <Text>Purity: {this.state.purity}</Text>
-          <Text>Brand: {this.state.brand}</Text>
-          <Text>Date Purchased: {this.state.datePurchased}</Text>
-          <Text>Additional Comments: {this.state.comments}</Text>
+            {/* <View style={{flexDirection:'column'}}>
+              <Text>Pawn Offered Value: </Text>
+              <Text>${this.state.pawnOfferedValue}</Text>
+            </View> */}
         </View>
-      <View style={{borderColor:'grey', borderWidth:1 ,borderLeftWidth:0, borderRightWidth:0}}>
-        <Text>Sell Value: ${this.state.sellValue}</Text>
-      </View>
-      <View style={{flexDirection:'row'}}>
-        <View style={{flexDirection:'column'}}>
-          <Text>Date Sold: </Text>
-          <Text>{this.state.dateSold}</Text>
-        </View>
-        <View style={{borderColor:'grey', borderLeftWidth:0.5, flexDirection:'column'}}>
-          <Text>Pawn Offered Value: </Text>
-          <Text>${this.state.pawnOfferedValue}</Text>
-        </View>
-        </View>
-
-      </View>
       </Card>
-      </View>
-      <View>
+
+      <Card containerStyle={{height:'30%', width:'90%'}}>
+        <ScrollView style={{flexDirection:'column'}}>
+            <Text>Type: {this.state.type}</Text>
+            <Text>Condition: {this.state.condition}</Text>
+            <Text>Material: {this.state.material}</Text>
+            <Text>Weight: {this.state.weight}g</Text>
+            <Text>Purity: {this.state.purity}</Text>
+            <Text>Brand: {this.state.brand}</Text>
+            <Text>Date Purchased: {this.state.datePurchased}</Text>
+            <Text>Additional Comments: {this.state.comments}</Text>
+          </ScrollView>
+      </Card>
         <Button
               title='Back'
               color='white'
@@ -174,7 +171,6 @@ class sTicket extends React.Component {
               backgroundColor='#C00000'
               onPress={() => this.props.navigation.goBack(null)}
             />
-      </View>
     </View>
     );
       }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, View, ScrollView, } from 'react-native';
+import { AsyncStorage, View, ScrollView, Text } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, Avatar, Button } from 'react-native-elements';
 import { Picker, Icon, DatePicker } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -24,6 +24,7 @@ class ProfileEditScreen extends React.Component {
       alertMessage:'',
       status: true,
       completed:false,
+      nricError:''
   };
   static navigationOptions = {
     title: 'Edit Profile',
@@ -177,6 +178,83 @@ class ProfileEditScreen extends React.Component {
   )
 }
 
+validateIC = (icNumber) => {
+  //if the ic is valid, then return string
+  //else return an error
+
+  if(icNumber.length != 9) {
+    this.setState({
+      ic:icNumber,
+      nricError:"Invalid NRIC"
+    })
+  }
+
+  //get each individual character in the icNumber
+  figOne = icNumber.charAt(0)
+  digitOne = parseInt(icNumber.charAt(1))
+  digitTwo = parseInt(icNumber.charAt(2))
+  digitThree = parseInt(icNumber.charAt(3))
+  digitFour = parseInt(icNumber.charAt(4))
+  digitFive = parseInt(icNumber.charAt(5))
+  digitSix = parseInt(icNumber.charAt(6))
+  digitSeven = parseInt(icNumber.charAt(7))
+  figTwo = icNumber.charAt(8)
+
+  //hard coded verification algorithm
+
+  //arrays for step 4
+  localArray = ['J','Z','I','H','G','F','E','D','C','B','A']
+  foreignArray = ['X', 'W', 'U', 'T', 'R', 'Q', 'P', 'N', 'M', 'L', 'K']
+  /*
+  1) Take for example I want to test the NRIC number S1234567. The first digit
+   you multiply by 2, second multiply by 7, third by 6, fourth by 5,
+   fifth by 4, sixth by 3, seventh by 2. Then you add the totals together.
+   So,1×2 + 2×7 + 3×6 + 4×5 + 5×4 + 6×3 + 7×2 = 106.
+   */
+
+  numbers = digitOne*2 + digitTwo*7 + digitThree*6 + digitFour*5 + digitFive*4 + digitSix*3 + digitSeven*2
+
+  //2) If the first letter of the NRIC starts with T or G, add 4 to the total.
+  if (figOne == 'T' || figOne == 'G') {
+      numbers += 4
+  }
+  //3) Then you divide the number by 11 and get the remainder. 106/11=9r7
+  numbers = numbers%11
+
+  /*
+  4) You can get the alphabet depending on the IC type (the first letter in the IC) using the code below:
+  If the IC starts with S or T: 0=J, 1=Z, 2=I, 3=H, 4=G, 5=F, 6=E, 7=D, 8=C, 9=B, 10=A
+  */
+  if (figOne == 'T' || figOne == 'G') {
+      // console.log(figTwo == foreignArray[numbers])
+      if ((figTwo == foreignArray[numbers])==true){
+        this.setState({
+          ic : icNumber,
+          nricError: ''
+        })
+      } else {
+        this.setState({
+          ic : icNumber,
+          nricError: 'Invalid NRIC'
+        }) 
+      }
+  } else {
+      // console.log(figTwo == localArray[numbers])
+      if ((figTwo == localArray[numbers])==true){
+        this.setState({
+          ic : icNumber,
+          nricError: ''
+        
+        })
+      } else {
+        this.setState({
+          ic : icNumber,
+          nricError: 'Invalid NRIC'
+      })
+  }
+}
+}
+
 
 
 
@@ -203,7 +281,7 @@ class ProfileEditScreen extends React.Component {
               iosHeader="Gender"
               placeholder='Gender'
               placeholderStyle={{ color: "#c7c7cd" }}
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
+              iosIcon={<Icon type='FontAwesome' name="angle-down" />}
               style={{ height: 40, width: 390}}
               textStyle = {{ color: 'black' }}
               selectedValue={this.state.gender}
@@ -238,10 +316,11 @@ class ProfileEditScreen extends React.Component {
          <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>NRIC</FormLabel>
           <FormInput
-            onChangeText={ic => this.setState({ ic })}
+            onChangeText={ic => this.validateIC(ic)}
             value={this.state.ic}
             placeholder='NRIC'
           />
+          <Text style={{color:'red', alignSelf:'center'}}>{this.state.nricError}</Text>
         </View>
 
         {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
@@ -289,7 +368,7 @@ class ProfileEditScreen extends React.Component {
               iosHeader="Housing Type"
               placeholder='Housing Type'
               placeholderStyle={{ color: "#c7c7cd" }}
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
+              iosIcon={<Icon type='FontAwesome' name="angle-down" />}
               style={{ height: 40, width: 390}}
               textStyle = {{ color: 'black' }}
               selectedValue={this.state.house}
@@ -320,7 +399,7 @@ class ProfileEditScreen extends React.Component {
               iosHeader="Race"
               placeholder='Race'
               placeholderStyle={{ color: "#c7c7cd" }}
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
+              iosIcon={<Icon type='FontAwesome' name="angle-down" />}
               style={{ height: 40, width: 390}}
               textStyle = {{ color: 'black' }}
               selectedValue={this.state.race}

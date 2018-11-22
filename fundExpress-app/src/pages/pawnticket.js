@@ -115,11 +115,8 @@ class PawnTicketScreen extends React.Component {
       // console.log(this.state.item.item)
     return (
       <View style={{flex:1, alignItems: 'center' }}>
-      <View style={{flex:1, justifyContent:'center'}}>
-      <Card  image={require('../images/felogo.png')} imageProps={{resizeMode:'contain'}} imageStyle={{height:50, justifyContent:'center', marginTop:10}} containerStyle={{flex:1, marginTop: 23}}>
-      <Text>Description of Pledge</Text>
-      <View style={{borderColor:'grey',borderWidth:1}}>
-        <View style={{justifyContent:'center', flexDirection:'row', borderBottomWidth:1, borderColor:'grey'}}>
+      <Text style={{fontWeight:'bold', fontSize:40, marginTop:'10%'}}>{this.state.name}</Text>
+      <View style={{justifyContent:'center', flexDirection:'row', marginTop:'2%'}}>
           <Image
                 source={{uri: this.generateURIFront(this.state.item.item._id)}}
                 loadingIndicatorSource={<ActivityIndicator />}
@@ -130,44 +127,54 @@ class PawnTicketScreen extends React.Component {
                 loadingIndicatorSource={<ActivityIndicator />}
                 style={{ resizeMode: 'center', width: 150 , height: 150}}
           />
-
-
       </View>
-      <View style={{flexDirection:'column'}}>
-          <Text>Name: {this.state.item.item.name}</Text>
-          <Text>Type: {this.state.item.item.type}</Text>
-          <Text>Condition: {this.state.item.item.condition}</Text>
-          <Text>Material: {this.state.item.item.material}</Text>
-          <Text>Weight: {this.state.item.item.weight}g</Text>
-          <Text>Purity: {this.state.item.item.purity}</Text>
-          <Text>Brand: {this.state.item.item.brand}</Text>
-          <Text>Date Purchased: {this.state.item.item.dateOfPurchase.slice(0,-14)}</Text>
-          <Text>Additional Comments: {this.state.item.item.otherComments}</Text>
+
+      <Card containerStyle={{width:'90%'}}>
+        <View style={{flexDirection:'row'}}>
+          <View style={{flexDirection:'column', flex:0.5}}>
+              <Text style={{fontWeight:'bold', fontSize:20}}>Expiry Date: </Text>
+              <Text style={{fontSize:15}}>{ (new Date(this.state.dateExpiry)).toLocaleDateString('en-GB')}</Text>
+            </View>
+          
+          <View style={{flexDirection:'column', flex:0.5}}>
+            <Text style={{fontWeight:'bold', fontSize:20}}>Days Left: </Text>
+            <Text style={{fontSize:15}}>{this.daysLeft()}</Text>
+          </View>
         </View>
-      <View style={{borderColor:'grey', borderWidth:1 ,borderLeftWidth:0, borderRightWidth:0}}>
-        <Text>Value Loaned: ${this.state.specifiedValue}</Text>
-      </View>
+      </Card>
+
+      <Card containerStyle={{maxWidth:'90%',width:'90%'}}>
       <View style={{flexDirection:'row'}}>
-        {/* <View style={{flexDirection:'column'}}>
-          <Text>Date Pawned: </Text>
-          <Text>{this.state.datePawned}</Text>
-        </View> */}
-        <View style={{borderColor:'grey', borderLeftWidth:0.5, borderRightWidth:0.5, flexDirection:'column'}}>
-          <Text>Pawn Offered Value: </Text>
-          <Text>${Math.round(this.state.item.item.pawnOfferedValue)}</Text>
+        <View style={{flexDirection:'column', flex:0.5}}>
+          <Text style={{fontWeight:'bold', fontSize:20}}>Value Loaned: </Text>
+          <Text style={{fontSize:15}}>${this.state.valueLoaned}</Text>
         </View>
-        <View style={{flexDirection:'column'}}>
-          <Text>Expiry Date: </Text>
-          <Text>{this.state.item.expiryDate.slice(0,-14)}</Text>
-        </View>
-        </View>
+        
+          {/* <View style={{flexDirection:'column'}}>
+            <Text>Pawn Offered Value: </Text>
+            <Text>${this.state.pawnValue}</Text>
+          </View> */}
 
-      </View>
-      <View style={{borderColor:'grey', borderWidth:1 , borderTopWidth:0}}>
-        <Text>Interest Payable: ${Math.round(this.state.item.indicativeTotalInterestPayable)}</Text>
+        <View style={{flexDirection:'column', flex:0.5}}>
+          <Text style={{fontWeight:'bold',fontSize:17}}>Interest Payable: </Text>
+          <Text style={{fontSize:15}}>${this.state.interest}</Text>
+        </View>
       </View>
       </Card>
-      </View>
+
+
+      <Card containerStyle={{height:'20%', width:'90%'}}>
+        <ScrollView style={{flexDirection:'column'}}>
+            <Text>Type: {this.state.type}</Text>
+            <Text>Condition: {this.state.condition}</Text>
+            <Text>Material: {this.state.material}</Text>
+            <Text>Weight: {this.state.weight}g</Text>
+            <Text>Purity: {this.state.purity}</Text>
+            <Text>Brand: {this.state.brand}</Text>
+            <Text>Date Purchased: {this.state.datePurchased}</Text>
+            <Text>Additional Comments: {this.state.comments}</Text>
+          </ScrollView>
+      </Card>
         <Button
               title='Return to Home'
               color='white'

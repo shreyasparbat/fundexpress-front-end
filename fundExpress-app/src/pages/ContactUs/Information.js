@@ -24,7 +24,7 @@ export default class InformationScreen extends Component{
           <Tab heading={ <TabHeading style={{backgroundColor:'white',borderColor:'white'}} ><Icon name='md-help-circle' style={{color:'black'}}/><Text style={{color:'black'}}>Our Pawnshops</Text></TabHeading> }>
             <ContactUsScreen />
           </Tab>
-          <Tab  heading={ <TabHeading style={{backgroundColor:'white',borderColor:'white'}}><Icon name='call'  style={{color:'black'}}/><Text style={{color:'black'}}>Contact us!</Text></TabHeading>}>
+          <Tab  heading={ <TabHeading style={{backgroundColor:'white',borderColor:'white'}}><Icon type='FontAwesome' name='phone'  style={{color:'black'}}/><Text style={{color:'black'}}>Contact us!</Text></TabHeading>}>
             <ContactUsForm />
           </Tab>
         </Tabs>

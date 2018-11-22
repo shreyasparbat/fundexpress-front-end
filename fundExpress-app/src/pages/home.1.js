@@ -39,7 +39,7 @@ class HomeScreen extends React.Component {
       .then((res) => {
         this.setState({
           gold: Math.round(res.gold),
-          silver: Math.round(res.silver),
+          silver: this.roundSilver(res.silver),
           platinum: Math.round(res.platinum)
         })
       })
@@ -48,6 +48,14 @@ class HomeScreen extends React.Component {
         // console.log(errorResponse)
       })
     }
+
+  roundSilver(silver){
+    if(silver<1){
+      return silver.toFixed(2)
+    }else{
+      return Math.round(silver)
+    }
+  }
 
   handleBackButton(){
     return true;

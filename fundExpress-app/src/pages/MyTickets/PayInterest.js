@@ -123,7 +123,7 @@ export default class PayInterestScreen extends React.Component{
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            Authorization: 'Bearer ' //'Bearer <insert_secret_key_here>' (go to fundexpress stripe account to get)
+            Authorization: 'Bearer sk_test_q1uqX0M8Nc4XTTI1tr5ZmJOY ' //'Bearer <insert_secret_key_here>' (go to fundexpress stripe account to get)
           },
           body: this.getEncodedUrl(token)
         }).then(response=>{
@@ -193,11 +193,11 @@ export default class PayInterestScreen extends React.Component{
     }
 
     return(
-      <View style={{flex:1, backgroundColor:'white'}}>
+      <View style={{flex:1, backgroundColor:'white', justifyContent:'center'}}>
         <View style={s.container}>
           <Text style={{fontSize:20, fontWeight: 'bold'}}>Interest Payment Information</Text>
-          <Text style={{fontSize:14}}>Interest Payable: {this.state.amountPaid}</Text>
-          <Text style={{fontSize:14}}>Pawn Ticket ID: {this.state.ticketId}</Text>
+          <Text style={{fontSize:18}}>Interest Payable: {this.state.amountPaid}</Text>
+          {/* <Text style={{fontSize:14}}>Pawn Ticket ID: {this.state.ticketId}</Text> */}
         </View>
         <View style={s.container}>
         <Text style={{fontSize:20, fontWeight: 'bold'}}>Card Information</Text>

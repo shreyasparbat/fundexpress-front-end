@@ -70,6 +70,7 @@ class LoginScreen extends React.Component {
 
   //set all states to empty when loaded
   componentWillMount(){
+    this.isLoggedIn()
     this.setState({
       email: '',
       password:'',
@@ -79,6 +80,29 @@ class LoginScreen extends React.Component {
       showAlert: false
     })
   }
+
+  isLoggedIn(){
+    this.retrieveData().then((token) => {
+      fetch(url.url + 'profile/me', {
+      method: 'POST',
+      headers: new Headers({
+        // Accept: 'application/json',
+        // 'Content-Type': 'application/json',
+        'x-auth' : token,
+      }),
+      // body: JSON.stringify({
+      //   auth : token
+      // })
+    })
+      .then((response) => {
+        // console.log(response.ok)
+        if (response.ok) {
+          this.props.navigation.navigate('Home');
+        }
+      })
+    })
+  }
+
 
   //this shows/hides the alerts popup
   showAlert = () => {
@@ -150,9 +174,9 @@ class LoginScreen extends React.Component {
           showAlert: true
         })
       }else{
-         console.log('login pressed')
-     console.log('email: ' + this.state.email)
-     console.log('password: ' + this.state.password)
+    //      console.log('login pressed')
+    //  console.log('email: ' + this.state.email)
+    //  console.log('password: ' + this.state.password)
     this.setState({ error: '', loading: true });
 
     var res = ''
@@ -171,7 +195,7 @@ class LoginScreen extends React.Component {
       .then((response) => {
         //store the response as a var
         res = response
-        console.log("response.ok: " + response.ok)
+        // console.log("response.ok: " + response.ok)
         //return the response in json() to obtain the error message
         return response.json()
       })
@@ -181,14 +205,14 @@ class LoginScreen extends React.Component {
           //if does not exist, pull xauth from stored res var
           // console.log(res)
           // console.log(this.state.email + " logged in")
-          console.log("x-auth")
-          console.log(res.headers.get('x-auth'))
+          // console.log("x-auth")
+          // console.log(res.headers.get('x-auth'))
           //store x-auth in the app cache
           this.storeData(res.headers.get('x-auth'));
           this.onLoginSuccess()
         }else{
           //else pass the error message to be displayed
-           console.log(response.error)
+          //  console.log(response.error)
           this.onLoginFail(response.error)
         }
       })

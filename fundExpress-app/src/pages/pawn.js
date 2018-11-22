@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Icon, Picker, DatePicker,Form} from "native-base";
 import {AsyncStorage, View, Text,  Image} from "react-native";
-import { Avatar , Button, FormLabel, FormInput } from "react-native-elements";
+import { Avatar , Button, FormLabel, FormInput, Card } from "react-native-elements";
 import { Input } from "../components/input";
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -234,7 +234,7 @@ validate(){
   render() {
     return (
       <View>
-        <KeyboardAwareScrollView contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
+        <KeyboardAwareScrollView contentContainerStyle={{ justifyContent: "center", alignItems: "center", backgroundColor:'white' }}
           extraScrollHeight = {150}
           keyboardOpeningTime = {10}
         >
@@ -252,7 +252,8 @@ validate(){
             />
           </View>
 
-          <View style={{height:70, backgroundColor: 'white', alignSelf: 'flex-start', width: '100%'}} >
+      <Card containerStyle={{width:'95%'}}>
+        <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
           {/*<View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:30,marginLeft: 15, backgroundColor: 'white'}} >*/}
             <FormLabel>Name</FormLabel>
             <FormInput
@@ -262,12 +263,26 @@ validate(){
             />
           </View>
 
-          <View style={{height:70, backgroundColor: 'white', alignSelf: 'flex-start', width: '100%'}} >
+
+        <View style={{height:70, backgroundColor: 'white', alignSelf: 'flex-start', width: '100%'}} >
+          <FormLabel>Brand</FormLabel>
+            <FormInput
+              onChangeText={brand => this.setState({ brand })}
+              value={this.state.brand}
+              placeholder='Item Brand'
+            />
+        </View>
+
+        </Card>
+
+      <Card containerStyle={{width:'95%'}}>
+
+                <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
           {/*}<View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
             <FormLabel>Type</FormLabel>
             <Picker
               mode="dropdown"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
+              iosIcon={<Icon type='FontAwesome' name="angle-down" />}
               iosHeader="Item Type"
               style={{ height: 40, width: 390}}
               placeholder="Item Type"
@@ -286,13 +301,35 @@ validate(){
             </Picker>
           </View>
 
-          <View style={{height:70, backgroundColor: 'white', alignSelf: 'flex-start', width: '100%'}} >
+          <View style={{height:70,alignSelf: 'flex-start', width: '100%'}} >
+          {/*}<View style={{flex: 1,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
+            <FormLabel>Material (if applicable)</FormLabel>
+            <Picker
+              mode="dropdown"
+              iosHeader="Item Material"
+              placeholder="Item Material"
+              placeholderStyle={{ color: "#c7c7cd" }}
+              placeholderIconColor="#007aff"
+              iosIcon={<Icon type='FontAwesome' name="angle-down" />}
+              style={{ height: 40, width: 390 }}
+              selectedValue={this.state.material}
+              onValueChange={material => this.setState({material})}
+            >
+              <Picker.Item label="Gold" value="Gold" />
+              <Picker.Item label="Silver" value="Silver" />
+              <Picker.Item label="Platinum" value="Platinum" />
+              <Picker.Item label="NA" value="NA" />
+
+            </Picker>
+          </View>
+
+          <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
           {/*}<View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
             <FormLabel>Condition out of 10 (if applicable)</FormLabel>
 
             <Picker
               mode="dropdown"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
+              iosIcon={<Icon type='FontAwesome' name="angle-down" />}
               iosHeader="Condition (out of 10)"
               style={{ height: 40, width: 390}}
               placeholder="Condition (out of 10)"
@@ -314,31 +351,11 @@ validate(){
               <Picker.Item label="NA" value="NA" />
             </Picker>
           </View>
+          </Card>
 
-          <View style={{height:70, backgroundColor: 'white', alignSelf: 'flex-start', width: '100%'}} >
-          {/*}<View style={{flex: 1,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
-            <FormLabel>Material (if applicable)</FormLabel>
-            <Picker
-              mode="dropdown"
-              iosHeader="Item Material"
-              placeholder="Item Material"
-              placeholderStyle={{ color: "#c7c7cd" }}
-              placeholderIconColor="#007aff"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              style={{ height: 40, width: 390 }}
-              selectedValue={this.state.material}
-              onValueChange={material => this.setState({material})}
-            >
-              <Picker.Item label="Gold" value="Gold" />
-              <Picker.Item label="Silver" value="Silver" />
-              <Picker.Item label="Platinum" value="Platinum" />
-              <Picker.Item label="NA" value="NA" />
 
-            </Picker>
-          </View>
-
-        {/*<View style={{flex:1,height:70,marginTop:15, marginLeft:15,backgroundColor:'white',flexDirection:'row'}}>*/}
-        <View style={{flex: 1,borderBottomColor:"grey",borderBottomWidth:1, marginTop:15, backgroundColor:'white', flexDirection:'row'}}>
+<Card containerStyle={{width:'95%'}}>
+      <View style={{flex: 1, marginTop:15, backgroundColor:'white', flexDirection:'row', width:'100%'}}>
           <View style={{flex: 1.2}}>
             <FormLabel>Weight (if applicable)</FormLabel>
             <FormInput
@@ -352,7 +369,7 @@ validate(){
             <FormLabel>Unit of Weight</FormLabel>
             <Picker
                 mode="dropdown"
-                iosIcon={<Icon name="ios-arrow-down-outline" />}
+                iosIcon={<Icon type='FontAwesome' name="angle-down" />}
                 iosHeader="Unit"
                 style={{ height: 40, }}
                 placeholder="Unit"
@@ -371,6 +388,9 @@ validate(){
             </Picker>
           </View>
         </View>
+        </Card>
+        
+        <Card containerStyle={{width:'95%'}}>
 
         <View style={{height:70, backgroundColor: 'white', alignSelf: 'flex-start', width: '100%'}} >
         {/*<View style={{flex: 1,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
@@ -381,7 +401,7 @@ validate(){
             placeholder="Item Purity"
             placeholderStyle={{ color: "#c7c7cd" }}
             placeholderIconColor="#007aff"
-            iosIcon={<Icon name="ios-arrow-down-outline" />}
+            iosIcon={<Icon type='FontAwesome' name="angle-down" />}
             style={{ height: 40, width: 390 }}
             selectedValue={this.state.purity}
             onValueChange={purity => this.setState({purity})}
@@ -398,18 +418,6 @@ validate(){
           </Picker>
         </View>
 
-          {/*}<View style={{flex:1,height:70,marginTop:15,marginLeft:15,backgroundColor:'white'}}>*/}
-        <View style={{height:70, backgroundColor: 'white', alignSelf: 'flex-start', width: '100%'}} >
-          <FormLabel>Brand</FormLabel>
-            <FormInput
-              onChangeText={brand => this.setState({ brand })}
-              value={this.state.brand}
-              placeholder='Item Brand'
-            />
-        </View>
-
-        {/*}// <View style={{height: 70, width: 390,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
-        {/*}// <View style={{height: 70, width: 390,marginTop:15, backgroundColor:'white'}}>*/}
         <View style={{height:70, backgroundColor: 'white', alignSelf: 'flex-start', width: '100%'}} >
         <FormLabel>Date Purchased</FormLabel>
         <DatePicker
@@ -429,7 +437,18 @@ validate(){
               />
           </View>
 
-          <View style={{height:70, backgroundColor: 'white', alignSelf: 'flex-start', width: '100%'}} >
+      </Card>
+
+        {/*<View style={{flex:1,height:70,marginTop:15, marginLeft:15,backgroundColor:'white',flexDirection:'row'}}>*/}
+
+          {/*}<View style={{flex:1,height:70,marginTop:15,marginLeft:15,backgroundColor:'white'}}>*/}
+
+
+        {/*}// <View style={{height: 70, width: 390,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
+        {/*}// <View style={{height: 70, width: 390,marginTop:15, backgroundColor:'white'}}>*/}
+
+      <Card containerStyle={{width:'95%'}}>
+        <View style={{height:70, backgroundColor: 'white', alignSelf: 'flex-start', width: '100%'}} >
           {/*}<View style={{flex:1,height:70,marginTop:15,marginLeft:15,backgroundColor:'white'}}>*/}
               <FormLabel>Additional Comments</FormLabel>
               <FormInput
@@ -438,6 +457,9 @@ validate(){
                 value={this.state.otherComments}
               />
           </View>
+
+        </Card>
+
 
           {/* <Text style={{
             fontSize: 20,

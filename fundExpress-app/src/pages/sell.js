@@ -127,80 +127,68 @@ class SellScreen extends React.Component {
   }
 
   render() {
+    // console.log("render called")
+    if(this.state.isLoading) return <ActivityIndicator />
+    else{
+      // console.log("creating display")
+      // console.log(this.state.item.item)
     return (
       <View style={{flex:1, alignItems: 'center' }}>
-      <View style={{flex:1, justifyContent:'center'}}>
-      <Card  image={require('../images/felogo.png')} imageProps={{resizeMode:'contain'}} imageStyle={{height:50, justifyContent:'center', marginTop:10}} containerStyle={{flex:1, marginTop: 23}}>
-      <Text>Description of Pledge</Text>
-      <View style={{borderColor:'grey',borderWidth:1}}>
-        <View style={{justifyContent:'center', flexDirection:'row', borderBottomWidth:1, borderColor:'grey'}}>
+      <Text style={{fontWeight:'bold', fontSize:40, marginTop:'10%'}}>{this.state.name}</Text>
+      <View style={{justifyContent:'center', flexDirection:'row', marginTop:'2%'}}>
           <Image
-                source={{uri: this.generateURIFront(this.state._id)}}
+                source={{uri: this.generateURIFront(this.state.itemID)}}
                 loadingIndicatorSource={<ActivityIndicator />}
                 style={{ resizeMode: 'center', width: 150 , height: 150}}
           />
           <Image
-                source={{uri: this.generateURIBack(this.state._id)}}
+                source={{uri: this.generateURIBack(this.state.itemID)}}
                 loadingIndicatorSource={<ActivityIndicator />}
                 style={{ resizeMode: 'center', width: 150 , height: 150}}
           />
+        </View>
+        <Card containerStyle={{maxWidth:'90%',width:'90%'}}>
+        <View style={{flexDirection:'row'}}>
+            <View style={{flexDirection:'column', flex:0.5}}>
+              <Text style={{fontWeight:'bold', fontSize:20}}>Sell Value: </Text>
+              <Text style={{fontSize:15}}>${this.state.sellValue}</Text>
+            </View>
 
+            <View style={{flexDirection:'column', flex:0.5}}>
+              <Text style={{fontWeight:'bold', fontSize:20}}>Date Sold: </Text>
+              <Text style={{fontSize:15}}>{new Date(this.state.dateSold).toLocaleDateString('en-GB')}</Text>
+            </View>
 
-      </View>
-      <View style={{flexDirection:'column'}}>
-          <Text>Name: {this.state.name}</Text>
-          <Text>Type: {this.state.type}</Text>
-          <Text>Condition: {this.state.condition}</Text>
-          <Text>Material: {this.state.material}</Text>
-          <Text>Weight: {this.state.weight}g</Text>
-          <Text>Purity: {this.state.purity}</Text>
-          <Text>Brand: {this.state.brand}</Text>
-          <Text>Date Purchased: {this.state.dateOfPurchase}</Text>
-          <Text>Additional Comments: {this.state.otherComments}</Text>
+            {/* <View style={{flexDirection:'column'}}>
+              <Text>Pawn Offered Value: </Text>
+              <Text>${this.state.pawnOfferedValue}</Text>
+            </View> */}
         </View>
-      <View style={{borderColor:'grey', borderWidth:1 ,borderLeftWidth:0, borderRightWidth:0}}>
-        <Text>Value Sold: ${Math.round(this.state.valueSold)}</Text>
-      </View>
-      <View style={{flexDirection:'row'}}>
-        <View style={{flexDirection:'column'}}>
-          <Text>Date Sold: </Text>
-          <Text>{this.state.dateSold}</Text>
-        </View>
-        <View style={{borderColor:'grey', borderLeftWidth:0.5,flexDirection:'column'}}>
-          <Text>Pawn Offered Value: </Text>
-          <Text>${Math.round(this.state.pawnOfferedValue)}</Text>
-        </View>
-        </View>
-      </View>
       </Card>
-      </View>
+
+      <Card containerStyle={{height:'30%', width:'90%'}}>
+        <ScrollView style={{flexDirection:'column'}}>
+            <Text>Type: {this.state.type}</Text>
+            <Text>Condition: {this.state.condition}</Text>
+            <Text>Material: {this.state.material}</Text>
+            <Text>Weight: {this.state.weight}g</Text>
+            <Text>Purity: {this.state.purity}</Text>
+            <Text>Brand: {this.state.brand}</Text>
+            <Text>Date Purchased: {this.state.datePurchased}</Text>
+            <Text>Additional Comments: {this.state.comments}</Text>
+          </ScrollView>
+      </Card>
         <Button
-              title='Return to Home'
+              title='Back'
               color='white'
               borderRadius= {3}
               containerViewStyle={{height: 50, width: 200, marginTop: 15}}
               backgroundColor='#C00000'
-              onPress={() => this.props.navigation.navigate("main")}
+              onPress={() => this.props.navigation.goBack(null)}
             />
-      <AwesomeAlert
-        show= {this.state.showAlert}
-        title="Ticket Pending Approval"
-        message={"Please go down to your nearest FundExpress to submit your item!"}
-        closeOnTouchOutside={false}
-        closeOnHardwareBackPress={false}
-        showCancelButton={false}
-        showConfirmButton={true}
-        confirmButtonColor="#C00000"
-        confirmText="Ok"
-        overlayStyle={{flex:1}}
-        onConfirmPressed={() => {
-          this.setState({
-            showAlert:false
-          })
-        }}
-      />
-      </View>
+    </View>
     );
+      }
   }
 }
 

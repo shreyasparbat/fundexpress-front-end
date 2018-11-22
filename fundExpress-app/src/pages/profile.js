@@ -157,7 +157,7 @@ class ProfileScreen extends React.Component {
     // console.log("status: " + this.state.status)
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
-           <Avatar
+           {/* <Avatar
             xlarge
             rounded
             icon={{name: 'airplay'}}
@@ -166,7 +166,7 @@ class ProfileScreen extends React.Component {
          <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 10, marginBottom: 10}}>
             <Text>Full Name: {this.state.fullName}</Text>
             <Text>Email: {this.state.email}</Text>
-          </View>
+          </View> */}
 
           {this.renderEditButton()}
 

@@ -7,71 +7,10 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import { Permissions, Notifications } from 'expo';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import url from '../configs/config';
-
-validateIC = (icNumber) => {
-  //if the ic is valid, then return string
-  //else return an error
-
-  if(icNumber.length != 9) {
-    return false
-  }
-
-  //get each individual character in the icNumber
-  figOne = icNumber.charAt(0)
-  digitOne = parseInt(icNumber.charAt(1))
-  digitTwo = parseInt(icNumber.charAt(2))
-  digitThree = parseInt(icNumber.charAt(3))
-  digitFour = parseInt(icNumber.charAt(4))
-  digitFive = parseInt(icNumber.charAt(5))
-  digitSix = parseInt(icNumber.charAt(6))
-  digitSeven = parseInt(icNumber.charAt(7))
-  figTwo = icNumber.charAt(8)
-
-  //hard coded verification algorithm
-
-  //arrays for step 4
-  localArray = ['J','Z','I','H','G','F','E','D','C','B','A']
-  foreignArray = ['X', 'W', 'U', 'T', 'R', 'Q', 'P', 'N', 'M', 'L', 'K']
-  /*
-  1) Take for example I want to test the NRIC number S1234567. The first digit
-   you multiply by 2, second multiply by 7, third by 6, fourth by 5,
-   fifth by 4, sixth by 3, seventh by 2. Then you add the totals together.
-   So,1×2 + 2×7 + 3×6 + 4×5 + 5×4 + 6×3 + 7×2 = 106.
-   */
-
-  numbers = digitOne*2 + digitTwo*7 + digitThree*6 + digitFour*5 + digitFive*4 + digitSix*3 + digitSeven*2
-
-  //2) If the first letter of the NRIC starts with T or G, add 4 to the total.
-  if (figOne == 'T' || figOne == 'G') {
-      numbers += 4
-  }
-  //3) Then you divide the number by 11 and get the remainder. 106/11=9r7
-  numbers = numbers%11
-
-  /*
-  4) You can get the alphabet depending on the IC type (the first letter in the IC) using the code below:
-  If the IC starts with S or T: 0=J, 1=Z, 2=I, 3=H, 4=G, 5=F, 6=E, 7=D, 8=C, 9=B, 10=A
-  */
-  if (figOne == 'T' || figOne == 'G') {
-      // console.log(figTwo == foreignArray[numbers])
-      if ((figTwo == foreignArray[numbers])==true){
-        return icNumber
-      } else {
-        return 'SS'
-      }
-  } else {
-      // console.log(figTwo == localArray[numbers])
-      if ((figTwo == localArray[numbers])==true){
-        return icNumber
-      } else {
-        return 'SS'
-      }
-  }
-}
 class RegisterScreen extends React.Component {
   state = { email: '', password: '', fullName: '', gender: '', DOB: '', ic: '', mobileNumber: '' ,
   landlineNumber: '' ,address: '', nationality:'', citizenship: '',
-  house: '', race: '' , ptoken: '', error:'', showAlert:false, showAlert2:false};
+  house: '', race: '' , ptoken: '', error:'', showAlert:false, showAlert2:false, emailError:'', passError:''};
   static navigationOptions = {
     title: 'Register',
       headerStyle: {
@@ -162,6 +101,33 @@ class RegisterScreen extends React.Component {
 
   }
 
+  ifEmail(email){
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+    if(reg.test(email) === false)
+    {
+    this.setState({emailError:"Not an email"});
+    this.setState({email:email})
+    return false;
+      }
+    else {
+      this.setState({email:email})
+      this.setState({emailError:''})
+    }
+  }
+
+  passwordCheck(pass){
+    if(pass.length < 6)
+    {
+    this.setState({passError:"Password must be more than 6 characters"});
+    this.setState({password:pass})
+    return false;
+      }
+    else {
+      this.setState({password:pass})
+      this.setState({passError:''})
+    }
+  }
+
   submit() {
     //var moNumber = parseInt(this.state.mobileNumber);
     //var lanNumber = parseInt(this.state.landlineNumber);
@@ -208,10 +174,14 @@ class RegisterScreen extends React.Component {
       }),
     })
     .then((response) => {
-      //store the response as a var
+      console.log('status' + response.status)
+      if(response.status==500){
+        throw 'User already exists'
+      }else{//store the response as a var
       res = response
       //return the response in json() to obtain the error message
       return response.json()
+      }
     })
     .then((response) => {
       if(response.error==null){
@@ -240,7 +210,7 @@ class RegisterScreen extends React.Component {
     .catch((error) => {
       // console.log(error)
       this.setState({
-        error: "Network error",
+        error: error,
         loading: false,
         showAlert: true
       });
@@ -284,21 +254,23 @@ class RegisterScreen extends React.Component {
           <FormLabel>Email</FormLabel>
           <FormInput
             autoCapitalize='none'
-            onChangeText={email => this.setState({ email })}
+            onChangeText={email => this.ifEmail(email)}
             value={this.state.email}
             placeholder='Email'
           />
+          <Text style={{color:'red', alignSelf:'center'}}>{this.state.emailError}</Text>
         </View>
 
         <View style={{height:85,marginTop:5, backgroundColor: 'white'}} >
           <FormLabel>Password</FormLabel>
           <FormInput
             autoCapitalize='none'
-            onChangeText={password => this.setState({ password })}
+            onChangeText={password => this.passwordCheck(password)}
             value={this.state.password}
             secureTextEntry={true}
             placeholder='Password'
           />
+          <Text style={{color:'red', alignSelf:'center'}}>{this.state.passError}</Text>
         </View>
 
         {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:0,marginLeft: 15, backgroundColor: 'white'}} >

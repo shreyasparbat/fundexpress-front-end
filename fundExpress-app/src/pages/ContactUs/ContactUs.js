@@ -141,32 +141,32 @@ export default class ContactUsScreen extends Component {
       });
   }
   checkIfStoreIsOpen(startTime, endTime){
-    console.log("checkIfStoreIsOpen")
+    // console.log("checkIfStoreIsOpen")
     if(startTime=='Closed'){
       return 'Closed'
     }
     var now = new Date()
-    console.log("time now: " + now)
+    // console.log("time now: " + now)
     var month = now.getMonth()
     var year = now.getFullYear()
     var day = now.getDate()
     var start = new Date(year, month, day, startTime[0], startTime[1])
-    console.log("start time: " + start)
+    // console.log("start time: " + start)
     var end = new Date(year, month, day, endTime[0], endTime[1])
-    console.log("end time: " + end)
+    // console.log("end time: " + end)
     if (now<start||now>end){
-      console.log('store is closed now ')
+      // console.log('store is closed now ')
       return 'Closed'
     }
-    console.log('open now')
+    // console.log('open now')
     return 'Open now'
   }
   displayStoreStatus(store){
-    console.log("displayStoreStatus")
-    console.log(store.name)
+    // console.log("displayStoreStatus")
+    // console.log(store.name)
     var now = new Date()
     var dayOfWeek = now.getDay() //returns 0-6
-    console.log("dayOfWeek:" + dayOfWeek)
+    // console.log("dayOfWeek:" + dayOfWeek)
     if (dayOfWeek==0){//sunday
       if(store.sunStartTime=='Closed'){
         return 'Closed'
@@ -181,9 +181,9 @@ export default class ContactUsScreen extends Component {
 
   }
   displayOpeningTimes(startTime, endTime){
-    console.log("displayOpeningTimes")
+    // console.log("displayOpeningTimes")
     if (startTime=='Closed'){
-      console.log('opening hours: closed')
+      // console.log('opening hours: closed')
       return 'Closed'
     }
     var startHour = startTime[0].toString()
@@ -196,8 +196,8 @@ export default class ContactUsScreen extends Component {
     if (endMin=='0'){
       endMin='00'
     }
-    console.log("opening hours: ")
-    console.log(startHour + ':' + startMin + ' - ' + endHour + ':' + endMin)
+    // console.log("opening hours: ")
+    // console.log(startHour + ':' + startMin + ' - ' + endHour + ':' + endMin)
     return startHour + ':' + startMin + ' - ' + endHour + ':' + endMin;
 
   }

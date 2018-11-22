@@ -85,7 +85,7 @@ export default class UploadScreen extends React.Component {
   takePicture = () => {
     this.setState({
       showAlert: true,
-      alertTitle: "Uploading Image",
+      alertTitle: "Please Wait",
       alertMessage: "This may take a few seconds",
       showProgress: true,
       showConfirmButton: false,
@@ -109,7 +109,7 @@ export default class UploadScreen extends React.Component {
         //this.props.navigation.navigate('pawn', { uri : photo.uri })
         this.setState({
           showAlert: true,
-          alertTitle: 'Front Image Uploaded!',
+          alertTitle: 'Front Image Taken',
           alertMessage: 'Now take an image of the back of your item',
           showProgress: false,
           showConfirmButton: true,
