@@ -1,6 +1,7 @@
 import { Container,  Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body } from 'native-base';
 import React from 'react';
 import ProgressBar from './ProgressBar';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import { ActivityIndicator, Image, Text, Linking, ListView, View, TouchableOpacity, FlatList,Platform } from 'react-native';
 
 const styles = {
@@ -26,10 +27,13 @@ export default class PawnTicket extends React.Component {
       dateCreated: new Date(props.data.dateCreated),
       expiryDate: new Date(props.data.expiryDate),
       interestPayable: this.roundTo(props.data.indicativeTotalInterestPayable),
-      offeredValue: props.data.item.pawnOfferedValue,
-      specifiedValue: props.data.specifiedValue,
+      value: props.data.value,
       approvalStatus: props.data.approved,
       closed: props.data.closed,
+      outstandingPrincipal: this.roundTo(props.data.outstandingPrincipal),
+      outstandingInterest: this.roundTo(props.data.outstandingInterest),
+      showAlert: false,
+      error: '',
     }
   }
   getTimePassed(dateCreated, expiryDate){
@@ -119,16 +123,16 @@ export default class PawnTicket extends React.Component {
     return uri
   }
   renderPayInterestButton(){
-    console.log("interest payable: " + this.state.interestPayable)
-    console.log("ticket id: " + this.state.ticketId)
-    if (this.state.approvalStatus==true){
+    if (this.state.approvalStatus==true&&this.state.outstandingInterest>0){
       return(
         <CardItem style={{justifyContent: 'center'}}>
           {/* Pay Interest Button */}
-          <Button style={styles.buttonStyle} onPress={() => this.props.navigation.navigate('PayInterest',{
-            amountPaid: this.state.interestPayable,
-            ticketId: this.state.ticketId,
-          })}>
+          <Button style={styles.buttonStyle} onPress={() => {
+              this.props.navigation.navigate('PayInterest',{
+                amountPaid: this.state.outstandingInterest,
+                ticketId: this.state.ticketId,
+              })
+            }}>
             <Text style={{fontSize: 16, color: '#ffffff', }}>Pay Interest</Text>
           </Button>
         </CardItem>
@@ -136,11 +140,24 @@ export default class PawnTicket extends React.Component {
     }
     return <CardItem/>
   }
+  showAlert = () => {
+    this.setState({
+      showAlert: true
+    });
+  };
+
+  hideAlert = () => {
+    this.setState({
+      showAlert: false,
+    });
+  };
   render(){
     return(
-      <View>
-            <Card style={{flex: 0}}>
+
+            <Card style={{flex: 1}}>
+
               <CardItem style={{flexDirection:'column'}} button onPress={()=> this.props.navigation.navigate('pTicket', {'itemID':this.state.itemId, 'ticketID':this.state.ticketId})}>
+
               <View style={{flexDirection:'row'}}>
                 <View style={{justifyContent:'center', alignItems:'center',flex:0.3}}>
                   <Image
@@ -168,19 +185,20 @@ export default class PawnTicket extends React.Component {
                       <Text style={{width:85, textAlign: 'right'}}>{this.getDateNicelyFormatted(this.state.expiryDate)}</Text>
                     </View>
 
-                    {/* //pawn amount and interestPayable */}
+                    {/* //outstanding Principal and outstandingInterest */}
                     <View style={{flexDirection: 'row', padding: 5}}>
                       {/* //column 1 */}
                       <View style={{flexDirection: 'column', backgroundColor: '#d3d3d3'}}>
-                        <Text>Pawn amount: </Text>
-                        <Text>Interest Payable: </Text>
+                        <Text>Outstanding Principal: </Text>
+                        <Text>Outstanding Interest: </Text>
 
                       </View>
                       {/* //column 2 */}
+
                       {/* //${Math.round(this.state.offeredValue)} */}
                       <View style={{flexDirection: 'column'}}>
-                        <Text>{this.roundTo(this.state.offeredValue)}</Text>
-                        <Text>{this.roundTo(this.state.interestPayable)}</Text>
+                        <Text>{this.roundTo(this.state.outstandingPrincipal)}</Text>
+                        <Text>{this.roundTo(this.state.outstandingInterest)}</Text>
                       </View>
                     </View>
                   </View>
@@ -210,10 +228,8 @@ export default class PawnTicket extends React.Component {
 
               </CardItem>
 
-
             </Card>
 
-        </View>
     );
   }
 

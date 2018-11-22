@@ -7,7 +7,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 
 class selectPawn extends React.Component {
     static navigationOptions = {
-    title: "Pawn Item",
+    title: "Pawn/Sell Item",
       headerStyle: {
         backgroundColor: "white",
       },

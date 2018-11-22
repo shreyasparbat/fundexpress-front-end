@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, ActivityIndicator, Linking} from 'react-native';
-import {Container, Content, Input, Item, Label, Textarea, Form} from 'native-base';
-import { Button } from 'react-native-elements';
+import {Container, Content, Input, Item, Label, Textarea, Picker, Form, Icon} from 'native-base';
+import { Button, FormLabel } from 'react-native-elements';
 import email from 'react-native-email';
 
 export default class ContactUsForm extends Component {
@@ -39,10 +39,10 @@ export default class ContactUsForm extends Component {
     //if else to determine whether a form gets submitted
   }
   handleEmail = () => {
-      const to = 'fundexpressfyp@gmail.com' // string or array of email addresses
+      const to = ['fundexpressfyp@gmail.com']// string or array of email addresses
       email(to, {
           // Optional additional arguments
-          cc: '', // string or array of email addresses
+          cc: '' , // string or array of email addresses
           bcc: '', // string or array of email addresses
           subject: this.state.subject,
           body: this.state.enquiry
@@ -78,10 +78,17 @@ export default class ContactUsForm extends Component {
                     <Input onChangeText={subject => this.setState({ subject })} placeholder='Subject'/>
                   </Item>
 
-                  <Textarea bordered onChangeText={enquiry => this.setState({ enquiry })} placeholder="Your enquiry" />
+
+                  <Textarea
+                    bordered
+                    rowSpan={5}
+                    style={{padding:10}}
+                    onChangeText={enquiry => this.setState({ enquiry })}
+                    placeholder="Your enquiry"
+                  />
 
               </View>
-              <View style={{paddingTop:5}}>
+              <View style={{padding:5}}>
                 <Button
                   title='Submit'
                   backgroundColor='#C00000'
