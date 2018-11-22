@@ -156,7 +156,7 @@ export default class ContactUsScreen extends Component {
     // console.log("end time: " + end)
     if (now<start||now>end){
       // console.log('store is closed now ')
-      return 'Closed'
+      return 'Closed now'
     }
     // console.log('open now')
     return 'Open now'
@@ -169,14 +169,14 @@ export default class ContactUsScreen extends Component {
     // console.log("dayOfWeek:" + dayOfWeek)
     if (dayOfWeek==0){//sunday
       if(store.sunStartTime=='Closed'){
-        return 'Closed'
+        return 'Closed now'
       } else {
-        this.checkIfStoreIsOpen(store.sunStartTime, store.sunEndTime);
+        return this.checkIfStoreIsOpen(store.sunStartTime, store.sunEndTime);
       }
     } else if (dayOfWeek>=1||dayOfWeek<=5){ //weekdays
-      this.checkIfStoreIsOpen(store.weekdayStartTime, store.weekdayEndTime)
+      return this.checkIfStoreIsOpen(store.weekdayStartTime, store.weekdayEndTime)
     } else {
-      this.checkIfStoreIsOpen(store.satStartTime, store.satEndTime)
+      return this.checkIfStoreIsOpen(store.satStartTime, store.satEndTime)
     }
 
   }
