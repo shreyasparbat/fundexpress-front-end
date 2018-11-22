@@ -127,7 +127,7 @@ validate(){
       condition: 'NA',
       brand: this.props.navigation.getParam('brand',''),
       purity: this.props.navigation.getParam('purity', ''),
-      weight: this.props.navigation.getParam('weight', '')//.toString()
+      weight: this.props.navigation.getParam('weight', '')
     })
   }else{
     if(select=='Watch'){
@@ -417,7 +417,7 @@ validate(){
               minimumDate={new Date(1900, 1, 1)}
               maximumDate={new Date(2018, 12, 31)}
               style={{marginLeft:15}}
-              locale={"SGP"}
+              locale={"en-GB"}
               //timeZoneOffsetInMinutes={0}
               modalTransparent={false}
               animationType={"fade"}

@@ -222,7 +222,7 @@ class ProfileEditScreen extends React.Component {
             defaultDate={new Date()}
             minimumDate={new Date(1900, 1, 1)}
             maximumDate={new Date(2018, 12, 31)}
-            locale={"SGP"}
+            locale={"en-GB"}
             //timeZoneOffsetInMinutes={0}
             modalTransparent={false}
             animationType={"fade"}

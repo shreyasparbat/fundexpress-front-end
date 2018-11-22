@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "FundExpress",
-    "sdkVersion": "27.0.0",
+    "sdkVersion": "31.0.0",
     "icon": "./src/images/feicon.png",
     "version" : "0.7.0",
     "slug": "fundExpressApp",
