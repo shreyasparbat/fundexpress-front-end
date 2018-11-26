@@ -1,13 +1,14 @@
 import React from 'react';
-import {View, Text, AsyncStorage, ActivityIndicator, Image} from 'react-native';
+import {View, Text, AsyncStorage, ActivityIndicator, Image, ScrollView} from 'react-native';
 import { Button, Card } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import url from '../configs/config';
 class PawnTicketScreen extends React.Component {
   static navigationOptions = {
-    title: "New Pawn Ticket",
+    title: "Pawn Ticket",
     gesturesEnabled: false,
-    header: null,
+    // header: null,
+    headerLeft: null,
     tabBarVisible: false,
       headerStyle: {
         backgroundColor: "white",
@@ -33,36 +34,60 @@ class PawnTicketScreen extends React.Component {
 
   pawn(sValue){
     this.retrieveData('auth').then((auth) => {
-      fetch(url.url + 'item/pawn',{
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'x-auth': auth,
-        },
-        body: JSON.stringify({
-          itemID: this.state.itemID,
-          specifiedValue: sValue
-        }),
-      })
-      .then((response) => {
-        return response.json()
-      })
-      .then((response) => {
-        // console.log("/item/pawn Success");
-        // console.log("response");
-        // console.log(response);
-        this.setState({
-          item:response,
-          isLoading:false
+      this.retrieveData('itemID').then((ID) => {
+        // console.log('itemID: ' + ID)
+        fetch(url.url + 'item/pawn',{
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'x-auth': auth,
+          },
+          body: JSON.stringify({
+            itemID: ID,
+            specifiedValue: sValue
+          }),
         })
-        //console.log(JSON.stringify(response.item));
-        //this.storeData('itemObj', JSON.stringify(response));
-        //this.props.navigation.navigate('pawnTicket')
-      })
-      .catch((error) => {
-        // console.log("error")
-        // console.log(error)
+        .then((response) => {
+          return response.json()
+        })
+        .then((response) => {
+          // console.log("/item/pawn Success");
+          // console.log("response");
+          // console.log(response);
+          // console.log(response.item._id)
+          this.setState({
+            // item:response,
+            itemID:response.item._id,
+            name: response.item.name,
+            type:response.item.type,
+            condition:response.item.condition,
+            material:response.item.material,
+            weight:response.item.weight,
+            purity:response.item.purity,
+            brand:response.item.brand,
+            datePurchased:response.item.dateOfPurchase.slice(0,-14),
+            comments:response.item.otherComments,
+            valueLoaned:response.value,
+            datePawned:response.dateCreated.slice(0,-14),
+            pawnValue:Math.round(response.item.pawnOfferedValue),
+            // dateExpiry: response.expiryDate
+            dateExpiry:response.expiryDate.slice(0,-14),
+            interest:response.indicativeTotalInterestPayable,
+            isLoading:false
+          })
+          //console.log(JSON.stringify(response.item));
+          //this.storeData('itemObj', JSON.stringify(response));
+          //this.props.navigation.navigate('pawnTicket')
+          // console.log(this.state.item)
+          // console.log(this.state.item.item)
+          // console.log(this.state.item.item.type)
+        })
+        .catch((error) => {
+          // console.log("error")
+          // console.log(error)
+          this.props.navigation.navigate('Home')
+        })  
       })
     })
   }
@@ -70,7 +95,7 @@ class PawnTicketScreen extends React.Component {
   generateURIFront(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_front.png')
+    uri = uri.concat('_front.jpg')
     // console.log('uri: ' + uri)
     return uri
   }
@@ -78,21 +103,21 @@ class PawnTicketScreen extends React.Component {
   generateURIBack(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_back.png')
+    uri = uri.concat('_back.jpg')
     // console.log('uri: ' + uri)
     return uri
   }
 
   componentWillMount() {
-    this.retrieveData('itemID').then((ID) => {
-      this.setState({
-        itemID: ID
-      })
-    })
     this.retrieveData('specifiedValue').then((sValue) => {
       this.setState({
         specifiedValue: sValue
       })
+    // this.retrieveData('itemID').then((ID) => {
+    //   this.setState({
+    //     itemID: ID
+    //   })
+    // })
       this.pawn(sValue);
     })
     // console.log(this.state.item)
@@ -107,23 +132,29 @@ class PawnTicketScreen extends React.Component {
     ])
   }
 
+  daysLeft(){
+    var expiryDate_m = new Date(this.state.dateExpiry).getTime()
+    var today_m = new Date().getTime()
+
+    var daysLeft = (expiryDate_m - today_m)/86400000
+
+    return Math.round(daysLeft)
+  }
+
   render() {
-    // console.log("render called")
-    if(this.state.isLoading) return <ActivityIndicator />
-    else{
-      // console.log("creating display")
-      // console.log(this.state.item.item)
     return (
-      <View style={{flex:1, alignItems: 'center' }}>
-      <Text style={{fontWeight:'bold', fontSize:40, marginTop:'10%'}}>{this.state.name}</Text>
+      <View style={{flex:1, backgroundColor:'white'}}>
+      <ScrollView>
+      <View style={{flex:1, alignItems: 'center', backgroundColor:'white' }}>
+      <Text style={{fontWeight:'bold', fontSize:40, marginTop:'8%'}}>{this.state.name}</Text>
       <View style={{justifyContent:'center', flexDirection:'row', marginTop:'2%'}}>
           <Image
-                source={{uri: this.generateURIFront(this.state.item.item._id)}}
+                source={{uri: this.generateURIFront(this.state.itemID)}}
                 loadingIndicatorSource={<ActivityIndicator />}
                 style={{ resizeMode: 'center', width: 150 , height: 150}}
           />
           <Image
-                source={{uri: this.generateURIBack(this.state.item.item._id)}}
+                source={{uri: this.generateURIBack(this.state.itemID)}}
                 loadingIndicatorSource={<ActivityIndicator />}
                 style={{ resizeMode: 'center', width: 150 , height: 150}}
           />
@@ -156,15 +187,15 @@ class PawnTicketScreen extends React.Component {
           </View> */}
 
         <View style={{flexDirection:'column', flex:0.5}}>
-          <Text style={{fontWeight:'bold',fontSize:17}}>Interest Payable: </Text>
-          <Text style={{fontSize:15}}>${this.state.interest}</Text>
+          <Text style={{fontWeight:'bold',fontSize:13}}>Estimated Interest Payable: </Text>
+          <Text style={{fontSize:15}}>${Math.round(this.state.interest)}</Text>
         </View>
       </View>
       </Card>
 
 
-      <Card containerStyle={{height:'20%', width:'90%'}}>
-        <ScrollView style={{flexDirection:'column'}}>
+      <Card containerStyle={{width:'90%'}}>
+        <View style={{flexDirection:'column'}}>
             <Text>Type: {this.state.type}</Text>
             <Text>Condition: {this.state.condition}</Text>
             <Text>Material: {this.state.material}</Text>
@@ -173,7 +204,7 @@ class PawnTicketScreen extends React.Component {
             <Text>Brand: {this.state.brand}</Text>
             <Text>Date Purchased: {this.state.datePurchased}</Text>
             <Text>Additional Comments: {this.state.comments}</Text>
-          </ScrollView>
+          </View>
       </Card>
         <Button
               title='Return to Home'
@@ -183,6 +214,8 @@ class PawnTicketScreen extends React.Component {
               backgroundColor='#C00000'
               onPress={() => this.props.navigation.navigate("main")}
             />
+      </View>
+      </ScrollView>
       <AwesomeAlert
         show= {this.state.showAlert}
         title="Ticket Pending Approval"
@@ -201,8 +234,8 @@ class PawnTicketScreen extends React.Component {
         }}
       />
       </View>
+      
     );
-      }
   }
 }
 

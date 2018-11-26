@@ -63,7 +63,7 @@ export default class SellTicket extends React.Component {
   generateURI(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_front.png')
+    uri = uri.concat('_front.jpg')
     // console.log('uri: ' + uri)
     // console.log('itemID: ' + this.state.ticketNumber)
     return uri

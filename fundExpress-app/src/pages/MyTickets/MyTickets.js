@@ -81,6 +81,7 @@ class MyTicketsScreen extends React.Component {
 
   render() {
     return (
+      <View style={{flex:1}}>
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <View style={{flex:0.14, alignSelf: 'center', justifyContent: 'center', marginTop: 20}}>
           <Image
@@ -88,7 +89,7 @@ class MyTicketsScreen extends React.Component {
             style={{ resizeMode: 'contain', width: 200 }}
           />
         </View>
-        <View style={{flex: 0.4, marginTop: 100, alignSelf: 'center'}}>
+        <View style={{flex: 0.4, marginTop: 100, alignSelf: 'center', alignItems:'center'}}>
           <View style={{ flexDirection: 'row', }}>
             <View style={{flexDirection:'column', justifyContent:'center'}}>
             <Icon
@@ -120,13 +121,14 @@ class MyTicketsScreen extends React.Component {
             </View>
           </View>
         </View>
-        <AwesomeAlert
+      </View>
+      <AwesomeAlert
           show= {this.state.showAlert}
           //showProgress={false}
           title="Registration Incomplete"
           message="Before you can pawn or sell an item, you have to register fully. Please proceed to the profile page to complete your registration"
-          closeOnTouchOutside={false}
-          closeOnHardwareBackPress={false}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={true}
           showConfirmButton={true}
           confirmText="Take me there!"
           confirmButtonColor="#DD6B55"
@@ -138,6 +140,7 @@ class MyTicketsScreen extends React.Component {
             ;
           }}
         />
+
       </View>
     );
   }

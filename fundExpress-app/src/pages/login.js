@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, StyleSheet, Text, View, ImageBackground, Image, ActivityIndicator } from 'react-native';
+import { Dimensions,AsyncStorage, StyleSheet, Text, View, ImageBackground, Image, ActivityIndicator, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Input } from '../components/input';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Button } from 'react-native-elements';
@@ -56,7 +56,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 //contact us imports
 import ContactUsScreen from './ContactUs/ContactUs';
 import InformationScreen from './ContactUs/Information';
-
 
 
 class LoginScreen extends React.Component {
@@ -265,15 +264,17 @@ class LoginScreen extends React.Component {
   render() {
 
     return (
-      <ImageBackground
-        source={require('../images/bg.jpg')}
-        imageStyle={{ resizeMode: 'contain', opacity: 0.0}}
-        style={styles.container}
-      >
+      // <ImageBackground
+      //   source={require('../images/bg.jpg')}
+      //   imageStyle={{ resizeMode: 'contain', opacity: 0.0}}
+      //   style={styles.container}
+      //   >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={{flex:1,alignItems:'center', backgroundColor:'white'}}>
         <Image
           source={require('../images/felogo.png')}
-          style={{ resizeMode: 'contain', width: 300, height: 80,
-          marginTop: 40 }}
+          style={{ resizeMode: 'contain', width: (Dimensions.get('screen').width)*0.6 , height: (Dimensions.get('screen').height)*0.1,
+          marginTop: '12%' }}
         />
         <View style={{
           width: 260, height: 100,
@@ -287,6 +288,7 @@ class LoginScreen extends React.Component {
             autoCapitalize="none"
             onChangeText={email => this.setState({ email })}
             placeholder='Email'
+            returnKeyType='Done'
             />
           </View>
           <Input
@@ -295,6 +297,7 @@ class LoginScreen extends React.Component {
             onChangeText={password => this.setState({ password })}
             placeholder='Password'
             secureTextEntry= {true}
+            returnKeyType='Done'
           />
         </View>
         <View
@@ -328,7 +331,9 @@ class LoginScreen extends React.Component {
             this.hideAlert();
           }}
         />
-      </ImageBackground>
+        </View>
+        </TouchableWithoutFeedback>
+      // {/* </ImageBackground> */}
     );
   }
 }

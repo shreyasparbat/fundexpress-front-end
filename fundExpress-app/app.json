@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "FundExpress",
+    "name": "FundEx",
     "sdkVersion": "31.0.0",
     "icon": "./src/images/feicon.png",
-    "version" : "0.7.0",
+    "version" : "0.8.0",
     "slug": "fundExpressApp",
     "orientation": "portrait",
     "primaryColor": "#C00000",
@@ -21,10 +21,15 @@
       "barStyle": "light-content",
       "backgroundColor": "#C00000"
     },
+    "updates": {
+      "enabled": true,
+      "checkAutomatically":"ON_LOAD",
+      "fallbackToCacheTimeout": 30000
+    },
   "ios":{
     "bundleIdentifier": "com.fundExpress.fundExpress",
-    "buildNumber": "0.0.1a",
-    "icon": "./src/images/feicon.png",
+    "buildNumber": "0.8.0",
+    "icon": "./src/images/feiosicon.png",
     "usesIcloudStorage":false,
     "supportsTablet": true,
     "isTabletOnly":false,
@@ -36,7 +41,7 @@
   },
   "android":{
     "package": "com.fundExpress.fundExpressApp",
-    "versionCode":3,
+    "versionCode":6,
     "icon":"./src/images/fenoti.png",
     "googleServicesFile": "./google-services.json",
     "permissions":["CAMERA", "WRITE_EXTERNAL_STORAGE", "MANAGE_DOCUMENTS"],

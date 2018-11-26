@@ -7,7 +7,7 @@ import url from '../configs/config';
 
 class ProfileScreen extends React.Component {
   state = { fullName: '', gender: '', DOB: '', age: '' , ic: '', mobileNumber: '' ,
-  landlineNumber: '' ,address: '', citizenship: '', nationality: '', email: '', status: true, showAlert: false };
+  landlineNumber: '' ,address: '', citizenship: '', nationality: '', email: '', status: true, showAlert: false, };
   static navigationOptions = {
     title: 'Profile',
       headerStyle: {
@@ -142,7 +142,7 @@ class ProfileScreen extends React.Component {
       return(
         <View style={{width: 300}}>
           <Button
-            title='Complete Profile'
+            title='Edit Profile'
             color='white'
             backgroundColor='#C00000'
             onPress={() => this.props.navigation.navigate('edit')}

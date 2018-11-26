@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Icon, Picker, DatePicker,Form} from "native-base";
-import {AsyncStorage, View, Text,  Image} from "react-native";
+import {AsyncStorage, View, Text,  Image, Dimensions, TouchableWithoutFeedback, Keyboard} from "react-native";
 import { Avatar , Button, FormLabel, FormInput, Card } from "react-native-elements";
 import { Input } from "../components/input";
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -18,14 +18,15 @@ class PawnScreen extends Component {
     weightInGrams:"",
     purity: "",
     brand: "",
-    DOP: "",
+    DOP: new Date(),
     ID: '',
     otherComments: '',
     auth: '',
     error:'',
     imageFront:'dummy',
     imageBack:'dummy',
-    showAlert: false
+    showAlert: false,
+    showAlert2: false
   }
   static navigationOptions = {
     title: "Pawn/Sell New Item",
@@ -70,32 +71,51 @@ class PawnScreen extends Component {
 }
 
 validate(){
+  // console.log('validating...')
+  this.setState({
+    showAlert2: true
+  })
   var errorArray = []
+  if(this.state.name==''){
+    errorArray.push("Item Name required")
+  }
+  // console.log('checking material')
   if(this.state.material==''){
     errorArray.push("Item Material required")
   }
+  // console.log('checking purity')
   if(this.state.purity==''){
     errorArray.push("Item Purity required")
   }
-  if(this.state.weight==''){
+  // console.log('checking weight')
+  // console.log(this.state.weight)
+  if(this.state.weight=='' || this.state.weight==0){
     errorArray.push("Item Weight required")
   }
+  // console.log('checking DOP')
   if(this.state.DOP==''){
     errorArray.push("Date of Purchase required")
   }
+  // console.log('checking brand')
   if(this.state.brand==''){
     errorArray.push("Brand required")
   }
+  // console.log('checking if weight is number')
   if(isNaN(this.state.weight)==true){
     errorArray.push("Weight should be a Number eg. 10")
   }
+  if(this.state.unit==''){
+    errorArray.push("Unit of Weight required")
+  }
+  // console.log(errorArray.length)
   if(errorArray.length==0){
     this.submit();
   }else{
     // console.log(errorArray)
     this.setState({
       error: errorArray.toString(),
-      showAlert: true
+      showAlert: true,
+      showAlert2:false
     })
   }
 
@@ -121,21 +141,25 @@ validate(){
   select = this.props.navigation.getParam('type','others');
   if(select=='Gold Bar'){
     this.setState({
-      name: "",
+      // name: 'Gold Bar #1234',
       type: "Gold Bar",
       material: "Gold",
       condition: 'NA',
       brand: this.props.navigation.getParam('brand',''),
       purity: this.props.navigation.getParam('purity', ''),
-      weight: this.props.navigation.getParam('weight', '')
+      weight: (this.props.navigation.getParam('weight', '')).toString()
     })
+    // console.log('brand: ' + this.state.brand)
+    // console.log('purity: ' + this.state.purity)
+    // console.log('weight: ' + this.state.weight)
   }else{
     if(select=='Watch'){
       this.setState({
         name: "Watch",
         type: "Watch",
         material: "NA",
-        weight: "0",
+        weight: "50",
+        unit:'1',
         purity: "NA"
       })
     }else{
@@ -153,9 +177,9 @@ validate(){
 }
 
   submit() {
-    console.log("weight: " + this.state.weight)
-    console.log("unit: " + this.state.unit)
-    console.log("weightInGrams: " + this.state.weightInGrams)
+    // console.log("weight: " + this.state.weight)
+    // console.log("unit: " + this.state.unit)
+    // console.log("weightInGrams: " + this.state.weightInGrams)
     this.retrieveData('itemID').then((ID) => {
     //   console.log('pawn pressed');
     // console.log(this.state.auth);
@@ -189,7 +213,7 @@ validate(){
         material: this.state.material,
         brand: this.state.brand,
         purity: this.state.purity,
-        weight: parseInt(this.state.weightInGrams),
+        weight: this.state.weightInGrams,
         condition: this.state.condition,
         dateOfPurchase: this.state.DOP,
         otherComments: this.state.otherComments,
@@ -210,33 +234,45 @@ validate(){
       if(response.pawnOfferedValue==null){
           this.setState({
             error: response.error,
-            showAlert:true
+            showAlert:true,
+            showAlert2:false
           })
       }else{
       this.storeData('pov',response.pawnOfferedValue.toString());
       // console.log('SOV');
       // console.log(response.sellOfferedValue);
       this.storeData('sov',response.sellOfferedValue.toString());
+      this.setState({
+        showAlert2: false
+      })
       this.props.navigation.navigate('options');
       }
     })
     .catch((error) => {
       // console.log("error")
       // console.log(error)
+      this.setState({
+        showAlert2:false
+      })
     })
     }).catch((error) => {
       // console.log("error retrieving token")
       // console.log(error)
+      this.setState({
+        showAlert2:false
+      })
     });
 
   }
 
   render() {
     return (
-      <View>
+    // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={{flex:1,backgroundColor:'white'}}>
         <KeyboardAwareScrollView contentContainerStyle={{ justifyContent: "center", alignItems: "center", backgroundColor:'white' }}
           extraScrollHeight = {150}
           keyboardOpeningTime = {10}
+          enableOnAndroid={false}
         >
           {/* <Text style={{marginBottom: 10, marginTop: 30, flexDirection: "row"}}> First Upload Item Image </Text> */}
           <View style={{flexDirection: "row", justifyContent:'center', alignItems:'center'}}>
@@ -255,22 +291,25 @@ validate(){
       <Card containerStyle={{width:'95%'}}>
         <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
           {/*<View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:30,marginLeft: 15, backgroundColor: 'white'}} >*/}
-            <FormLabel>Name</FormLabel>
+            <FormLabel>Name </FormLabel>
             <FormInput
               onChangeText={name => this.setState({ name })}
               value={this.state.name}
-              placeholder='Item Name'
+              placeholder='eg. Gold Ring, Gold Bar #33'
+              returnKeyType='done'
             />
           </View>
 
 
-        <View style={{height:70, backgroundColor: 'white', alignSelf: 'flex-start', width: '100%'}} >
+        <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
           <FormLabel>Brand</FormLabel>
             <FormInput
               onChangeText={brand => this.setState({ brand })}
               value={this.state.brand}
-              placeholder='Item Brand'
+              placeholder='eg. Rolex, Tiffany, PAMP NA if unsure'
+              returnKeyType='done'
             />
+            
         </View>
 
         </Card>
@@ -284,7 +323,7 @@ validate(){
               mode="dropdown"
               iosIcon={<Icon type='FontAwesome' name="angle-down" />}
               iosHeader="Item Type"
-              style={{ height: 40, width: 390}}
+              style={{ height: 40, width: (Dimensions.get('screen').width)*0.85}}
               placeholder="Item Type"
               placeholderStyle={{ color: "#c7c7cd", flexDirection: 'row' }}
               placeholderIconColor="#007aff"
@@ -292,12 +331,16 @@ validate(){
               onValueChange={type => this.setState({type})}
             >
               <Picker.Item label="Gold Bar" value="Gold Bar" />
-              <Picker.Item label="Watch" value="Watch" />
-              <Picker.Item label="Chain" value="Chain" />
-              <Picker.Item label="Necklace" value="Necklace" />
-              <Picker.Item label="Bracelet" value="Bracelet" />
-              <Picker.Item label="Ring" value="Ring" />
-              <Picker.Item label="Others" value="Others" />
+              <Picker.Item label="Gold Coin" value="Gold Coin" />
+              <Picker.Item label="Silver Bar" value="Silver Bar" />
+              <Picker.Item label="Silver Coin" value="Silver Coin" />
+              {/* <Picker.Item label="Watch" value="Watch" /> */}
+              <Picker.Item label="Jewellery (Gold)" value="Jewel" />
+              {/* <Picker.Item label="Chain" value="Chain" /> */}
+              {/* <Picker.Item label="Necklace" value="Necklace" /> */}
+              {/* <Picker.Item label="Bracelet" value="Bracelet" /> */}
+              {/* <Picker.Item label="Ring" value="Ring" /> */}
+              {/* <Picker.Item label="Others" value="Others" /> */}
             </Picker>
           </View>
 
@@ -311,7 +354,7 @@ validate(){
               placeholderStyle={{ color: "#c7c7cd" }}
               placeholderIconColor="#007aff"
               iosIcon={<Icon type='FontAwesome' name="angle-down" />}
-              style={{ height: 40, width: 390 }}
+              style={{ height: 40, width: (Dimensions.get('screen').width)*0.85 }}
               selectedValue={this.state.material}
               onValueChange={material => this.setState({material})}
             >
@@ -331,14 +374,14 @@ validate(){
               mode="dropdown"
               iosIcon={<Icon type='FontAwesome' name="angle-down" />}
               iosHeader="Condition (out of 10)"
-              style={{ height: 40, width: 390}}
+              style={{ height: 40, width: (Dimensions.get('screen').width)*0.85}}
               placeholder="Condition (out of 10)"
               placeholderStyle={{ color: "#c7c7cd", flexDirection: 'row' }}
               placeholderIconColor="#007aff"
               selectedValue={this.state.condition}
               onValueChange={condition => this.setState({condition})}
             >
-              <Picker.Item label="1" value="1" />
+              <Picker.Item label="1 (Worst)" value="1" />
               <Picker.Item label="2" value="2" />
               <Picker.Item label="3" value="3" />
               <Picker.Item label="4" value="4" />
@@ -347,7 +390,7 @@ validate(){
               <Picker.Item label="7" value="7" />
               <Picker.Item label="8" value="8" />
               <Picker.Item label="9" value="9" />
-              <Picker.Item label="10" value="10" />
+              <Picker.Item label="10 (Best)" value="10" />
               <Picker.Item label="NA" value="NA" />
             </Picker>
           </View>
@@ -355,13 +398,14 @@ validate(){
 
 
 <Card containerStyle={{width:'95%'}}>
-      <View style={{flex: 1, marginTop:15, backgroundColor:'white', flexDirection:'row', width:'100%'}}>
+      <View style={{flex: 1, flexDirection:'row', width:'100%'}}>
           <View style={{flex: 1.2}}>
-            <FormLabel>Weight (if applicable)</FormLabel>
+            <FormLabel>Estimated Weight</FormLabel>
             <FormInput
               onChangeText={weight => this.setState({ weight })}
               value={this.state.weight}
               placeholder='Item Weight'
+              returnKeyType='done'
               // containerStyle={{width:'50%'}}
             />
           </View>
@@ -381,8 +425,9 @@ validate(){
                   this.setState({weightInGrams: parseInt(unit)*this.state.weight})
                 }}
               >
+              <Picker.Item label="Unit" value="" />
               <Picker.Item label="gram (g)" value="1" />
-              <Picker.Item label="ounce (oz)" value="28.349523125" />
+              <Picker.Item label="ounce (oz)" value="31.1035" />
               <Picker.Item label="kilogram (kg)" value="1000" />
               <Picker.Item label="pounds (lb)" value="453.59237" />
             </Picker>
@@ -392,7 +437,7 @@ validate(){
         
         <Card containerStyle={{width:'95%'}}>
 
-        <View style={{height:70, backgroundColor: 'white', alignSelf: 'flex-start', width: '100%'}} >
+        <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
         {/*<View style={{flex: 1,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
           <FormLabel>Purity (if applicable)</FormLabel>
           <Picker
@@ -402,7 +447,7 @@ validate(){
             placeholderStyle={{ color: "#c7c7cd" }}
             placeholderIconColor="#007aff"
             iosIcon={<Icon type='FontAwesome' name="angle-down" />}
-            style={{ height: 40, width: 390 }}
+            style={{ height: 40, width: (Dimensions.get('screen').width)*0.85 }}
             selectedValue={this.state.purity}
             onValueChange={purity => this.setState({purity})}
           >
@@ -413,17 +458,19 @@ validate(){
             <Picker.Item label="18K(White Gold)" value="18k/750 (White gold)" />
             <Picker.Item label="14K" value="14k/585" />
             <Picker.Item label="9K" value="9k/375" />
+            <Picker.Item label="999(Silver)" value="999" />
+            <Picker.Item label="925(Silver)" value="925" />
             <Picker.Item label="NA" value="NA" />
 
           </Picker>
         </View>
 
-        <View style={{height:70, backgroundColor: 'white', alignSelf: 'flex-start', width: '100%'}} >
-        <FormLabel>Date Purchased</FormLabel>
+        <View style={{height:70, alignSelf: 'flex-start', width: (Dimensions.get('screen').width)*0.85}} >
+        <FormLabel>Date Purchased (if applicable)</FormLabel>
         <DatePicker
               defaultDate={new Date()}
               minimumDate={new Date(1900, 1, 1)}
-              maximumDate={new Date(2018, 12, 31)}
+              maximumDate={new Date()}
               style={{marginLeft:15}}
               locale={"en-GB"}
               //timeZoneOffsetInMinutes={0}
@@ -448,13 +495,14 @@ validate(){
         {/*}// <View style={{height: 70, width: 390,marginTop:15, backgroundColor:'white'}}>*/}
 
       <Card containerStyle={{width:'95%'}}>
-        <View style={{height:70, backgroundColor: 'white', alignSelf: 'flex-start', width: '100%'}} >
+        <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
           {/*}<View style={{flex:1,height:70,marginTop:15,marginLeft:15,backgroundColor:'white'}}>*/}
               <FormLabel>Additional Comments</FormLabel>
               <FormInput
                 onChangeText={otherComments => this.setState({ otherComments })}
                 placeholder='Input any additional comments here'
                 value={this.state.otherComments}
+                returnKeyType='done'
               />
           </View>
 
@@ -498,7 +546,15 @@ validate(){
                 ;
               }}
             />
+            <AwesomeAlert
+              show= {this.state.showAlert2}
+              title='Evaluating Item...'
+              showProgress={true}
+              closeOnTouchOutside={false}
+              closeOnHardwareBackPress={false}
+            />
       </View>
+    // </TouchableWithoutFeedback>
     );
   }
 }

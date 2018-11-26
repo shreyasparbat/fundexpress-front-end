@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, ActivityIndicator, Linking} from 'react-native';
+import {View, Text, ActivityIndicator, Linking, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import {Container, Content, Input, Item, Label, Textarea, Picker, Form, Icon} from 'native-base';
 import { Button, FormLabel } from 'react-native-elements';
 import email from 'react-native-email';
@@ -51,7 +51,7 @@ export default class ContactUsForm extends Component {
   render(){
       return (
         /*start of Form*/
-
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>
           <Content padder>
           <Text style={{textAlign:'center', fontSize: 20, fontWeight:'bold'}}> Do you have other enquiries? </Text>
@@ -60,32 +60,36 @@ export default class ContactUsForm extends Component {
               <View>
                   <Item stackedLabel>
                     <Label>Name</Label>
-                    <Input onChangeText={name => this.setState({ name })} placeholder='John Tan'/>
-
+                    <Input onChangeText={name => this.setState({ name })} returnKeyType='done' placeholder='John Tan'/>
                   </Item>
+                  
                   <Item stackedLabel>
                     <Label>Email</Label>
-                    <Input onChangeText={email => this.setState({ email })} placeholder='john@example.com'/>
+                    <Input onChangeText={email => this.setState({ email })} returnKeyType='done' placeholder='john@example.com'/>
 
                   </Item>
                   <Item stackedLabel>
                     <Label>Contact Number</Label>
-                    <Input onChangeText={contactNumber => this.setState({ contactNumber })} placeholder='8123 4567'/>
+                    <Input onChangeText={contactNumber => this.setState({ contactNumber })} returnKeyType='done' placeholder='8123 4567'/>
                   </Item>
 
-                  <Item stackedLabel>
+                  {/* <Item stackedLabel>
                     <Label>Subject</Label>
                     <Input onChangeText={subject => this.setState({ subject })} placeholder='Subject'/>
+                  </Item> */}
+
+                  <Item stackedLabel>
+                    <Label>Your Enquiry</Label>
+                    <Input onChangeText={enquiry => this.setState({ enquiry })} returnKeyType='done' placeholder='Your Enquiry Here'/>
                   </Item>
 
-
-                  <Textarea
+                  {/* <Textarea
                     bordered
                     rowSpan={5}
                     style={{padding:10}}
                     onChangeText={enquiry => this.setState({ enquiry })}
                     placeholder="Your enquiry"
-                  />
+                  /> */}
 
               </View>
               <View style={{padding:5}}>
@@ -100,6 +104,7 @@ export default class ContactUsForm extends Component {
             </Form>
           </Content>
         </Container>
+      </TouchableWithoutFeedback>
       );
     }
 

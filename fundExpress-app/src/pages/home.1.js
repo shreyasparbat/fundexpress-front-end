@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, Text, View, Image, TouchableOpacity, Platform, BackHandler } from 'react-native';
+import {ActivityIndicator, AsyncStorage, Text, View, Image, TouchableOpacity, Platform, BackHandler } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Icon } from 'react-native-elements';
 import url from '../configs/config';
@@ -17,13 +17,74 @@ class HomeScreen extends React.Component {
       },
   };
 
-  state ={ gold: '', silver: '', platinum: ''}
+  state ={ gold: '', silver: '', platinum: '', isLoading: true}
+
+  renderPrices(){
+    if(this.state.isLoading==true){
+      return(
+        <View style={{marginTop:'3%'}}>
+      <ActivityIndicator />
+      </View>
+      )
+  }else{
+    return(
+      <View>
+        <View style={{flexDirection:'row',}}>
+          <Text style={{color:"#C5B358", fontWeight:'bold'}}>
+            Gold 
+          </Text>
+          <Text>
+            :SGD 
+          </Text>
+          <Text style={{fontWeight:'bold', marginLeft:3}}>
+            {this.state.gold}
+          </Text>
+          <Text>
+            /g
+          </Text>
+
+          <Text style={{marginLeft:8, color:"#C0C0C0", fontWeight:'bold'}}>
+            Silver 
+          </Text>
+          <Text>
+            :SGD 
+          </Text>
+          <Text style={{fontWeight:'bold', marginLeft:3}}>
+            {this.state.silver}
+          </Text>
+          <Text>
+            /g
+          </Text>
+
+          <Ionicons name={'md-sync'} size={20} style={{marginLeft:12}}
+              color={'black'} onPress={() => this.retrievePrices()}/>
+
+        </View>
+        <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+        <Text style={{marginLeft:8, color:"#e5e4e2", fontWeight:'bold'}}>
+            Platinum
+          </Text>
+          <Text>
+            :SGD 
+          </Text>
+          <Text style={{fontWeight:'bold', marginLeft:3}}>
+            {this.state.platinum}
+          </Text>
+          <Text>
+            /g
+          </Text>
+        </View>
+        </View>
+    )
+  }
+}
 
   retrievePrices(){
     this.setState({
       gold:'',
       silver:'',
-      platinum:''
+      platinum:'',
+      isLoading:true
     })
     // console.log("retrieve prices")
     fetch(url.url + 'home/getPrices', {
@@ -38,13 +99,14 @@ class HomeScreen extends React.Component {
       })
       .then((res) => {
         this.setState({
-          gold: Math.round(res.gold),
+          gold: (res.gold).toFixed(2),
           silver: this.roundSilver(res.silver),
-          platinum: Math.round(res.platinum)
+          platinum: (res.platinum).toFixed(2),
+          isLoading: false
         })
       })
       .catch((errorResponse) => {
-        // console.log("error with getPrices")
+        console.log("error with getPrices")
         // console.log(errorResponse)
       })
     }
@@ -85,66 +147,12 @@ class HomeScreen extends React.Component {
           />
           
         </View>
-        {/* <View style={{flex:0.06, alignSelf: 'center', marginTop: 5 }}>
-        <Text
-          style={{ textAlignVertical: 'bottom', fontSize: 25,
-          fontWeight: 'bold', color: 'black', flex: 1, alignSelf: 'center', height: 150
-          }}
-          >Welcome </Text>
-        </View> */}
         <View
         style={{flex: 0.12, marginBottom: 10, marginTop: 15, height:20, justifyContent:'center', alignItems:'center'}}
         >
         <View style={{flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
-        <View style={{flexDirection:'row',}}>
-          <Text style={{color:"#C5B358", fontWeight:'bold'}}>
-            Gold 
-          </Text>
-          <Text>
-            :SGD 
-          </Text>
-          <Text style={{fontWeight:'bold', marginLeft:3}}>
-            {this.state.gold}
-          </Text>
-          <Text>
-            /g
-          </Text>
-
-          <Text style={{marginLeft:8, color:"#C0C0C0", fontWeight:'bold'}}>
-            Silver 
-          </Text>
-          <Text>
-            :SGD 
-          </Text>
-          <Text style={{fontWeight:'bold', marginLeft:3}}>
-            {this.state.silver}
-          </Text>
-          <Text>
-            /g
-          </Text>
-
-          
-
-          <Ionicons name={'md-sync'} size={20} style={{marginLeft:12}}
-              color={'black'} onPress={() => this.retrievePrices()}/>
-
-          
-        </View>
-        <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
-        <Text style={{marginLeft:8, color:"#e5e4e2", fontWeight:'bold'}}>
-            Platinum
-          </Text>
-          <Text>
-            :SGD 
-          </Text>
-          <Text style={{fontWeight:'bold', marginLeft:3}}>
-            {this.state.platinum}
-          </Text>
-          <Text>
-            /g
-          </Text>
-        </View>
-        
+        <Text>Precious Metal Spot Prices</Text>
+        {this.renderPrices()}
         </View>
         
         

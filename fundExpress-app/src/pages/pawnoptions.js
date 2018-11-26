@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, AsyncStorage,Image} from 'react-native';
-import { Button, Avatar } from 'react-native-elements';
+import { Button, Avatar, Card } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import url from '../configs/config';
 
@@ -172,29 +172,33 @@ class PawnOptions extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{flex:1}}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor:'white' }}>
 
 
       {/* Card for the POV and SOV */}
+      <Card>
         <View style={{backgroundColor:'white',
-         borderRadius:3, marginTop:30,
-         height:150,
-         width:300,
-         justifyContent:'center',
-         alignItems:'center',
-         flexDirection:'row'
-         }}>
-         <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-           <Text style={{fontSize:25, }}> Pawn Value: </Text>
-           <Text style={{fontSize:30,fontWeight:'bold'}}>${(Math.round(this.state.pov)-1)}</Text>
-         </View>
-         <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-           <Text style={{fontSize:25,}}> Sell Value: </Text>
-           <Text style={{fontSize:30,fontWeight:'bold'}}>${(Math.round(this.state.sov)-1)}</Text>
-         </View>
+          borderRadius:3,
+          height:150,
+          width:300,
+          justifyContent:'center',
+          alignItems:'center',
+          flexDirection:'row'
+          }}>
+          <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+            <Text style={{fontSize:14, }}> Estimated Pawn Value: </Text>
+            <Text style={{fontSize:30,fontWeight:'bold'}}>${(Math.round(this.state.pov)-1)}</Text>
+          </View>
+          <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+            <Text style={{fontSize:14,}}> Estimated Sell Value: </Text>
+            <Text style={{fontSize:30,fontWeight:'bold'}}>${(Math.round(this.state.sov)-1)}</Text>
+          </View>
 
 
-        </View>
+          </View>
+
+      </Card>
 
         <View
           style={{ justifyContent: 'center', alignItems: 'center',
@@ -225,7 +229,8 @@ class PawnOptions extends React.Component {
             />
 
         </View>
-        <AwesomeAlert
+      </View>
+      <AwesomeAlert
           show= {this.state.showAlert}
           //showProgress={false}
           //title="AwesomeAlert"

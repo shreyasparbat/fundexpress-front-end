@@ -1,7 +1,7 @@
 import React from 'react';
-import { AsyncStorage, View, ScrollView, Text } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage, Avatar, Button } from 'react-native-elements';
-import { Picker, Icon, DatePicker } from 'native-base';
+import { AsyncStorage, View, ScrollView, Text, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { FormLabel, FormInput, FormValidationMessage, Avatar, Button, Card } from 'react-native-elements';
+import { Picker, Icon, DatePicker, Input, Item, Label } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import url from '../configs/config';
@@ -24,7 +24,10 @@ class ProfileEditScreen extends React.Component {
       alertMessage:'',
       status: true,
       completed:false,
-      nricError:''
+      nricError:'',
+      height:'',
+      width:'',
+      error:'',
   };
   static navigationOptions = {
     title: 'Edit Profile',
@@ -39,7 +42,7 @@ class ProfileEditScreen extends React.Component {
   };
 
   componentWillMount(){
-    console.log('retrieving profile')
+    // console.log('retrieving profile')
     this.retrieveData().then((token) => {
       // fetch(url.url + 'profile/me', {
       fetch(url.url + 'profile/me', {
@@ -66,17 +69,17 @@ class ProfileEditScreen extends React.Component {
         // console.log(response.fullName)
         this.setState({
           fullName: response.fullName,
-          // address: response.address,
-          // citizenship: response.citizenship,
-          // DOB: response.dateOfBirth.slice(0,-14),
+          address: response.address,
+          citizenship: response.citizenship,
+          DOB: response.dateOfBirth.slice(0,-14),
           email: response.email,
-          // gender: response.gender,
-          // ic: response.ic,
-          // landlineNumber: response.landlineNumber.toString(),
-          // mobileNumber: response.mobileNumber.toString(),
-          // house: response.addressType,
+          gender: response.gender,
+          ic: response.ic,
+          landlineNumber: response.landlineNumber.toString(),
+          mobileNumber: response.mobileNumber.toString(),
+          house: response.addressType,
           password: response.password,
-          // race: response.race,
+          race: response.race,
         });
         if(response.registrationCompleted==false){
           this.setState({
@@ -185,7 +188,7 @@ validateIC = (icNumber) => {
   if(icNumber.length != 9) {
     this.setState({
       ic:icNumber,
-      nricError:"Invalid NRIC"
+      nricError:"NRIC too short"
     })
   }
 
@@ -255,14 +258,75 @@ validateIC = (icNumber) => {
 }
 }
 
+validate(){
+  var errorArray = []
+  // console.log(errorArray)
+  this.setState({
+    alertMessage:''
+  })
+  // console.log(this.state.alertMessage)
+  if(this.state.ic==''){
+    errorArray.push("NRIC required")
+  }
+  // if(this.state.ic==''){
+  //   errorArray.push("NRIC required")
+  // }
+  if(this.state.citizenship==''){
+    errorArray.push("Citizenship required")
+  }
+  if(this.state.mobileNumber==''){
+    errorArray.push("Mobile Number required")
+  }
+  if(this.state.landlineNumber==''){
+    errorArray.push("Landline Number required")
+  }
+  if(this.state.address==''){
+    errorArray.push("Address required")
+  }
+  if(this.state.gender==''){
+    errorArray.push("Gender required")
+  }
+  if(this.state.race==''){
+    errorArray.push("Race required")
+  }
+  if(this.state.DOB==''){
+    errorArray.push("Date of Birth required")
+  }
+  if(this.state.house==''){
+    errorArray.push("Address Type required")
+  }
+  // console.log(errorArray)
+  if(errorArray.length==0){
+    this.submit();
+  }else{
+    this.setState({
+      alertMessage: errorArray.toString(),
+      showAlert: true,
+      alertTitle: 'Error'
+    })
+  }
+
+}
+
+  ifWrong(){
+    if(this.state.alertMessage!='Now you can proceed to pawn & sell your items'){
+      this.setState({
+        showAlert: false,      
+      })
+    }else{
+      this.props.navigation.navigate('main')
+    }
+  }
+
 
 
 
   render() {
     return (
-      <View>
+      // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={{flex:1, backgroundColor:'white'}}>
       <KeyboardAwareScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}
-       showsVerticalScrollIndicator bounces={false} extraScrollHeight= {50} >
+       showsVerticalScrollIndicator bounces={false} extraScrollHeight= {50} enableOnAndroid={false}>
 
 
         {/* <View style={{width:300,height:50,borderBottomColor:'grey',borderBottomWidth:1,marginTop:15}}>
@@ -272,53 +336,14 @@ validateIC = (icNumber) => {
             placeholder="Full Name"
           />
         </View> */}
-
-        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>
-          <FormLabel>Gender</FormLabel>
-        <Picker
-              note
-              mode="dropdown"
-              iosHeader="Gender"
-              placeholder='Gender'
-              placeholderStyle={{ color: "#c7c7cd" }}
-              iosIcon={<Icon type='FontAwesome' name="angle-down" />}
-              style={{ height: 40, width: 390}}
-              textStyle = {{ color: 'black' }}
-              selectedValue={this.state.gender}
-              onValueChange={gender => this.setState({gender})}
-            >
-              <Picker.Item label="Gender" value="" />
-              <Picker.Item label="Male" value="M" />
-              <Picker.Item label="Female" value="F" />
-
-            </Picker>
-        </View>
-
-        <View style={{height: 70, width: 390,borderBottomColor:"grey",borderBottomWidth:1,marginTop:0, backgroundColor:'white'}}>
-          <FormLabel>Date of Birth</FormLabel>
-      <DatePicker
-            defaultDate={new Date()}
-            minimumDate={new Date(1900, 1, 1)}
-            maximumDate={new Date(2018, 12, 31)}
-            locale={"en-GB"}
-            //timeZoneOffsetInMinutes={0}
-            modalTransparent={false}
-            animationType={"fade"}
-            androidMode={"default"}
-            placeHolderText="Date of Birth"
-            textStyle={{ color: "black" }}
-            placeHolderTextStyle={{ color: "#c7c7cd" }}
-            selectedValue={new Date(2018, 12, 31)}
-            onDateChange={DOB => this.setState({ DOB })}
-            />
-        </View>
-
-         <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+         <View style={{flex: 1,height:70,borderBottomColor:"black", backgroundColor: 'white'}} >
           <FormLabel>NRIC</FormLabel>
           <FormInput
             onChangeText={ic => this.validateIC(ic)}
             value={this.state.ic}
             placeholder='NRIC'
+            containerStyle={{ height: 40, width: (Dimensions.get('screen').width)*0.95,borderBottomColor:'grey', borderBottomWidth:1}}
+            returnKeyType='done'
           />
           <Text style={{color:'red', alignSelf:'center'}}>{this.state.nricError}</Text>
         </View>
@@ -333,65 +358,72 @@ validateIC = (icNumber) => {
           />
         </View>  */}
 
-        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
-          <FormLabel>Mobile Number</FormLabel>
-          <FormInput
-            onChangeText={mobileNumber => this.setState({ mobileNumber })}
-            value={this.state.mobileNumber}
-            placeholder='Mobile Number'
-          />
-        </View>
-
-        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
-          <FormLabel>Home Phone Number</FormLabel>
-          <FormInput
-            onChangeText={landlineNumber => this.setState({ landlineNumber })}
-            value={this.state.landlineNumber}
-            placeholder='Home Phone Number'
-          />
-        </View>
-
-        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
-          <FormLabel>Address</FormLabel>
-          <FormInput
-            onChangeText={address => this.setState({ address })}
-            value={this.state.address}
-            placeholder='Address'
-          />
-        </View>
-
-        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:0, backgroundColor:'white'}}>
-        <FormLabel>Housing Type</FormLabel>
-        <Picker
-              note
-              mode="dropdown"
-              iosHeader="Housing Type"
-              placeholder='Housing Type'
-              placeholderStyle={{ color: "#c7c7cd" }}
-              iosIcon={<Icon type='FontAwesome' name="angle-down" />}
-              style={{ height: 40, width: 390}}
-              textStyle = {{ color: 'black' }}
-              selectedValue={this.state.house}
-              onValueChange={house => this.setState({house})}
-            >
-              <Picker.Item label="Housing Type" value="" />
-              <Picker.Item label="HDB" value="H" />
-              <Picker.Item label="Condominium/Landed" value="C" />
-              <Picker.Item label="Others" value="N" />
-
-            </Picker>
-        </View>
-
-        <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:15,marginLeft: 15, backgroundColor: 'white'}} >
+        <View style={{flex: 1,height:70,borderBottomColor:"black",}} >
           <FormLabel>Citizenship</FormLabel>
           <FormInput
             onChangeText={citizenship => this.setState({ citizenship })}
             value={this.state.citizenship}
+            containerStyle={{ height: 40, width: (Dimensions.get('screen').width)*0.95,borderBottomColor:'grey', borderBottomWidth:1}}
             placeholder='Citizenship'
+            returnKeyType='done'
           />
         </View>
 
-        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:0, backgroundColor:'white'}}>
+        <View style={{flex: 1,height:70,borderBottomColor:"black",}} >
+          <FormLabel>Mobile Number</FormLabel>
+          <FormInput
+            onChangeText={mobileNumber => this.setState({ mobileNumber })}
+            value={this.state.mobileNumber}
+            containerStyle={{ height: 40, width: (Dimensions.get('screen').width)*0.95,borderBottomColor:'grey', borderBottomWidth:1}}
+            placeholder='Mobile Number'
+            returnKeyType='done'
+          />
+        </View>
+
+        <View style={{flex: 1,height:70,borderBottomColor:"black",}} >
+          <FormLabel>Home Phone Number</FormLabel>
+          <FormInput
+            onChangeText={landlineNumber => this.setState({ landlineNumber })}
+            value={this.state.landlineNumber}
+            containerStyle={{ height: 40, width: (Dimensions.get('screen').width)*0.95,borderBottomColor:'grey', borderBottomWidth:1}}
+            placeholder='Home Phone Number'
+            returnKeyType='done'
+          />
+        </View>
+
+        <View style={{flex: 1,height:70,borderBottomColor:"black",}} >
+          <FormLabel>Address</FormLabel>
+          <FormInput
+            onChangeText={address => this.setState({ address })}
+            value={this.state.address}
+            containerStyle={{ height: 40, width: (Dimensions.get('screen').width)*0.95,borderBottomColor:'grey', borderBottomWidth:1}}
+            placeholder='Address'
+            returnKeyType='done'
+          />
+        </View>
+
+        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>
+          <FormLabel>Gender</FormLabel>
+        <Picker
+              note
+              mode="dropdown"
+              iosHeader="Gender"
+              placeholder='Gender'
+              placeholderStyle={{ color: "#c7c7cd" }}
+              iosIcon={<Icon type='FontAwesome' name="angle-down" />}
+              style={{ height: 40, width: (Dimensions.get('screen').width)*0.95}}
+              textStyle = {{ color: 'black' }}
+              selectedValue={this.state.gender}
+              onValueChange={gender => this.setState({gender})}
+            >
+              <Picker.Item label="Gender" value="" />
+              <Picker.Item label="Male" value="M" />
+              <Picker.Item label="Female" value="F" />
+
+            </Picker>
+        </View>
+
+        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,}}>
           <FormLabel>Race</FormLabel>
         <Picker
               note
@@ -400,7 +432,7 @@ validateIC = (icNumber) => {
               placeholder='Race'
               placeholderStyle={{ color: "#c7c7cd" }}
               iosIcon={<Icon type='FontAwesome' name="angle-down" />}
-              style={{ height: 40, width: 390}}
+              style={{ height: 40, width: (Dimensions.get('screen').width)*0.95}}
               textStyle = {{ color: 'black' }}
               selectedValue={this.state.race}
               onValueChange={race => this.setState({race})}
@@ -415,12 +447,53 @@ validateIC = (icNumber) => {
             </Picker>
         </View>
 
+        <View style={{height: 70, width: (Dimensions.get('screen').width)*0.95,borderBottomColor:"grey",borderBottomWidth:1,marginTop:0, backgroundColor:'white'}}>
+          <FormLabel>Date of Birth</FormLabel>
+      <DatePicker
+            defaultDate={new Date()}
+            minimumDate={new Date(1900, 1, 1)}
+            maximumDate={new Date()}
+            locale={"en-GB"}
+            //timeZoneOffsetInMinutes={0}
+            modalTransparent={false}
+            animationType={"fade"}
+            androidMode={"default"}
+            placeHolderText="Date of Birth"
+            textStyle={{ color: "black" }}
+            placeHolderTextStyle={{ color: "#c7c7cd" }}
+            selectedValue={new Date(this.state.DOB)}
+            onDateChange={DOB => this.setState({ DOB })}
+            />
+        </View>
+
+        <View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:0, }}>
+        <FormLabel>Housing Type</FormLabel>
+        <Picker
+              note
+              mode="dropdown"
+              iosHeader="Housing Type"
+              placeholder='Housing Type'
+              placeholderStyle={{ color: "#c7c7cd" }}
+              iosIcon={<Icon type='FontAwesome' name="angle-down" />}
+              style={{ height: 40, width: (Dimensions.get('screen').width)*0.95,}}
+              textStyle = {{ color: 'black' }}
+              selectedValue={this.state.house}
+              onValueChange={house => this.setState({house})}
+            >
+              <Picker.Item label="Housing Type" value='' />
+              <Picker.Item label="HDB" value="H" />
+              <Picker.Item label="Condominium/Landed" value="C" />
+              <Picker.Item label="Others" value="N" />
+
+            </Picker>
+        </View>    
+
 
         <Button
           title='Submit Changes'
           color='white'
           backgroundColor='#C00000'
-          onPress={() => this.submit()}
+          onPress={() => this.validate()}
           //onPress={()=>console.log(JSON.stringify(this.state))}
           //onPress={() => this.props.navigation.navigate('main')}
           containerViewStyle={{marginTop:30,marginBottom:30}}
@@ -439,10 +512,11 @@ validateIC = (icNumber) => {
           confirmButtonColor="#C00000"
           confirmText="Close"
           onConfirmPressed={() => {
-            this.props.navigation.navigate('main')
+              this.ifWrong()
           }}
         />
       </View>
+    // </TouchableWithoutFeedback>
     );
   }
 }

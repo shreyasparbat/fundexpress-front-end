@@ -1,6 +1,6 @@
 import React from 'react';
-import { AsyncStorage, View, ScrollView, Text } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage, Avatar, Button } from 'react-native-elements';
+import { AsyncStorage, View, ScrollView, Text, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { FormLabel, FormInput, FormValidationMessage, Avatar, Button, Card } from 'react-native-elements';
 import { Input } from '../components/input';
 import { Picker, Icon, DatePicker } from 'native-base';
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -174,7 +174,7 @@ class RegisterScreen extends React.Component {
       }),
     })
     .then((response) => {
-      console.log('status' + response.status)
+      // console.log('status' + response.status)
       if(response.status==500){
         throw 'User already exists'
       }else{//store the response as a var
@@ -220,15 +220,17 @@ class RegisterScreen extends React.Component {
 
   render() {
     return (
-      // <KeyboardAwareScrollView
-      //   contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
-      //   extraScrollHeight = {200}
-      //   keyboardOpeningTime = {5}
-      // >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{flex:1}}>
+      {/* <KeyboardAwareScrollView
+        contentContainerStyle={{alignItems: 'center', flex:1, backgroundColor:'white'}}
+        extraScrollHeight = {10}
+        keyboardOpeningTime = {5}
+      > */}
+      <View style={{flex:1, backgroundColor:'white'}}>
 
-
-        <View style={{height:85,marginTop:0, backgroundColor: 'white'}} >
+      <Card containerStyle={{width:(Dimensions.get('screen').width)*0.90}}>
+      <View style={{backgroundColor: 'white'}} >
           <FormLabel
             containerStyle={{flexDirection:"row",marginLeft:0}}
           >Full Name</FormLabel>
@@ -236,9 +238,37 @@ class RegisterScreen extends React.Component {
             onChangeText={fullName => this.setState({ fullName })}
             value={this.state.fullName}
             placeholder='Full Name'
-            // containerStyle={{flexDirection:"row", marginLeft:5}}
+            containerStyle={{borderBottomColor:'grey', borderBottomWidth:1}}
           />
         </View>
+        <View style={{backgroundColor: 'white'}} >
+            <FormLabel>Email</FormLabel>
+            <FormInput
+              autoCapitalize='none'
+              onChangeText={email => this.ifEmail(email)}
+              value={this.state.email}
+              placeholder='Email'
+              containerStyle={{borderBottomColor:'grey', borderBottomWidth:1}}
+
+            />
+            <Text style={{color:'red', alignSelf:'center'}}>{this.state.emailError}</Text>
+          </View>
+          <View style={{backgroundColor: 'white'}} >
+            <FormLabel>Password</FormLabel>
+            <FormInput
+              autoCapitalize='none'
+              onChangeText={password => this.passwordCheck(password)}
+              value={this.state.password}
+              secureTextEntry={true}
+              placeholder='Password'
+              containerStyle={{borderBottomColor:'grey', borderBottomWidth:1}}
+
+            />
+            <Text style={{color:'red', alignSelf:'center'}}>{this.state.passError}</Text>
+          </View>
+
+      </Card>
+
 
         {/* <View style={{height:85,marginTop:5, backgroundColor: 'white'}} >
           <FormLabel>NRIC</FormLabel>
@@ -250,28 +280,6 @@ class RegisterScreen extends React.Component {
           />
         </View> */}
 
-        <View style={{height:85,marginTop:5, backgroundColor: 'white'}} >
-          <FormLabel>Email</FormLabel>
-          <FormInput
-            autoCapitalize='none'
-            onChangeText={email => this.ifEmail(email)}
-            value={this.state.email}
-            placeholder='Email'
-          />
-          <Text style={{color:'red', alignSelf:'center'}}>{this.state.emailError}</Text>
-        </View>
-
-        <View style={{height:85,marginTop:5, backgroundColor: 'white'}} >
-          <FormLabel>Password</FormLabel>
-          <FormInput
-            autoCapitalize='none'
-            onChangeText={password => this.passwordCheck(password)}
-            value={this.state.password}
-            secureTextEntry={true}
-            placeholder='Password'
-          />
-          <Text style={{color:'red', alignSelf:'center'}}>{this.state.passError}</Text>
-        </View>
 
         {/* <View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:0,marginLeft: 15, backgroundColor: 'white'}} >
           <FormLabel>Confirm Password</FormLabel>
@@ -431,7 +439,10 @@ class RegisterScreen extends React.Component {
           onPress={() => this.validate()}
           containerViewStyle={{marginTop:30,marginBottom:30}}
         />
-        <AwesomeAlert
+        
+      {/* </KeyboardAwareScrollView> */}
+      </View>
+      <AwesomeAlert
           show= {this.state.showAlert}
           title="Registration Error!"
           message={this.state.error}
@@ -450,7 +461,7 @@ class RegisterScreen extends React.Component {
         show= {this.state.showAlert2}
         title="Complete your Registration!"
         message={"You can continue to use the app to evaluate your items, however, to pawn an item, you will need to complete your profile by going to the profile page"}
-        closeOnTouchOutside={true}
+        closeOnTouchOutside={false}
         closeOnHardwareBackPress={false}
         showCancelButton={false}
         showConfirmButton={true}
@@ -462,8 +473,8 @@ class RegisterScreen extends React.Component {
           ;
         }}
       />
-      {/* </KeyboardAwareScrollView> */}
       </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

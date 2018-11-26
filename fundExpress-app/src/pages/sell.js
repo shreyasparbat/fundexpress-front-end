@@ -1,14 +1,15 @@
 import React from 'react';
-import {View, Text, AsyncStorage, ActivityIndicator, Image} from 'react-native';
+import {View, Text, AsyncStorage, ActivityIndicator, Image, ScrollView} from 'react-native';
 import { Button, Card } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import url from '../configs/config';
 
 class SellScreen extends React.Component {
   static navigationOptions = {
-    title: "New Sell Ticket",
+    title: "Sell Ticket",
     gesturesEnabled: false,
-    header: null,
+    // header: null,
+    headerLeft:null,
     tabBarVisible: false,
       headerStyle: {
         backgroundColor: "white",
@@ -32,7 +33,8 @@ class SellScreen extends React.Component {
           comments:'',
           valueSold:'',
           dateSold:'',
-          pawnOfferedValue:''
+          pawnOfferedValue:'',
+          showAlert:''
           }
 
   sell(auth){
@@ -61,7 +63,7 @@ class SellScreen extends React.Component {
       // console.log(JSON.stringify(response.item));
       // this.storeData('itemObj', JSON.stringify(response.item));
       this.setState({
-        name:response.name,
+          name:response.item.name,
           _id:response.item._id,
           type:response.item.type,
           condition:response.item.condition,
@@ -71,8 +73,11 @@ class SellScreen extends React.Component {
           brand:response.item.brand,
           comments:response.item.otherComments,
           valueSold:Math.round(response.item.sellOfferedValue),
-          dateSold:response.item.dateOfPurchase.slice(0,-14),
-          pawnOfferedValue:Math.round(response.item.pawnOfferedValue)
+          datePurchased:response.item.dateOfPurchase.slice(0,-14),
+          dateSold:response.dateCreated.slice(0,-14),
+          pawnOfferedValue:Math.round(response.item.pawnOfferedValue),
+          isLoading:false,
+          showAlert:true
       })
     }
       // console.log('pov');
@@ -81,6 +86,7 @@ class SellScreen extends React.Component {
     .catch((error) => {
       // console.log("error")
       // console.log(error)
+      this.props.navigation.navigate('Home')
     })
   })
   }
@@ -88,7 +94,7 @@ class SellScreen extends React.Component {
   generateURIFront(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_front.png')
+    uri = uri.concat('_front.jpg')
     // console.log('uri: ' + uri)
     return uri
   }
@@ -96,7 +102,7 @@ class SellScreen extends React.Component {
   generateURIBack(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_back.png')
+    uri = uri.concat('_back.jpg')
     // console.log('uri: ' + uri)
     return uri
   }
@@ -127,22 +133,19 @@ class SellScreen extends React.Component {
   }
 
   render() {
-    // console.log("render called")
-    if(this.state.isLoading) return <ActivityIndicator />
-    else{
-      // console.log("creating display")
-      // console.log(this.state.item.item)
     return (
-      <View style={{flex:1, alignItems: 'center' }}>
-      <Text style={{fontWeight:'bold', fontSize:40, marginTop:'10%'}}>{this.state.name}</Text>
+      <View style={{flex:1, backgroundColor:'white'}}>
+      <ScrollView>
+      <View style={{flex:1, alignItems: 'center', width:'100%' }}>
+      <Text style={{fontWeight:'bold', fontSize:40, marginTop:'8%'}}>{this.state.name}</Text>
       <View style={{justifyContent:'center', flexDirection:'row', marginTop:'2%'}}>
           <Image
-                source={{uri: this.generateURIFront(this.state.itemID)}}
+                source={{uri: this.generateURIFront(this.state._id)}}
                 loadingIndicatorSource={<ActivityIndicator />}
                 style={{ resizeMode: 'center', width: 150 , height: 150}}
           />
           <Image
-                source={{uri: this.generateURIBack(this.state.itemID)}}
+                source={{uri: this.generateURIBack(this.state._id)}}
                 loadingIndicatorSource={<ActivityIndicator />}
                 style={{ resizeMode: 'center', width: 150 , height: 150}}
           />
@@ -151,7 +154,7 @@ class SellScreen extends React.Component {
         <View style={{flexDirection:'row'}}>
             <View style={{flexDirection:'column', flex:0.5}}>
               <Text style={{fontWeight:'bold', fontSize:20}}>Sell Value: </Text>
-              <Text style={{fontSize:15}}>${this.state.sellValue}</Text>
+              <Text style={{fontSize:15}}>${this.state.valueSold}</Text>
             </View>
 
             <View style={{flexDirection:'column', flex:0.5}}>
@@ -166,8 +169,8 @@ class SellScreen extends React.Component {
         </View>
       </Card>
 
-      <Card containerStyle={{height:'30%', width:'90%'}}>
-        <ScrollView style={{flexDirection:'column'}}>
+      <Card containerStyle={{width:'90%'}}>
+        <View style={{flexDirection:'column'}}>
             <Text>Type: {this.state.type}</Text>
             <Text>Condition: {this.state.condition}</Text>
             <Text>Material: {this.state.material}</Text>
@@ -176,19 +179,38 @@ class SellScreen extends React.Component {
             <Text>Brand: {this.state.brand}</Text>
             <Text>Date Purchased: {this.state.datePurchased}</Text>
             <Text>Additional Comments: {this.state.comments}</Text>
-          </ScrollView>
+          </View>
       </Card>
-        <Button
-              title='Back'
+      <Button
+              title='Return to Home'
               color='white'
               borderRadius= {3}
               containerViewStyle={{height: 50, width: 200, marginTop: 15}}
               backgroundColor='#C00000'
-              onPress={() => this.props.navigation.goBack(null)}
+              onPress={() => this.props.navigation.navigate("main")}
             />
+      
+    </View>
+    </ScrollView>
+    <AwesomeAlert
+        show= {this.state.showAlert}
+        title="Ticket Pending Approval"
+        message={"Please go down to your nearest FundExpress to submit your item!"}
+        closeOnTouchOutside={false}
+        closeOnHardwareBackPress={false}
+        showCancelButton={false}
+        showConfirmButton={true}
+        confirmButtonColor="#C00000"
+        confirmText="Ok"
+        overlayStyle={{flex:1}}
+        onConfirmPressed={() => {
+          this.setState({
+            showAlert:false
+          })
+        }}
+      />
     </View>
     );
-      }
   }
 }
 

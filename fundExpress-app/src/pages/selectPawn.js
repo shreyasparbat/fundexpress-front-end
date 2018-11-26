@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import { FormLabel, Button } from 'react-native-elements';
+import {View, Text, TouchableOpacity, Dimensions} from 'react-native';
+import { FormLabel, Button, Card } from 'react-native-elements';
 import { Picker, Icon } from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import PawnScreen from './pawn';
@@ -33,18 +33,16 @@ class selectPawn extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor:'white' }}>
-        {/* <Text style={{fontSize: 15, fontWeight:'bold'}}>What will you be Pawning today?</Text> */}
-          <FormLabel labelStyle={{fontSize:15}}>What will you be Pawning today?</FormLabel>
-          <View>
+      <View style={{flex:1, backgroundColor:'white', justifyContent:'center'}}>
+      <View style={{justifyContent: 'center', alignItems: 'center', backgroundColor:'white' }}>
+      <FormLabel labelStyle={{fontSize:15}}>What will you be Pawning today?</FormLabel>
             <Picker
-                note
                 mode="dropdown"
                 iosHeader="Select item type"
                 placeholder='Item Type'
                 placeholderStyle={{ color: "#c7c7cd" }}
                 iosIcon={<Icon type='FontAwesome' name="angle-down" />}
-                // style={{height: 40, maxWidth: '100%', width: '110%'}}
+                style={{ height: 40, width: (Dimensions.get('screen').width)*0.9}}
                 textStyle = {{ color: 'black' }}
                 selectedValue={this.state.type}
                 onValueChange={type => this.setState({type})}
@@ -54,15 +52,14 @@ class selectPawn extends React.Component {
                 <Picker.Item label="Gold Coin" value="Gold Coin" />
                 <Picker.Item label="Silver Bar" value="Silver Bar" />
                 <Picker.Item label="Silver Coin" value="Silver Coin" />
-                <Picker.Item label="Watch" value="Watch" />
+                {/* <Picker.Item label="Watch" value="Watch" /> */}
                 <Picker.Item label="Jewellery" value="Jewel" />
                 {/* <Picker.Item label="Others" value="Others" /> */}
             </Picker>
-          </View>
 
 
             <Button
-          title='Upload Image'
+          title='Take Picture'
           color='white'
           backgroundColor='#C00000'
           onPress={() => this.go()}
@@ -126,6 +123,7 @@ class selectPawn extends React.Component {
             ;
           }}
         />
+      </View>
       </View>
     );
   }

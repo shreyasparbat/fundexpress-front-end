@@ -86,6 +86,7 @@ class sTicket extends React.Component {
       .catch((error) => {
         // console.log("error")
         // console.log(error)
+        this.props.navigation.navigate('Home')
       })
     })
   }
@@ -93,7 +94,7 @@ class sTicket extends React.Component {
   generateURIFront(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_front.png')
+    uri = uri.concat('_front.jpg')
     // console.log('uri: ' + uri)
     return uri
   }
@@ -101,7 +102,7 @@ class sTicket extends React.Component {
   generateURIBack(itemID){
     var uri = 'https://fundexpress-api-storage.sgp1.digitaloceanspaces.com/item-images/'
     uri = uri.concat(itemID)
-    uri = uri.concat('_back.png')
+    uri = uri.concat('_back.jpg')
     // console.log('uri: ' + uri)
     return uri
   }
@@ -118,7 +119,9 @@ class sTicket extends React.Component {
       // console.log("creating display")
       // console.log(this.state.item.item)
     return (
-      <View style={{flex:1, alignItems: 'center' }}>
+      <View style={{flex:1, backgroundColor:'white'}}>
+      <ScrollView>
+      <View style={{flex:1, alignItems: 'center', width:'100%' }}>
       <Text style={{fontWeight:'bold', fontSize:40, marginTop:'10%'}}>{this.state.name}</Text>
       <View style={{justifyContent:'center', flexDirection:'row', marginTop:'2%'}}>
           <Image
@@ -151,8 +154,8 @@ class sTicket extends React.Component {
         </View>
       </Card>
 
-      <Card containerStyle={{height:'30%', width:'90%'}}>
-        <ScrollView style={{flexDirection:'column'}}>
+      <Card containerStyle={{width:'90%'}}>
+        <View style={{flexDirection:'column'}}>
             <Text>Type: {this.state.type}</Text>
             <Text>Condition: {this.state.condition}</Text>
             <Text>Material: {this.state.material}</Text>
@@ -161,7 +164,7 @@ class sTicket extends React.Component {
             <Text>Brand: {this.state.brand}</Text>
             <Text>Date Purchased: {this.state.datePurchased}</Text>
             <Text>Additional Comments: {this.state.comments}</Text>
-          </ScrollView>
+          </View>
       </Card>
         <Button
               title='Back'
@@ -171,6 +174,8 @@ class sTicket extends React.Component {
               backgroundColor='#C00000'
               onPress={() => this.props.navigation.goBack(null)}
             />
+    </View>
+    </ScrollView>
     </View>
     );
       }

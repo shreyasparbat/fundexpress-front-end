@@ -103,7 +103,7 @@ const dataArray = [
   {
     //FAQ 20
     title: "20.	How do I reach out for further enquiries?",
-    content: "•	For all other enquiries, reach out to us HERE. We will typically respond within 1 working day!"
+    content: <Text>•	For all other enquiries, reach out to us through the Contact Us Tab! We will typically respond within 1 working day!</Text>
   }
 
 ];
