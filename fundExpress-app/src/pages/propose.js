@@ -140,7 +140,7 @@ class ProposeScreen extends React.Component {
           title="Pawn Error!"
           message={this.state.error}
           closeOnTouchOutside={true}
-          closeOnHardwareBackPress={false}
+          closeOnHardwareBackPress={true}
           showCancelButton={false}
           showConfirmButton={true}
           confirmButtonColor="#C00000"

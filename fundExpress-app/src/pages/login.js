@@ -322,7 +322,7 @@ class LoginScreen extends React.Component {
           title="Login Error!"
           message={this.state.error}
           closeOnTouchOutside={true}
-          closeOnHardwareBackPress={false}
+          closeOnHardwareBackPress={true}
           showCancelButton={false}
           showConfirmButton={true}
           confirmButtonColor="#c00000"

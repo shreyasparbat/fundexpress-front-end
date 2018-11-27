@@ -232,7 +232,7 @@ export default class PayInterestScreen extends React.Component{
           title="Card Error!"
           message={this.state.error}
           closeOnTouchOutside={true}
-          closeOnHardwareBackPress={false}
+          closeOnHardwareBackPress={true}
           showCancelButton={false}
           showConfirmButton={true}
           confirmButtonColor="#C00000"

@@ -19,7 +19,7 @@ export default class UploadScreen extends React.Component {
     front: '',
     back:'',
     second:false,
-    type: this.props.navigation.getParam('type' , null),
+    type: '',
     auth: '',
     showAlert: false,
     brand:'',
@@ -44,11 +44,12 @@ export default class UploadScreen extends React.Component {
   }
 
   componentWillMount(){
-    // console.log('type:' + this.props.navigation.getParam('type', null))
+    // console.log('from select type:' + this.props.navigation.getParam('type', ''))
     this.retrieveData().then((token) => {
       this.setState({
         auth:token,
         showAlert: true,
+        type: this.props.navigation.getParam('type', ''),
         // alertTitle: 'Tutorial',
         alertMessage: 'Take an image of the front of your item',
         showProgress: false,
@@ -162,6 +163,10 @@ export default class UploadScreen extends React.Component {
     // console.log(ID);
     this.setState({ showAlert: false})
     //this.props.navigation.navigate('pawn', {itemID: ID});
+    // console.log('upload->pawn type: ' + this.state.type)
+    // console.log('upload->pawn purity: ' + this.state.purity)
+    // console.log('upload->pawn weight: ' + this.state.weight)
+    // console.log('upload->pawn brand: ' + this.state.brand)
     this.props.navigation.navigate('pawn', {'type': this.state.type, 'weight': this.state.weight, 'purity':this.state.purity, 'brand':this.state.brand})
   }
 

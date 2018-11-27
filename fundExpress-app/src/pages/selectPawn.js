@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Dimensions} from 'react-native';
+import {View, Text, TouchableOpacity, Dimensions, AsyncStorage} from 'react-native';
 import { FormLabel, Button, Card } from 'react-native-elements';
 import { Picker, Icon } from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -27,7 +27,17 @@ class selectPawn extends React.Component {
         showAlert:true
       })
     }else{
+      // console.log('select->upload: ' + this.state.type)
+      this.storeData('type', this.state.type)
       this.props.navigation.navigate('upload', {'type':this.state.type})
+    }
+  }
+
+  storeData = async (key, item) => {
+    try{
+      await AsyncStorage.setItem(key, item);
+    } catch (error) {
+      // console.log(error)
     }
   }
 
@@ -47,7 +57,7 @@ class selectPawn extends React.Component {
                 selectedValue={this.state.type}
                 onValueChange={type => this.setState({type})}
               >
-                <Picker.Item label="Item Type" value="" />
+                <Picker.Item label="Item Type" value='' />
                 <Picker.Item label="Gold Bar" value="Gold Bar" />
                 <Picker.Item label="Gold Coin" value="Gold Coin" />
                 <Picker.Item label="Silver Bar" value="Silver Bar" />
@@ -111,7 +121,7 @@ class selectPawn extends React.Component {
           title="Pawn Error!"
           message="Please select an Item Type!"
           closeOnTouchOutside={true}
-          closeOnHardwareBackPress={false}
+          closeOnHardwareBackPress={true}
           showCancelButton={false}
           showConfirmButton={true}
           confirmButtonColor="#C00000"

@@ -236,7 +236,7 @@ class PawnOptions extends React.Component {
           //title="AwesomeAlert"
           message="Are you sure you want to reject the offer?"
           closeOnTouchOutside={true}
-          closeOnHardwareBackPress={false}
+          closeOnHardwareBackPress={true}
           showCancelButton={true}
           showConfirmButton={true}
           cancelText="Yes" //it's intentionally opposite to place the yes on the left button
@@ -259,7 +259,7 @@ class PawnOptions extends React.Component {
           title="Registration Incomplete"
           message="Before you can pawn or sell an item, you have to register fully. Please proceed to the profile page to complete your registration"
           closeOnTouchOutside={false}
-          closeOnHardwareBackPress={false}
+          closeOnHardwareBackPress={true}
           showConfirmButton={true}
           confirmText="Take me there!"
           confirmButtonColor="#DD6B55"

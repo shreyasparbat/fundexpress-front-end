@@ -1,7 +1,7 @@
 import React from 'react';
-import {AsyncStorage, View, Text, TouchableOpacity} from 'react-native';
+import {AsyncStorage, View, Text, TouchableOpacity, Dimensions} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Avatar, Button } from 'react-native-elements';
+import { Avatar, Button, Card } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import url from '../configs/config';
 
@@ -129,7 +129,7 @@ class ProfileScreen extends React.Component {
   renderEditButton(){
     if (this.state.status==true){
       return(
-        <View style={{width: 300}}>
+        <View>
           <Button
             title='Edit Profile'
             color='white'
@@ -140,7 +140,7 @@ class ProfileScreen extends React.Component {
       );
     } else {
       return(
-        <View style={{width: 300}}>
+        <View>
           <Button
             title='Edit Profile'
             color='white'
@@ -168,7 +168,14 @@ class ProfileScreen extends React.Component {
             <Text>Email: {this.state.email}</Text>
           </View> */}
 
-          {this.renderEditButton()}
+          {/* <Card containerStyle={{width:(Dimensions.get('screen').width)*0.9}}> */}
+            {/* <Text>Number of tickets</Text> */}
+          {/* </Card> */}
+          
+          <View style={{width: 300, marginTop:15}}>
+            {this.renderEditButton()}
+          </View>
+
 
 
           {/* <View style={{width:300,marginTop:15}}>
@@ -187,6 +194,9 @@ class ProfileScreen extends React.Component {
                 onPress={() => this.logOut()}
               />
           </View>
+          <View style={{position: 'absolute', bottom:-1}}>
+          <Text style={{color:'grey'}}>Ver. 1.0.1</Text>
+        </View>
         </View>
       );
     }

@@ -6,11 +6,10 @@ import { Input } from "../components/input";
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import url from '../configs/config';
-
 class PawnScreen extends Component {
   state = {
     name: "",
-    type: "",
+    itemType: '',
     condition: "",
     material: "",
     weight: '',
@@ -122,6 +121,51 @@ validate(){
 }
 
  componentWillMount(){
+  // console.log('type from upload: ' + this.props.navigation.getParam('type', ''))
+  this.retrieveData('type').then((type) => {
+    this.setState({
+      itemType: type,
+    })
+    // console.log('type: ' + this.state.itemType)
+    // console.log(this.state.itemType==='Gold Bar')
+    if(this.state.itemType.includes('Gold')){
+      this.setState({
+        material:'Gold',
+      })
+    }
+    if(this.state.itemType.includes('Silver')){
+      this.setState({
+        material:'Silver'
+      })
+    }
+    if(this.state.itemType.includes('Bar')){
+      this.setState({
+        material: "Gold",
+        brand: this.props.navigation.getParam('brand',''),
+        purity: this.props.navigation.getParam('purity', ''),
+        weight: (this.props.navigation.getParam('weight', '')).toString()
+      })
+      // console.log('brand: ' + this.state.brand)
+      // console.log('purity: ' + this.state.purity)
+      // console.log('weight: ' + this.state.weight)
+    }else{
+      if(this.state.itemType==='Watch'){
+        this.setState({
+          name: "Watch",
+          material: "NA",
+          weight: "50",
+          unit:'1',
+          purity: "NA"
+        })
+      }else{
+        if(this.state.itemType==='Jewel'){
+          this.setState({
+            type: "Jewel",
+          })
+        }
+    }
+    }
+  })
   this.retrieveData('front').then((front) => {
     this.setState({
       imageFront: front,
@@ -138,42 +182,6 @@ validate(){
     // console.log("error retrieving token")
     // console.log(error)
   });
-  select = this.props.navigation.getParam('type','others');
-  if(select=='Gold Bar'){
-    this.setState({
-      // name: 'Gold Bar #1234',
-      type: "Gold Bar",
-      material: "Gold",
-      condition: 'NA',
-      brand: this.props.navigation.getParam('brand',''),
-      purity: this.props.navigation.getParam('purity', ''),
-      weight: (this.props.navigation.getParam('weight', '')).toString()
-    })
-    // console.log('brand: ' + this.state.brand)
-    // console.log('purity: ' + this.state.purity)
-    // console.log('weight: ' + this.state.weight)
-  }else{
-    if(select=='Watch'){
-      this.setState({
-        name: "Watch",
-        type: "Watch",
-        material: "NA",
-        weight: "50",
-        unit:'1',
-        purity: "NA"
-      })
-    }else{
-      if(select=='Jewel'){
-        this.setState({
-          type: "Bracelet",
-        })
-      }else{
-      this.setState({
-        type: "Others"
-      })
-    }
-  }
-  }
 }
 
   submit() {
@@ -199,6 +207,14 @@ validate(){
     //   })
     // );
     //console.log(JSON.stringify(this.state))
+    var weight = parseInt(this.state.weight)
+    var unit = parseInt(this.state.unit)
+    // console.log('weight: ' + weight)
+    // console.log('unit: ' + unit)
+    this.setState({
+      weightInGrams: (unit)*(weight)
+    })
+    // console.log('weightInGrams: ' + this.state.weightInGrams)
     fetch(url.url + 'item/add',{
       method: 'POST',
       headers: {
@@ -209,7 +225,7 @@ validate(){
       body: JSON.stringify({
         itemID: ID,
         name: this.state.name,
-        type: this.state.type,
+        type: this.state.itemType,
         material: this.state.material,
         brand: this.state.brand,
         purity: this.state.purity,
@@ -265,6 +281,234 @@ validate(){
 
   }
 
+  renderForm1(){
+      return(
+        // <Card containerStyle={{width:'95%'}}>
+        <View>
+        <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
+          {/*<View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:30,marginLeft: 15, backgroundColor: 'white'}} >*/}
+            <FormLabel>Name </FormLabel>
+            <FormInput
+              onChangeText={name => this.setState({ name })}
+              value={this.state.name}
+              placeholder='eg. Gold Ring, Gold Bar #33'
+              returnKeyType='done'
+            />
+          </View>
+
+
+        <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
+          <FormLabel>Brand</FormLabel>
+            <FormInput
+              onChangeText={brand => this.setState({ brand })}
+              value={this.state.brand}
+              placeholder='eg. Rolex, Tiffany, PAMP NA if unsure'
+              returnKeyType='done'
+            />            
+        </View>
+        {/*</Card> */}
+        </View>
+      )
+  }
+
+  renderCondition(){
+    if(this.state.itemType==='Watch'){
+      return(
+        <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
+        {/*}<View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
+          <FormLabel>Condition out of 10</FormLabel>
+
+          <Picker
+            mode="dropdown"
+            iosIcon={<Icon type='FontAwesome' name="angle-down" />}
+            iosHeader="Condition (out of 10)"
+            style={{ height: 40, width: (Dimensions.get('screen').width)*0.85}}
+            placeholder="Condition (out of 10)"
+            placeholderStyle={{ color: "#c7c7cd", flexDirection: 'row' }}
+            placeholderIconColor="#007aff"
+            selectedValue={this.state.condition}
+            onValueChange={condition => this.setState({condition})}
+          >
+            <Picker.Item label="1 (Worst)" value="1" />
+            <Picker.Item label="2" value="2" />
+            <Picker.Item label="3" value="3" />
+            <Picker.Item label="4" value="4" />
+            <Picker.Item label="5" value="5" />
+            <Picker.Item label="6" value="6" />
+            <Picker.Item label="7" value="7" />
+            <Picker.Item label="8" value="8" />
+            <Picker.Item label="9" value="9" />
+            <Picker.Item label="10 (Best)" value="10" />
+            {/* <Picker.Item label="NA" value="NA" /> */}
+          </Picker>
+        </View>
+      )
+    }else{
+      return null
+    }
+  }
+
+  renderMaterial(){
+    if(this.state.itemType==='Jewel'){
+      return(
+        <View style={{height:70,alignSelf: 'flex-start', width: '100%'}} >
+        {/*}<View style={{flex: 1,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
+          <FormLabel>Material</FormLabel>
+          <Picker
+            mode="dropdown"
+            iosHeader="Item Material"
+            placeholder="Item Material"
+            placeholderStyle={{ color: "#c7c7cd" }}
+            placeholderIconColor="#007aff"
+            iosIcon={<Icon type='FontAwesome' name="angle-down" />}
+            style={{ height: 40, width: (Dimensions.get('screen').width)*0.85 }}
+            selectedValue={this.state.material}
+            onValueChange={material => this.setState({material})}
+          >
+            <Picker.Item label="Material" value='' /> 
+            <Picker.Item label="Gold" value="Gold" />
+            <Picker.Item label="Silver" value="Silver" />
+            <Picker.Item label="Platinum" value="Platinum" />
+            {/* <Picker.Item label="NA" value="NA" /> */}
+
+          </Picker>
+        </View>
+      )
+    }else{
+        return(
+          null
+        )
+      }
+    }
+
+  renderPurity(){
+    if(this.state.itemType.includes('Gold')){
+      return(
+        <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
+        {/*<View style={{flex: 1,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
+          <FormLabel>Purity</FormLabel>
+          <Picker
+            mode="dropdown"
+            iosHeader="Item Purity"
+            placeholder="Item Purity"
+            placeholderStyle={{ color: "#c7c7cd" }}
+            placeholderIconColor="#007aff"
+            iosIcon={<Icon type='FontAwesome' name="angle-down" />}
+            style={{ height: 40, width: (Dimensions.get('screen').width)*0.85 }}
+            selectedValue={this.state.purity}
+            onValueChange={purity => this.setState({purity})}
+          >
+            <Picker.Item label="Purity" value='' />
+            <Picker.Item label="24K" value="24k/999" />
+            <Picker.Item label="22K" value="22k/916" />
+            <Picker.Item label="20K" value="20k/835" />
+            <Picker.Item label="18K(Yellow Gold)" value="18k/750 (Yellow gold)" />
+            <Picker.Item label="18K(White Gold)" value="18k/750 (White gold)" />
+            <Picker.Item label="14K" value="14k/585" />
+            <Picker.Item label="9K" value="9k/375" />
+            {/* <Picker.Item label="999(Silver)" value="999" />
+            <Picker.Item label="925(Silver)" value="925" /> */}
+            {/* <Picker.Item label="NA" value="NA" /> */}
+
+          </Picker>
+        </View>
+      )
+    }else{
+      if(this.state.itemType.includes('Silver')){
+        return(
+          <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
+        {/*<View style={{flex: 1,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
+          <FormLabel>Purity</FormLabel>
+          <Picker
+            mode="dropdown"
+            iosHeader="Item Purity"
+            placeholder="Item Purity"
+            placeholderStyle={{ color: "#c7c7cd" }}
+            placeholderIconColor="#007aff"
+            iosIcon={<Icon type='FontAwesome' name="angle-down" />}
+            style={{ height: 40, width: (Dimensions.get('screen').width)*0.85 }}
+            selectedValue={this.state.purity}
+            onValueChange={purity => this.setState({purity})}
+          >
+            <Picker.Item label="Purity" value='' />
+            {/* <Picker.Item label="24K" value="24k/999" />
+            <Picker.Item label="22K" value="22k/916" />
+            <Picker.Item label="20K" value="20k/835" />
+            <Picker.Item label="18K(Yellow Gold)" value="18k/750 (Yellow gold)" />
+            <Picker.Item label="18K(White Gold)" value="18k/750 (White gold)" />
+            <Picker.Item label="14K" value="14k/585" />
+            <Picker.Item label="9K" value="9k/375" /> */}
+            <Picker.Item label="999(Silver)" value="999" />
+            <Picker.Item label="925(Silver)" value="925" />
+            {/* <Picker.Item label="NA" value="NA" /> */}
+
+          </Picker>
+        </View>
+        )
+      }else{
+        if(this.state.itemType==='Jewel'){
+          return(
+            <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
+        {/*<View style={{flex: 1,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
+          <FormLabel>Purity</FormLabel>
+          <Picker
+            mode="dropdown"
+            iosHeader="Item Purity"
+            placeholder="Item Purity"
+            placeholderStyle={{ color: "#c7c7cd" }}
+            placeholderIconColor="#007aff"
+            iosIcon={<Icon type='FontAwesome' name="angle-down" />}
+            style={{ height: 40, width: (Dimensions.get('screen').width)*0.85 }}
+            selectedValue={this.state.purity}
+            onValueChange={purity => this.setState({purity})}
+          >
+            <Picker.Item label="Purity" value='' />
+            <Picker.Item label="24K" value="24k/999" />
+            <Picker.Item label="22K" value="22k/916" />
+            <Picker.Item label="20K" value="20k/835" />
+            <Picker.Item label="18K(Yellow Gold)" value="18k/750 (Yellow gold)" />
+            <Picker.Item label="18K(White Gold)" value="18k/750 (White gold)" />
+            <Picker.Item label="14K" value="14k/585" />
+            <Picker.Item label="9K" value="9k/375" />
+            <Picker.Item label="999(Silver)" value="999" />
+            <Picker.Item label="925(Silver)" value="925" />
+            {/* <Picker.Item label="NA" value="NA" /> */}
+
+          </Picker>
+        </View>
+          )
+        }else{
+          return null
+        }
+      }
+    }
+  }
+
+  renderDate(){
+    if(this.state.itemType==='Watch'){
+      <View style={{height:70, alignSelf: 'flex-start', width: (Dimensions.get('screen').width)*0.85}} >
+        <FormLabel>Date Purchased</FormLabel>
+        <DatePicker
+              defaultDate={new Date()}
+              minimumDate={new Date(1900, 1, 1)}
+              maximumDate={new Date()}
+              style={{marginLeft:15}}
+              locale={"en-GB"}
+              //timeZoneOffsetInMinutes={0}
+              modalTransparent={false}
+              animationType={"fade"}
+              androidMode={"default"}
+              placeHolderText="Select date of purchase"
+              textStyle={{ color: "black" }}
+              placeHolderTextStyle={{ color: "#c7c7cd" }}
+              onDateChange={DOP => this.setState({ DOP })}
+              />
+          </View>
+    }else{
+      return null
+    }
+  }
+
   render() {
     return (
     // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -287,117 +531,16 @@ validate(){
               source={{ uri: this.state.imageBack}}
             />
           </View>
-
-      <Card containerStyle={{width:'95%'}}>
-        <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
-          {/*<View style={{flex: 1,height:70,borderBottomColor:"black",marginTop:30,marginLeft: 15, backgroundColor: 'white'}} >*/}
-            <FormLabel>Name </FormLabel>
-            <FormInput
-              onChangeText={name => this.setState({ name })}
-              value={this.state.name}
-              placeholder='eg. Gold Ring, Gold Bar #33'
-              returnKeyType='done'
-            />
-          </View>
-
-
-        <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
-          <FormLabel>Brand</FormLabel>
-            <FormInput
-              onChangeText={brand => this.setState({ brand })}
-              value={this.state.brand}
-              placeholder='eg. Rolex, Tiffany, PAMP NA if unsure'
-              returnKeyType='done'
-            />
-            
-        </View>
-
-        </Card>
-
       <Card containerStyle={{width:'95%'}}>
 
-                <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
-          {/*}<View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
-            <FormLabel>Type</FormLabel>
-            <Picker
-              mode="dropdown"
-              iosIcon={<Icon type='FontAwesome' name="angle-down" />}
-              iosHeader="Item Type"
-              style={{ height: 40, width: (Dimensions.get('screen').width)*0.85}}
-              placeholder="Item Type"
-              placeholderStyle={{ color: "#c7c7cd", flexDirection: 'row' }}
-              placeholderIconColor="#007aff"
-              selectedValue={this.state.type}
-              onValueChange={type => this.setState({type})}
-            >
-              <Picker.Item label="Gold Bar" value="Gold Bar" />
-              <Picker.Item label="Gold Coin" value="Gold Coin" />
-              <Picker.Item label="Silver Bar" value="Silver Bar" />
-              <Picker.Item label="Silver Coin" value="Silver Coin" />
-              {/* <Picker.Item label="Watch" value="Watch" /> */}
-              <Picker.Item label="Jewellery (Gold)" value="Jewel" />
-              {/* <Picker.Item label="Chain" value="Chain" /> */}
-              {/* <Picker.Item label="Necklace" value="Necklace" /> */}
-              {/* <Picker.Item label="Bracelet" value="Bracelet" /> */}
-              {/* <Picker.Item label="Ring" value="Ring" /> */}
-              {/* <Picker.Item label="Others" value="Others" /> */}
-            </Picker>
-          </View>
+        {this.renderForm1()}
 
-          <View style={{height:70,alignSelf: 'flex-start', width: '100%'}} >
-          {/*}<View style={{flex: 1,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
-            <FormLabel>Material (if applicable)</FormLabel>
-            <Picker
-              mode="dropdown"
-              iosHeader="Item Material"
-              placeholder="Item Material"
-              placeholderStyle={{ color: "#c7c7cd" }}
-              placeholderIconColor="#007aff"
-              iosIcon={<Icon type='FontAwesome' name="angle-down" />}
-              style={{ height: 40, width: (Dimensions.get('screen').width)*0.85 }}
-              selectedValue={this.state.material}
-              onValueChange={material => this.setState({material})}
-            >
-              <Picker.Item label="Gold" value="Gold" />
-              <Picker.Item label="Silver" value="Silver" />
-              <Picker.Item label="Platinum" value="Platinum" />
-              <Picker.Item label="NA" value="NA" />
+        {this.renderMaterial()}
 
-            </Picker>
-          </View>
+        {this.renderCondition()}
+      </Card>
 
-          <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
-          {/*}<View style={{flex: 1 , borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
-            <FormLabel>Condition out of 10 (if applicable)</FormLabel>
-
-            <Picker
-              mode="dropdown"
-              iosIcon={<Icon type='FontAwesome' name="angle-down" />}
-              iosHeader="Condition (out of 10)"
-              style={{ height: 40, width: (Dimensions.get('screen').width)*0.85}}
-              placeholder="Condition (out of 10)"
-              placeholderStyle={{ color: "#c7c7cd", flexDirection: 'row' }}
-              placeholderIconColor="#007aff"
-              selectedValue={this.state.condition}
-              onValueChange={condition => this.setState({condition})}
-            >
-              <Picker.Item label="1 (Worst)" value="1" />
-              <Picker.Item label="2" value="2" />
-              <Picker.Item label="3" value="3" />
-              <Picker.Item label="4" value="4" />
-              <Picker.Item label="5" value="5" />
-              <Picker.Item label="6" value="6" />
-              <Picker.Item label="7" value="7" />
-              <Picker.Item label="8" value="8" />
-              <Picker.Item label="9" value="9" />
-              <Picker.Item label="10 (Best)" value="10" />
-              <Picker.Item label="NA" value="NA" />
-            </Picker>
-          </View>
-          </Card>
-
-
-<Card containerStyle={{width:'95%'}}>
+ <Card containerStyle={{width:'95%'}}>
       <View style={{flex: 1, flexDirection:'row', width:'100%'}}>
           <View style={{flex: 1.2}}>
             <FormLabel>Estimated Weight</FormLabel>
@@ -422,10 +565,9 @@ validate(){
                 selectedValue={this.state.unit}
                 onValueChange={unit => {
                   this.setState({unit})
-                  this.setState({weightInGrams: parseInt(unit)*this.state.weight})
                 }}
               >
-              <Picker.Item label="Unit" value="" />
+              <Picker.Item label="Unit" value='' />
               <Picker.Item label="gram (g)" value="1" />
               <Picker.Item label="ounce (oz)" value="31.1035" />
               <Picker.Item label="kilogram (kg)" value="1000" />
@@ -435,56 +577,14 @@ validate(){
         </View>
         </Card>
         
-        <Card containerStyle={{width:'95%'}}>
+      
+       <Card containerStyle={{width:'95%'}}>
 
-        <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
-        {/*<View style={{flex: 1,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
-          <FormLabel>Purity (if applicable)</FormLabel>
-          <Picker
-            mode="dropdown"
-            iosHeader="Item Purity"
-            placeholder="Item Purity"
-            placeholderStyle={{ color: "#c7c7cd" }}
-            placeholderIconColor="#007aff"
-            iosIcon={<Icon type='FontAwesome' name="angle-down" />}
-            style={{ height: 40, width: (Dimensions.get('screen').width)*0.85 }}
-            selectedValue={this.state.purity}
-            onValueChange={purity => this.setState({purity})}
-          >
-            <Picker.Item label="24K" value="24k/999" />
-            <Picker.Item label="22K" value="22k/916" />
-            <Picker.Item label="20K" value="20k/835" />
-            <Picker.Item label="18K(Yellow Gold)" value="18k/750 (Yellow gold)" />
-            <Picker.Item label="18K(White Gold)" value="18k/750 (White gold)" />
-            <Picker.Item label="14K" value="14k/585" />
-            <Picker.Item label="9K" value="9k/375" />
-            <Picker.Item label="999(Silver)" value="999" />
-            <Picker.Item label="925(Silver)" value="925" />
-            <Picker.Item label="NA" value="NA" />
+         {this.renderPurity()}
 
-          </Picker>
-        </View>
+         {this.renderDate()}
 
-        <View style={{height:70, alignSelf: 'flex-start', width: (Dimensions.get('screen').width)*0.85}} >
-        <FormLabel>Date Purchased (if applicable)</FormLabel>
-        <DatePicker
-              defaultDate={new Date()}
-              minimumDate={new Date(1900, 1, 1)}
-              maximumDate={new Date()}
-              style={{marginLeft:15}}
-              locale={"en-GB"}
-              //timeZoneOffsetInMinutes={0}
-              modalTransparent={false}
-              animationType={"fade"}
-              androidMode={"default"}
-              placeHolderText="Select date of purchase"
-              textStyle={{ color: "black" }}
-              placeHolderTextStyle={{ color: "#c7c7cd" }}
-              onDateChange={DOP => this.setState({ DOP })}
-              />
-          </View>
-
-      </Card>
+      {/* </Card> */}
 
         {/*<View style={{flex:1,height:70,marginTop:15, marginLeft:15,backgroundColor:'white',flexDirection:'row'}}>*/}
 
@@ -494,7 +594,7 @@ validate(){
         {/*}// <View style={{height: 70, width: 390,borderBottomColor:"grey",borderBottomWidth:1,marginTop:15, backgroundColor:'white'}}>*/}
         {/*}// <View style={{height: 70, width: 390,marginTop:15, backgroundColor:'white'}}>*/}
 
-      <Card containerStyle={{width:'95%'}}>
+      {/* <Card containerStyle={{width:'95%'}}> */}
         <View style={{height:70, alignSelf: 'flex-start', width: '100%'}} >
           {/*}<View style={{flex:1,height:70,marginTop:15,marginLeft:15,backgroundColor:'white'}}>*/}
               <FormLabel>Additional Comments</FormLabel>
@@ -534,7 +634,7 @@ validate(){
               title="Pawn Error!"
               message={this.state.error}
               closeOnTouchOutside={true}
-              closeOnHardwareBackPress={false}
+              closeOnHardwareBackPress={true}
               showCancelButton={false}
               showConfirmButton={true}
               confirmButtonColor="#C00000"

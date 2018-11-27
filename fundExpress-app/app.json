@@ -3,7 +3,7 @@
     "name": "FundEx",
     "sdkVersion": "31.0.0",
     "icon": "./src/images/feicon.png",
-    "version" : "0.8.0",
+    "version" : "1.0.1",
     "slug": "fundExpressApp",
     "orientation": "portrait",
     "primaryColor": "#C00000",
@@ -28,7 +28,7 @@
     },
   "ios":{
     "bundleIdentifier": "com.fundExpress.fundExpress",
-    "buildNumber": "0.8.0",
+    "buildNumber": "1.0.1",
     "icon": "./src/images/feiosicon.png",
     "usesIcloudStorage":false,
     "supportsTablet": true,
@@ -41,10 +41,10 @@
   },
   "android":{
     "package": "com.fundExpress.fundExpressApp",
-    "versionCode":6,
+    "versionCode":9,
     "icon":"./src/images/fenoti.png",
     "googleServicesFile": "./google-services.json",
-    "permissions":["CAMERA", "WRITE_EXTERNAL_STORAGE", "MANAGE_DOCUMENTS"],
+    "permissions":["CAMERA", "WRITE_EXTERNAL_STORAGE", "MANAGE_DOCUMENTS", "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"],
     "splash":{
       "backgroundColor": "#ffffff",
       "resizeMode":"contain",
