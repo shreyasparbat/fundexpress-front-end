@@ -112,12 +112,26 @@ class ProposeScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>How much do you wish to pawn your item for?</Text>
-        <View>
-        <Text style={{fontSize:25,}}>Loan Value:</Text>
-        <Text style={{fontSize:35, fontWeight:'bold'}}>
-        $ {this.state.specifiedValue}
-        </Text>
+        {/* <Text>How much do you wish to pawn your item for?</Text> */}
+        <FormLabel labelStyle={{color:'black'}}
+        >How much do you wish to pawn your item for?</FormLabel>
+        <View style={{width:'95%', justifyContent:'center'}}>
+        {/* <Text style={{fontSize:25,}}>Loan Value:</Text> */}
+        <FormLabel labelStyle={{fontSize:25, color:'black'}}
+        >Loan Value:</FormLabel>
+        {/* <Text style={{fontSize:35, fontWeight:'bold'}}> */}
+        <View style={{flexDirection:'row'}}>
+          <Text style={{fontSize:35, fontWeight:'bold'}}>$</Text>
+          <FormInput
+                  onChangeText={specifiedValue => this.setState({ specifiedValue })}
+                  value={(this.state.specifiedValue).toString()}
+                  inputStyle={{fontSize:35, fontWeight:'bold', color:'black'}}
+                  returnKeyType='done'
+            /> 
+          {/* $ {this.state.specifiedValue} */}
+          {/* </Text> */}
+        </View>
+          
         </View>
 
         <View style={{flex: 0.5, alignItems: 'stretch', justifyContent: 'center', width: 350}}>
@@ -146,7 +160,7 @@ class ProposeScreen extends React.Component {
           confirmButtonColor="#C00000"
           confirmText="Close"
           onConfirmPressed={() => {
-            this.hideAlert();
+            this.setState({ showAlert: false })
             ;
           }}
         />

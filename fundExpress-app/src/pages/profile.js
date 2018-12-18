@@ -195,7 +195,7 @@ class ProfileScreen extends React.Component {
               />
           </View>
           <View style={{position: 'absolute', bottom:-1}}>
-          <Text style={{color:'grey'}}>Ver. 1.0.1</Text>
+          <Text style={{color:'grey'}}>Ver. 1.0.2</Text>
         </View>
         </View>
       );
